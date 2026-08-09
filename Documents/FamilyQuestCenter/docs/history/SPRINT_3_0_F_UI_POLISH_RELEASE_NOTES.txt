@@ -1,0 +1,25 @@
+FAMILY QUEST CENTER
+Sprint 3.0-F — UI Polish & UX Completion
+
+PURPOSE
+This sprint standardizes the application experience without introducing new gameplay or administration features.
+
+COMPLETED
+- Standardized keyboard focus indicators throughout the application.
+- Added reduced-motion support for users who prefer fewer animations.
+- Added active-page highlighting to the primary navigation.
+- Standardized page-header back buttons as secondary navigation controls.
+- Improved page-header spacing, readability, and mobile stacking.
+- Standardized form controls, labels, checkboxes, and disabled states.
+- Standardized button height, spacing, weight, and loading feedback.
+- Added double-submission protection to forms.
+- Added Escape-key support for closing the mobile navigation.
+- Improved feature-card action alignment.
+- Improved empty-state presentation.
+- Improved responsive behavior for action groups, settings panels, cards, and parent shortcuts.
+- Improved footer wrapping and small-screen readability.
+- Preserved all existing routes, models, database structures, and gameplay features.
+
+SCOPE CONTROL
+No database migration is required for this sprint.
+No new feature dependencies were introduced.

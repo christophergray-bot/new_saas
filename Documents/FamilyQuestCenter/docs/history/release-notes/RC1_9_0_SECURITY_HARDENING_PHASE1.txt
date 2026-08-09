@@ -1,0 +1,13 @@
+RC1.9.0 Security Hardening Phase 1
+
+Implemented:
+- Application-wide CSRF enforcement and automatic form tokens.
+- Persistent SQLite-backed rate limiting for account login, registration, parent PIN, and password verification.
+- Mandatory strong secret in production.
+- Secure production cookies and configurable session expiration.
+- Security response headers and HSTS in production.
+- Railway proxy awareness and Gunicorn Procfile.
+- Pinned production dependencies and environment template.
+- Security configuration guide and multi-family tenant-isolation test checklist.
+
+Important: Tenant isolation requires the included two-family manual regression test. Static code review alone cannot prove every authorization path, so public hosting remains blocked until that checklist passes.

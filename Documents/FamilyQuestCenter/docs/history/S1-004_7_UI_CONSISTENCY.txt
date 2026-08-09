@@ -1,0 +1,7 @@
+Family Quest Center v2.0 — Sprint 1, S1-004.7
+
+Parent UI Consistency Pass
+- Expanded Family Updates / Recent Activity to a full-width section matching Quick Actions.
+- Standardized parent page headers, section spacing, panel padding, button sizing, form controls, card radii, status pills, empty states, and responsive behavior.
+- Retained legacy class aliases to avoid functional regressions.
+- No database changes.

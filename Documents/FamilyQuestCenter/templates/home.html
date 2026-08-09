@@ -1,0 +1,159 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/home.html
+  Purpose: Renders the home user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}Family Quest Center{% endblock %}
+{% block body_class %}marketing-home-page{% endblock %}
+
+{% block content %}
+<section class="marketing-hero" aria-labelledby="marketing-title">
+        <div class="marketing-hero-copy">
+            <p class="marketing-eyebrow">Adventure Begins at Home</p>
+            <h1 id="marketing-title">Turn Everyday Chores into Family Adventures</h1>
+            <p class="marketing-lead">
+                Help children build responsibility through quests, adventures, rewards, and achievements—while making family life more fun.
+            </p>
+            <div class="marketing-actions">
+                {% if billing_checkout_enabled %}
+                <a class="button button-primary" href="{{ url_for('billing.plans') }}">🚀 Start for $4.99/month</a>
+                {% elif registration_enabled %}
+                <a class="button button-primary" href="{{ url_for('account.register') }}">🚀 Start Your Family Adventure</a>
+                {% else %}
+                <a class="button button-primary" href="{{ url_for('account.login') }}">🔐 Existing Family Sign In</a>
+                {% endif %}
+                <a class="button button-secondary" href="#pricing">View Membership</a>
+            </div>
+            <div class="marketing-trust-row" aria-label="Product highlights">
+                <span>✓ Simple family setup</span>
+                <span>✓ Kid-friendly progress</span>
+                <span>✓ Parent-guided rewards</span>
+            </div>
+        </div>
+        <div class="marketing-hero-art" aria-label="Family Quest Center preview">
+            <div class="preview-window">
+                <div class="preview-window-bar"><span></span><span></span><span></span></div>
+                <div class="preview-banner">
+                    <div class="preview-compass">🧭</div>
+                    <div><small>Family Command Center</small><strong>Today's Adventure</strong></div>
+                </div>
+                <div class="preview-card-grid">
+                    <div class="preview-card"><span>📜</span><strong>3 Quests</strong><small>Ready today</small></div>
+                    <div class="preview-card"><span>⭐</span><strong>125 Stars</strong><small>Family total</small></div>
+                    <div class="preview-card"><span>🏆</span><strong>8 Badges</strong><small>Unlocked</small></div>
+                </div>
+                <div class="preview-progress"><span style="width:72%"></span></div>
+                <p>Adventure progress: 72%</p>
+                <img
+                    src="{{ url_for('static', filename='images/drake-preview.png') }}"
+                    class="preview-drake"
+                    alt="Drake, the Family Quest Center mascot"
+                >
+            </div>
+        </div>
+    </section>
+
+    <section class="drake-video-section" aria-label="Meet Drake">
+        <div class="drake-video-shell" id="drake-video-shell">
+            <video
+                id="drake-landing-video"
+                class="drake-landing-video"
+                poster="{{ url_for('static', filename='images/drake-landing-video-poster.jpg') }}"
+                preload="metadata"
+                playsinline
+                aria-label="Drake introduces Family Quest Center"
+            >
+                <source src="{{ url_for('static', filename='video/drake-landing-intro.mp4') }}" type="video/mp4">
+                Your browser does not support HTML video.
+            </video>
+            <button
+                class="drake-video-play"
+                id="drake-video-play"
+                type="button"
+                aria-controls="drake-landing-video"
+                aria-label="Play Drake's Family Quest Center introduction"
+            >
+                <span class="drake-video-play-icon" aria-hidden="true">▶</span>
+                <span class="drake-video-play-text">Meet Drake</span>
+            </button>
+        </div>
+    </section>
+
+    <section id="features" class="marketing-section" aria-labelledby="features-title">
+        <div class="marketing-section-heading">
+            <p class="marketing-eyebrow">Built for real family life</p>
+            <h2 id="features-title">Everything your family needs to grow together</h2>
+            <p>Create structure without losing the fun. Family Quest Center turns everyday responsibilities into clear, encouraging progress.</p>
+        </div>
+        <div class="marketing-feature-grid">
+            <article class="marketing-feature-card"><span>📜</span><h3>Quest System</h3><p>Create reusable daily, weekly, and one-time responsibilities.</p></article>
+            <article class="marketing-feature-card"><span>🗺️</span><h3>Adventures</h3><p>Connect quests into larger goals that children can complete step by step.</p></article>
+            <article class="marketing-feature-card"><span>⭐</span><h3>Rewards</h3><p>Let children earn stars and work toward meaningful family rewards.</p></article>
+            <article class="marketing-feature-card"><span>🏆</span><h3>Achievements</h3><p>Celebrate consistency, effort, milestones, and positive habits.</p></article>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="marketing-section marketing-section-soft" aria-labelledby="how-title">
+        <div class="marketing-section-heading">
+            <p class="marketing-eyebrow">A simple path forward</p>
+            <h2 id="how-title">How It Works</h2>
+        </div>
+        <ol class="marketing-steps">
+            <li><span>1</span><div><strong>Create Your Family</strong><p>Set up your secure family account.</p></div></li>
+            <li><span>2</span><div><strong>Add Your Children</strong><p>Create individual explorer profiles.</p></div></li>
+            <li><span>3</span><div><strong>Build Quests</strong><p>Assign responsibilities and adventures.</p></div></li>
+            <li><span>4</span><div><strong>Celebrate Progress</strong><p>Award stars, rewards, and achievements.</p></div></li>
+        </ol>
+    </section>
+
+    <section id="about" class="marketing-story marketing-section" aria-labelledby="story-title">
+        <div class="marketing-story-icon">🏕️</div>
+        <div>
+            <p class="marketing-eyebrow">More than a chore chart</p>
+            <h2 id="story-title">Responsibility can feel like an adventure.</h2>
+            <p>Family Quest Center helps parents provide clear expectations while giving children a sense of ownership, progress, and accomplishment.</p>
+        </div>
+    </section>
+
+    <section id="pricing" class="marketing-section" aria-labelledby="pricing-title">
+        <div class="marketing-section-heading">
+            <p class="marketing-eyebrow">Simple family access</p>
+            <h2 id="pricing-title">One Family Membership</h2>
+            <p>Everything your family needs in one straightforward monthly plan.</p>
+        </div>
+        <article class="marketing-pricing-card">
+            <div>
+                <span class="pricing-badge">Family Quest Center Membership</span>
+                <h3>$4.99 <small>/ month</small></h3>
+                <p>Full access for your entire family. Cancel anytime through secure Stripe billing.</p>
+            </div>
+            <ul>
+                <li>Parent and child profiles</li>
+                <li>Quests and multi-chapter adventures</li>
+                <li>Rewards, achievements, and progress tracking</li>
+                <li>Secure family account and billing management</li>
+            </ul>
+            {% if billing_checkout_enabled %}
+            <a class="button button-primary" href="{{ url_for('billing.plans') }}">Subscribe and Create Account</a>
+            <p class="form-help">Account registration opens after successful secure checkout.</p>
+            {% elif registration_enabled %}
+            <a class="button button-primary" href="{{ url_for('account.register') }}">Create Family Account</a>
+            {% else %}
+            <span class="button button-secondary" aria-disabled="true">Registration Closed</span>
+            {% endif %}
+        </article>
+    </section>
+
+    <section class="marketing-cta" aria-label="Create a Family Quest Center account">
+        <div><p class="marketing-eyebrow">Your next family adventure starts here</p><h2>Make responsibility rewarding.</h2></div>
+        <div class="marketing-actions">{% if billing_checkout_enabled %}<a class="button button-primary" href="{{ url_for('billing.plans') }}">Start for $4.99/month</a>{% elif registration_enabled %}<a class="button button-primary" href="{{ url_for('account.register') }}">Get Started</a>{% else %}<a class="button button-primary" href="{{ url_for('account.login') }}">Existing Family Sign In</a>{% endif %}<a class="button button-secondary" href="{{ url_for('account.login') }}">Sign In</a></div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/landing-video.js') }}" defer></script>
+{% endblock %}

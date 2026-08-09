@@ -1,0 +1,36 @@
+{# Family Quest Center template: templates/billing/status.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Billing | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Account" %}
+{% set page_icon = "💳" %}
+{% set page_title = "Billing & Subscription" %}
+{% set page_description = "Review and manage your Family Quest Center membership." %}
+{% set page_action_url = url_for('parent.dashboard') %}
+{% set page_action_text = "← Back to Command Center" %}
+{% include "partials/page_header.html" %}
+
+<section class="panel" style="max-width:720px;margin:auto">
+{% if subscription %}
+    {% set status_name = subscription['status']|replace('_',' ')|title %}
+    {% if subscription['cancel_at_period_end'] or subscription['cancel_at'] %}
+        <div class="notice warning-notice" role="status">
+            <strong>Cancellation scheduled</strong>
+            <p>Your membership remains active through {{ subscription['cancel_at'] or subscription['current_period_end'] or 'the end of the current billing period' }} and will not renew.</p>
+        </div>
+        <p><strong>Status:</strong> Active — Cancellation Scheduled</p>
+    {% else %}
+        <p><strong>Status:</strong> {{ status_name }}</p>
+    {% endif %}
+    <p><strong>Billing email:</strong> {{ subscription['customer_email'] or 'Not available' }}</p>
+    <p><strong>Current period ends:</strong> {{ subscription['current_period_end'] or 'Managed by Stripe' }}</p>
+    <form method="post" action="{{ url_for('billing.portal') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-primary" type="submit">Manage Billing in Stripe</button>
+    </form>
+{% else %}
+    <p>No subscription is connected to this family.</p>
+    <a class="button button-primary" href="{{ url_for('billing.plans') }}">Choose Membership</a>
+{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+Family Quest Center — FC-0014 Collapsible Panel Polish
+
+Implemented:
+- Standardized Quest Order, Assign Once, Make Recurring, Command Center, Restore, and error-detail collapsible panels.
+- Added one reusable .fqc-collapsible CSS component.
+- Standardized border, radius, padding, typography, disclosure arrow, hover state, and open state.
+- Preserved the larger Command Center header and specialized error layout.
+
+No database migration is required.

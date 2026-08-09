@@ -1,0 +1,14 @@
+Family Quest Center v1.0.0 - Sprint 2 Adventure Assignment Fix
+
+Resolved:
+- Adventures could fail to create when one of their quests was already assigned to the child on the same date.
+- Because no quest_chain_instance was created, the adventure did not appear on the parent Active Adventures card.
+- The child dashboard did not include an adventure-progress section.
+
+Changes:
+- Adventure assignment now prevents only duplicate active instances of the same adventure for the same child and date.
+- Existing daily assignments for the same quest no longer block an adventure assignment.
+- Child dashboards now display active adventures, progress, status, and the current quest.
+- Parent Active Adventures continues to populate from successfully created adventure instances.
+
+Database migration: None required.

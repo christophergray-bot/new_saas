@@ -1,0 +1,23 @@
+S1-004.4 — Parent Workflow Symmetry
+
+Purpose
+-------
+Make the Responsibility and Growth workflows feel like two versions of the same parent experience.
+
+Responsibility
+--------------
+Quest Library -> Missions -> Select Quest -> Assign Child -> Set Schedule
+
+Growth
+------
+Journey Library -> Adventures -> Select Journeys -> Assign Child -> Set Start Date
+
+Changes
+-------
+- Renamed dashboard cards from Mission Builder/Adventure Builder to Missions/Adventures.
+- Rebuilt the Adventures list using the same page, card, status, action, and empty-state patterns as Missions.
+- Rebuilt the Adventure form using the same form-row, form-group, fieldset, and action patterns as the Mission form.
+- New Adventures are now built and assigned to a child in one parent workflow.
+- Existing Adventures can still be assigned again from the Adventures list.
+- Journey ordering remains required and sequential.
+- No database schema changes.

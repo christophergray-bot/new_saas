@@ -1,0 +1,30 @@
+{# Family Quest Center template: templates/parent_management/accept_invitation.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Accept Parent Invitation | {{ application_name }}{% endblock %}
+{% block body_class %}account-access-page{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Family Invitation" %}
+{% set page_icon = "👨‍👩‍👧‍👦" %}
+{% set page_title = "Join " ~ invitation.family_name %}
+{% set page_description = "Accept your invitation as Parent Two." %}
+{% include "partials/page_header.html" %}
+<section class="auth-experience">
+  <article class="auth-feature-panel"><div class="auth-feature-icon">🤝</div><p class="eyebrow">Parent Two</p><h2>Help guide the family adventure.</h2><p>This invitation is tied to <strong>{{ invitation.email }}</strong>.</p></article>
+  <article class="auth-form-card">
+    <div class="auth-card-heading"><span class="auth-card-icon">✉️</span><div><p class="eyebrow">Secure Invitation</p><h2>{{ 'Confirm Existing Account' if existing_account else 'Create Your Parent Account' }}</h2></div></div>
+    <form method="post" class="form-stack auth-form-stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      {% if existing_account %}
+        <p>An active account already exists for this email. Enter its current password to join this family.</p>
+        <label for="password">Current password<input id="password" type="password" name="password" autocomplete="current-password" required></label>
+      {% else %}
+        <p>Create your password to finish accepting this invitation.</p>
+        <label for="display_name">Your name<input id="display_name" name="display_name" required maxlength="80" autocomplete="name"></label>
+        <label for="password">Create password<input id="password" type="password" name="password" autocomplete="new-password" required minlength="10"></label>
+        <label for="confirm_password">Confirm password<input id="confirm_password" type="password" name="confirm_password" autocomplete="new-password" required minlength="10"></label>
+      {% endif %}
+      <button class="button button-primary auth-submit-button" type="submit">Accept Invitation</button>
+    </form>
+  </article>
+</section>
+{% endblock %}

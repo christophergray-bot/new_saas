@@ -1,0 +1,76 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/rewards/shop.html
+  Purpose: Renders the shop user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}{{ child.name }}'s Available Treasures{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div>
+        <p class="eyebrow">Reward Shop</p>
+        <h1>🎁 Available Treasures</h1>
+        <p>Choose a reward earned through your quests and adventures.</p>
+    </div>
+    <div class="shop-balance">⭐ {{ balance }} Stars</div>
+</section>
+
+<section class="dashboard-panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Reward Library</p>
+            <h2>Available Treasures</h2>
+        </div>
+    </div>
+
+    {% if rewards %}
+    <div class="reward-admin-grid child-reward-list">
+        {% for reward in rewards %}
+        <article class="reward-admin-card child-reward-card">
+            <div class="child-reward-visual">
+                {% if reward.image_filename %}
+                <img class="reward-card-image" src="{{ url_for('static', filename='uploads/rewards/' ~ reward.image_filename) }}" alt="{{ reward.name }}">
+                {% else %}
+                <div class="reward-icon">{{ reward.icon }}</div>
+                {% endif %}
+            </div>
+
+            <div class="reward-admin-body">
+                <small>{{ reward.category_icon or '🎁' }} {{ reward.category_name or 'Reward' }}</small>
+                <h3>{{ reward.name }}</h3>
+                <p>{{ reward.description or 'A special family reward.' }}</p>
+                <strong class="reward-cost">⭐ {{ reward.cost }}</strong>
+                {% if reward.quantity is not none %}
+                <p class="muted">{{ reward.quantity }} available</p>
+                {% endif %}
+            </div>
+
+            <div class="child-reward-actions">
+                {% if reward.id in pending_reward_ids %}
+                <span class="status-pill status-pending">Pending Parent Approval</span>
+                {% elif reward.can_afford %}
+                <form method="post" action="{{ url_for('reward_shop.request_reward', user_id=child.id, reward_id=reward.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="button button-primary" type="submit">
+                        {% if reward.requires_approval %}🎁 Request Reward{% else %}🎁 Redeem Reward{% endif %}
+                    </button>
+                </form>
+                {% else %}
+                <button class="button button-secondary" type="button" disabled>⭐ Not Enough Stars</button>
+                <strong class="need-stars">Earn {{ reward.stars_needed }} more stars</strong>
+                {% endif %}
+                <a class="button button-secondary" href="{{ url_for('reward_shop.detail', user_id=child.id, reward_id=reward.id) }}">🔎 View Details</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <h3>The treasure shelf is empty</h3>
+        <p>Your parent has not made any rewards available yet.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

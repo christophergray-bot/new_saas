@@ -1,0 +1,13 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/developer/errors.html
+  Purpose: Renders the errors user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Error Log{% endblock %}{% block content %}
+{% set eyebrow="TROUBLESHOOTING" %}{% set title="Error Log" %}{% set subtitle="Unexpected errors are recorded here with diagnostic details." %}{% set page_action_url=url_for('developer.operations') %}{% set page_action_text='← Operations' %}{% include "components/page_header.html" %}
+<div class="page-actions"><form method="post" action="{{ url_for('developer.clear_errors') }}" onsubmit="return confirm('Clear all recorded errors?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-danger" type="submit">Clear Error Log</button></form></div>
+<section class="admin-section">{% for row in entries %}<details class="fqc-collapsible error-entry {{ 'error-resolved' if row.resolved }}"><summary><span><span class="status-pill {{ 'status-active' if row.resolved else 'status-suspended' }}">{{ 'Resolved' if row.resolved else 'Open' }}</span><strong>{{ row.error_type }}</strong><small>{{ row.message }}</small></span><time>{{ row.created_at }}</time></summary><div><p><strong>Request:</strong> {{ row.request_path or 'Unknown' }}</p>{% if row.traceback_text %}<pre>{{ row.traceback_text }}</pre>{% endif %}<form method="post" action="{{ url_for('developer.error_status', error_id=row.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="status" value="{{ 'open' if row.resolved else 'resolved' }}"><button class="button button-small" type="submit">{{ 'Reopen Error' if row.resolved else 'Mark Resolved' }}</button></form></div></details>{% else %}<div class="empty-state"><span>✅</span><h2>No recorded errors</h2><p>The application has not recorded any unexpected errors.</p></div>{% endfor %}</section>
+{% endblock %}

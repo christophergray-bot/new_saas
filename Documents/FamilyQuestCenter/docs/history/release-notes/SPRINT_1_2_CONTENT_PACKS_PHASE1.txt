@@ -1,0 +1,18 @@
+Family Quest Center v1.2.0 — Content Packs Phase 1
+
+Implemented:
+- Content Pack database foundation
+- Family-specific installed pack tracking
+- Pack-to-item source mapping
+- JSON pack discovery and loading
+- Content Packs Command Center page
+- Explorer Starter Pack installation
+- Initial Quest, Adventure/Chapter, Challenge, and Reward import
+- Duplicate-install protection
+
+Not yet included:
+- Pack archive/restore controls
+- Individual source labels in library cards
+- Achievements, avatars, frames, themes, or trophy installation
+- Registration/onboarding pack selection
+- Pack update/version comparison

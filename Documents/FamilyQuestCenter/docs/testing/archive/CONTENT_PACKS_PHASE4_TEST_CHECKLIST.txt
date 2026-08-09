@@ -1,0 +1,10 @@
+CONTENT PACKS PHASE 4 TEST CHECKLIST
+
+1. Start with a clean database and create an Empty Family.
+2. Confirm only six Core Milestones appear.
+3. Install Explorer Starter Pack.
+4. Confirm Explorer Starter and outdoor progression achievements appear.
+5. Create a second family without the pack; confirm themed achievements do not appear.
+6. Archive the Starter Pack; confirm pack achievements become unavailable for that family.
+7. Restore the pack; confirm pack achievements return.
+8. Confirm previously earned achievements remain in history.

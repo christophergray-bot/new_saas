@@ -1,0 +1,88 @@
+{# Adventure assignment uses the Mission Scheduler visual language while preserving chapter progression. #}
+{% extends "base.html" %}
+{% block title %}Assign Adventure | Family Quest Center<script>
+const childCheckboxes = document.querySelectorAll('input[name="child_ids"]');
+const childSelectionLabel = document.querySelector('.child-selection-label');
+function updateChildSelectionLabel() {
+  const selected = [...childCheckboxes].filter((item) => item.checked);
+  childSelectionLabel.textContent = selected.length ? `${selected.length} child${selected.length === 1 ? '' : 'ren'} selected` : 'Select one or more children';
+}
+childCheckboxes.forEach((item) => item.addEventListener('change', updateChildSelectionLabel));
+document.querySelector('.quest-form').addEventListener('submit', (event) => {
+  if (![...childCheckboxes].some((item) => item.checked)) { event.preventDefault(); alert('Select at least one child.'); }
+});
+</script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Adventure Assignment</p>
+    <h1>Assign Adventure</h1>
+    <p class="page-description">Choose one or more children and start this multi-chapter Adventure.</p>
+  </div>
+</section>
+
+<section class="dashboard-panel schedule-form-panel">
+  <form class="quest-form" method="post" action="{{ url_for('parent_adventures.assign', adventure_id=adventure.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="adventure_name">Adventure</label>
+        <input id="adventure_name" type="text" value="{{ adventure.name }}" readonly>
+      </div>
+      <div class="form-group">
+        <label>Children</label>
+        <details class="child-multi-select">
+          <summary><span class="child-selection-label">Select one or more children</span></summary>
+          <div class="child-multi-select-options">
+            {% for child in children %}<label><input type="checkbox" name="child_ids" value="{{ child.id }}"> <span>{{ child.name }}</span></label>{% endfor %}
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <fieldset class="schedule-type-fieldset">
+      <legend>Adventure Summary</legend>
+      <div class="schedule-type-grid adventure-summary-grid">
+        <div class="schedule-type-option is-summary"><span class="schedule-type-content"><span class="schedule-type-icon">📖</span><strong>{{ adventure.journey_count }} Chapters</strong></span></div>
+        <div class="schedule-type-option is-summary"><span class="schedule-type-content"><span class="schedule-type-icon">⭐</span><strong>{{ adventure.bonus_xp }} Bonus XP</strong></span></div>
+      </div>
+    </fieldset>
+
+    {% if adventure.journeys %}
+    <div class="form-group">
+      <label>Chapter Order</label>
+      <ol class="adventure-chapter-preview assignment-chapter-preview">
+        {% for chapter in adventure.journeys %}
+        <li><strong>Chapter {{ loop.index }}: {{ chapter.name }}</strong>{% if chapter.description %}<small>{{ chapter.description }}</small>{% endif %}</li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="start_date">Start Date</label>
+        <input id="start_date" name="start_date" type="date" value="{{ today }}" required>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="button button-primary" type="submit" {% if not children %}disabled{% endif %}>Begin Adventure</button>
+      <a class="button button-secondary" href="{{ url_for('parent_adventures.chains') }}">Cancel</a>
+    </div>
+  </form>
+</section>
+<script>
+const childCheckboxes = document.querySelectorAll('input[name="child_ids"]');
+const childSelectionLabel = document.querySelector('.child-selection-label');
+function updateChildSelectionLabel() {
+  const selected = [...childCheckboxes].filter((item) => item.checked);
+  childSelectionLabel.textContent = selected.length ? `${selected.length} child${selected.length === 1 ? '' : 'ren'} selected` : 'Select one or more children';
+}
+childCheckboxes.forEach((item) => item.addEventListener('change', updateChildSelectionLabel));
+document.querySelector('.quest-form').addEventListener('submit', (event) => {
+  if (![...childCheckboxes].some((item) => item.checked)) { event.preventDefault(); alert('Select at least one child.'); }
+});
+</script>
+{% endblock %}

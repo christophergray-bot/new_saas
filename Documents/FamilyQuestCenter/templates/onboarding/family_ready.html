@@ -1,0 +1,24 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/onboarding/family_ready.html
+  Purpose: Renders the family ready user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Welcome to Family Quest Center · {{ application_name }}{% endblock %}
+{% block content %}
+<section class="onboarding-complete-card">
+    <div class="celebration-icon" aria-hidden="true">🚪</div>
+    <span class="eyebrow">Parent Area Locked</span>
+    <h1>Welcome to Family Quest Center!</h1>
+    <p>Your explorers are ready to choose their profiles and begin. The first time each child opens a profile, Explorer Training will show them around.</p>
+    <div class="ready-grid">
+        <div>⭐ <strong>Complete Missions</strong></div>
+        <div>🗺️ <strong>Begin Adventures</strong></div>
+        <div>🏆 <strong>Earn Achievements</strong></div>
+        <div>🎁 <strong>Discover Rewards</strong></div>
+    </div>
+    <a class="button button-primary button-large" href="{{ url_for('home.family_dashboard') }}">🚪 Enter Family Quest Center</a>
+</section>
+{% endblock %}

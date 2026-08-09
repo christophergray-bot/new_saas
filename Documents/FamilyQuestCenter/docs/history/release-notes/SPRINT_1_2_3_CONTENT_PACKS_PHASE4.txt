@@ -1,0 +1,9 @@
+Family Quest Center v1.2.3 — Content Packs Phase 4
+
+CORE ACHIEVEMENT SPLIT
+- Retains six universal achievements for every family.
+- Moves the remaining outdoor achievement progression into the Explorer Starter Pack.
+- Existing earned achievement history is preserved.
+- Legacy themed achievements are hidden until the Starter Pack is installed.
+- Installing the Starter Pack reactivates and assigns its achievements to that family.
+- Empty families no longer begin with a large themed achievement catalog.

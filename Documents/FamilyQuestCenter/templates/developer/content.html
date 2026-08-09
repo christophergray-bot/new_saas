@@ -1,0 +1,11 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/developer/content.html
+  Purpose: Renders the content user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Content Validator{% endblock %}{% block content %}
+{% set eyebrow="CONTENT TOOLS" %}{% set title="Content Validator" %}{% set subtitle="Check JSON content files before adding new cosmetics or future content packs." %}{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Developer Center' %}{% include "components/page_header.html" %}
+<section class="admin-section"><div class="validation-list">{% for result in results %}<article class="validation-row validation-{{ result.status }}"><span>{% if result.status=='success' %}✅{% elif result.status=='warning' %}⚠️{% else %}❌{% endif %}</span><div><strong>{{ result.file }}</strong><p>{{ result.message }}</p></div></article>{% endfor %}</div></section>
+{% endblock %}

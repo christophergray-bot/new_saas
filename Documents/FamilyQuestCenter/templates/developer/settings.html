@@ -1,0 +1,83 @@
+{# Family Quest Center template: templates/developer/settings.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}System Settings{% endblock %}
+{% block content %}
+{% set eyebrow="PLATFORM CONFIGURATION" %}{% set title="System Settings" %}{% set subtitle="Safely manage operational settings while keeping credentials and infrastructure secrets in environment variables." %}{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Owner Dashboard' %}{% include "components/page_header.html" %}
+
+<section class="settings-health-banner {% if health_issues %}settings-health-warning{% else %}settings-health-good{% endif %}">
+  <div><strong>{% if health_issues %}Settings need attention{% else %}All required settings are configured{% endif %}</strong>
+  {% if health_issues %}<ul>{% for issue in health_issues %}<li>{{ issue }}</li>{% endfor %}</ul>{% else %}<p>No configuration issues were detected.</p>{% endif %}</div>
+</section>
+
+<nav class="settings-tabs no-print" aria-label="System settings sections">
+  <a href="#general">General</a><a href="#registration">Registration</a><a href="#email">Email</a><a href="#subscription">Subscription</a><a href="#security">Security</a><a href="#maintenance">Maintenance</a>
+</nav>
+
+<div class="system-settings-grid">
+<section class="admin-section" id="general">
+  <div class="admin-section-header"><div><span class="section-eyebrow">GENERAL</span><h2>Platform identity</h2></div></div>
+  <form method="post" class="settings-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="section" value="general">
+    <label>Application Name<input name="application_name" value="{{ values.system_application_name }}" required maxlength="100"></label>
+    <label>Company Name<input name="company_name" value="{{ values.company_name }}" maxlength="120"></label>
+    <label>Support Email<input type="email" name="support_email" value="{{ values.support_email }}" maxlength="254"></label>
+    <label>Contact Website<input type="url" name="contact_website" value="{{ values.contact_website }}" maxlength="300"></label>
+    <div class="settings-readonly-grid"><div><small>Version</small><strong>{{ app_version }}</strong></div><div><small>Environment</small><strong>{{ environment|title }}</strong></div></div>
+    <button class="button button-primary" type="submit">Save General Settings</button>
+  </form>
+</section>
+
+<section class="admin-section" id="registration">
+  <div class="admin-section-header"><div><span class="section-eyebrow">REGISTRATION</span><h2>Family onboarding</h2></div></div>
+  <form method="post" class="settings-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="section" value="registration">
+    <label>Registration Mode<select name="registration_mode"><option value="local" {% if values.registration_mode=='local' %}selected{% endif %}>Local</option><option value="closed" {% if values.registration_mode=='closed' %}selected{% endif %}>Closed</option><option value="open" {% if values.registration_mode=='open' %}selected{% endif %}>Public Registration</option><option value="trial" {% if values.registration_mode=='trial' %}selected{% endif %}>Trial Registration</option></select></label>
+    <label class="settings-checkbox"><input type="checkbox" name="require_email_verification" {% if values.require_email_verification=='1' %}checked{% endif %}> Require email verification</label>
+    <label>Default Trial Length (days)<input type="number" min="0" max="365" name="default_trial_days" value="{{ values.default_trial_days }}"></label>
+    <label>Default Starter Pack ID<input name="default_starter_pack" value="{{ values.default_starter_pack }}" maxlength="100" placeholder="Leave blank for none"></label>
+    <button class="button button-primary" type="submit">Save Registration Settings</button>
+  </form>
+</section>
+
+<section class="admin-section" id="email">
+  <div class="admin-section-header"><div><span class="section-eyebrow">EMAIL</span><h2>Outbound email</h2></div><span class="status-pill {% if email_status.configured %}status-active{% else %}status-suspended{% endif %}">{% if email_status.configured %}Configured{% else %}Not Configured{% endif %}</span></div>
+  <p class="muted-copy">SMTP credentials remain protected in <code>.env</code> or Railway variables and cannot be edited here.</p>
+  <div class="configuration-list"><div><strong>SMTP Server</strong><span>{{ email_status.server }}:{{ email_status.port }}</span></div><div><strong>TLS</strong><span>{{ 'Enabled' if email_status.use_tls else 'Disabled' }}</span></div><div><strong>Username</strong><span>{{ email_status.username }}</span></div><div><strong>Sender</strong><span>{{ email_status.sender }}</span></div><div><strong>Application URL</strong><span>{{ email_status.app_url }}</span></div></div>
+  <div class="button-row"><a class="button button-secondary" href="{{ url_for('developer.email_test') }}">Send Test Email</a></div>
+</section>
+
+<section class="admin-section" id="subscription">
+  <div class="admin-section-header"><div><span class="section-eyebrow">SUBSCRIPTION</span><h2>Billing behavior</h2></div><span class="status-pill {% if stripe_configured %}status-active{% else %}status-suspended{% endif %}">Stripe {{ payments_mode|title }}</span></div>
+  <form method="post" class="settings-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="section" value="subscription">
+    <label class="settings-checkbox"><input type="checkbox" name="billing_enabled" {% if values.billing_enabled=='1' %}checked{% endif %}> Billing enabled</label>
+    <label class="settings-checkbox"><input type="checkbox" name="trial_enabled" {% if values.trial_enabled=='1' %}checked{% endif %}> Trial enabled</label>
+    <label>Grace Period (days)<input type="number" min="0" max="90" name="subscription_grace_days" value="{{ values.subscription_grace_days }}"></label>
+    <label>Default Plan<input name="default_plan" value="{{ values.default_plan }}" maxlength="50"></label>
+    <p class="muted-copy">Stripe mode, keys, price IDs, and webhook secrets remain environment-managed. Switching to live mode cannot be done from this page.</p>
+    <button class="button button-primary" type="submit">Save Subscription Settings</button>
+  </form>
+</section>
+
+<section class="admin-section" id="security">
+  <div class="admin-section-header"><div><span class="section-eyebrow">SECURITY</span><h2>Security defaults</h2></div></div>
+  <form method="post" class="settings-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="section" value="security">
+    <label>Session Timeout (minutes)<input type="number" min="5" max="1440" name="platform_session_timeout_minutes" value="{{ values.platform_session_timeout_minutes }}"></label>
+    <label>Maximum Login Attempts<input type="number" min="3" max="20" name="maximum_login_attempts" value="{{ values.maximum_login_attempts }}"></label>
+    <label>Account Lockout (minutes)<input type="number" min="1" max="1440" name="account_lockout_minutes" value="{{ values.account_lockout_minutes }}"></label>
+    <label>Remember Me Duration (days)<input type="number" min="1" max="365" name="remember_me_days" value="{{ values.remember_me_days }}"></label>
+    <label>Minimum Parent PIN Length<input type="number" min="4" max="12" name="parent_pin_min_length" value="{{ values.parent_pin_min_length }}"></label>
+    <p class="notice notice-warning"><strong>Version 1 note:</strong> These values establish platform defaults. Existing authentication protections remain enforced by the current security services until each control is connected during final hardening.</p>
+    <button class="button button-primary" type="submit">Save Security Defaults</button>
+  </form>
+</section>
+
+<section class="admin-section owner-danger-zone" id="maintenance">
+  <div class="admin-section-header"><div><span class="section-eyebrow">MAINTENANCE</span><h2>Maintenance controls</h2></div><span class="status-pill {% if values.maintenance_mode=='1' %}status-suspended{% else %}status-active{% endif %}">{{ 'Enabled' if values.maintenance_mode=='1' else 'Normal Operation' }}</span></div>
+  <form method="post" class="settings-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="section" value="maintenance">
+    <label class="settings-checkbox"><input type="checkbox" name="maintenance_mode" {% if values.maintenance_mode=='1' %}checked{% endif %}> Enable maintenance mode</label>
+    <label class="settings-checkbox"><input type="checkbox" name="maintenance_allow_registration" {% if values.maintenance_allow_registration=='1' %}checked{% endif %}> Allow registration during maintenance</label>
+    <label>Maintenance Message<textarea name="maintenance_message" rows="4" maxlength="500">{{ values.maintenance_message }}</textarea></label>
+    <label>Confirmation<input name="confirm" placeholder="Type CONFIRM when enabling"></label>
+    <div class="button-row"><button class="button button-danger" type="submit">Save Maintenance Settings</button><a class="button button-secondary" href="{{ url_for('developer.health') }}">Run Health Check</a></div>
+  </form>
+</section>
+</div>
+{% endblock %}

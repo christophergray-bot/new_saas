@@ -1,0 +1,28 @@
+Family Quest Center — Sprint 3.0-D Phase 3
+Public Homepage and Navigation
+
+Implemented:
+- Public marketing homepage for visitors who are not signed in
+- Responsive hero section and product preview
+- Features, How It Works, About, Pricing, and final call-to-action sections
+- Public navigation links
+- Persistent Sign In navigation action
+- Start Your Adventure registration action
+- Existing signed-in family member selector remains unchanged
+- Existing authentication and application routes remain unchanged
+
+Public navigation:
+- Home
+- Features
+- How It Works
+- Pricing
+- About
+- Sign In
+- Start Your Adventure
+
+Testing focus:
+1. Visit / while signed out and review desktop/mobile layout.
+2. Confirm Sign In opens /account/login.
+3. Confirm Start Your Adventure opens /account/register.
+4. Confirm navigation anchors scroll to the correct sections.
+5. Sign in and confirm / returns to the existing family member selector.

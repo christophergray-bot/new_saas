@@ -1,0 +1,51 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/rewards/edit.html
+  Purpose: Renders the edit user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if reward else 'Create' }} Reward | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header"><div><p class="eyebrow">Reward Store</p><h1>{{ 'Edit Reward' if reward else 'Create Reward' }}</h1><p>Define a treasure, its star cost, and an optional picture.</p></div><a class="button button-secondary" href="{{ url_for('rewards.manager') }}">Back to Rewards</a></section>
+<section class="dashboard-panel form-panel"><form method="post" enctype="multipart/form-data" class="quest-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="form-grid">
+    <label><span>Icon</span><input name="icon" value="{{ reward.icon if reward else '🎁' }}" maxlength="8"></label>
+    <label><span>Name</span><input name="name" value="{{ reward.name if reward else '' }}" required maxlength="100"></label>
+    <label class="full-width"><span>Description</span><textarea name="description" rows="3" maxlength="2000">{{ reward.description if reward else '' }}</textarea></label>
+    <label><span>Category</span><select name="category_id"><option value="">Uncategorized</option>{% for category in categories %}<option value="{{ category.id }}" {% if reward and reward.category_id == category.id %}selected{% endif %}>{{ category.icon }} {{ category.name }}</option>{% endfor %}</select></label>
+    <label><span>Cost in Stars</span><input name="cost" type="number" min="1" value="{{ reward.cost if reward else 25 }}" required></label>
+    <label><span>Quantity</span><input name="quantity" type="number" min="0" value="{{ reward.quantity if reward and reward.quantity is not none else '' }}" placeholder="Blank = unlimited"></label>
+    <label class="full-width"><span>Reward Image (optional)</span><input name="reward_image" type="file" accept="image/png,image/jpeg,image/gif,image/webp"><small>PNG, JPG, GIF, or WEBP; maximum 4 MB.</small></label>
+    {% if reward and reward.image_filename %}<div class="full-width reward-image-preview"><img src="{{ url_for('static', filename='uploads/rewards/' ~ reward.image_filename) }}" alt="Current reward image"><label><input type="checkbox" name="remove_image"> Remove current image</label></div>{% endif %}
+  </div>
+  <div class="checkbox-stack"><label><input type="checkbox" name="requires_approval" {% if not reward or reward.requires_approval %}checked{% endif %}> Requires parent approval</label></div>
+  <button class="button button-primary" type="submit">Save Reward</button>
+</form></section>
+
+{% if reward %}
+<section class="section-block">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Reward Status</p>
+      <h2>{{ 'Archive Reward' if reward.active else 'Restore Reward' }}</h2>
+    </div>
+  </div>
+  {% if reward.active %}
+  <p>Archiving this reward removes it from the Reward Shop while preserving request and redemption history.</p>
+  {% else %}
+  <p>Restoring this reward makes it available in the Reward Shop again.</p>
+  {% endif %}
+  <form method="post" action="{{ url_for('rewards.toggle_reward', reward_id=reward.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button
+      class="button {{ 'button-danger' if reward.active else 'button-secondary' }}"
+      type="submit"
+      {% if reward.active %}onclick="return confirm('Archive this reward? Existing request and redemption history will be preserved.');"{% endif %}
+    >{{ '📦 Archive Reward' if reward.active else '↩ Restore Reward' }}</button>
+  </form>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+TENANT ISOLATION TEST CHECKLIST
+
+Prepare two separate family accounts: Family A and Family B.
+
+1. In Family A, create a child, mission, adventure, challenge, reward request,
+   and at least one completed item awaiting approval.
+2. Sign out completely.
+3. Sign in as Family B.
+4. Confirm Family B shows zero Family A items in:
+   - Pending Approvals
+   - Active Missions
+   - Active Adventures
+   - Active Challenges
+   - Recent Activity
+   - Weekly Stats
+   - Reward Requests
+5. Create one item of each type in Family B.
+6. Sign back into Family A and confirm Family B items are not visible.
+7. Try direct URLs using IDs copied from the other family. The app should
+   return Not Found or deny access.
+8. Repeat with Parent Two where available.
+9. Confirm creating, editing, archiving, approving, returning, and completing
+   records only affects the signed-in family.
+
+Release gate
+Do not begin PostgreSQL conversion until both-family testing passes with no
+cross-family records displayed or modified.

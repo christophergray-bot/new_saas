@@ -1,0 +1,10 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/rewards/history.html
+  Purpose: Renders the history user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Reward History | Family Quest Center{% endblock %}
+{% block content %}<section class="page-header"><div><p class="eyebrow">Your Purchases</p><h1>📦 Reward History</h1><p>See pending, approved, denied, and redeemed rewards.</p></div><div class="shop-balance">⭐ {{ balance }} Stars</div></section><div class="page-actions"><a class="button button-secondary" href="{{ url_for('reward_shop.shop', user_id=child.id) }}">Reward Shop</a></div><section class="dashboard-panel">{% if reward_requests %}<div class="reward-history-list">{% for item in reward_requests %}<article class="reward-history-row"><div>{% if item.image_filename %}<img src="{{ url_for('static', filename='uploads/rewards/' ~ item.image_filename) }}" alt="{{ item.reward_name }}">{% else %}<span class="reward-history-icon">{{ item.reward_icon }}</span>{% endif %}</div><div><h3>{{ item.reward_name }}</h3><p>⭐ {{ item.cost }} • {{ item.requested_at[:10] }}</p>{% if item.notes %}<p><strong>Parent note:</strong> {{ item.notes }}</p>{% endif %}</div><span class="status-pill status-{{ item.status }}">{{ item.status|title }}</span></article>{% endfor %}</div>{% else %}<div class="empty-state"><h3>No reward requests yet</h3><p>Visit the Reward Shop when you are ready to spend stars.</p></div>{% endif %}</section>{% endblock %}

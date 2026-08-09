@@ -1,0 +1,156 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/children/edit.html
+  Purpose: Renders the edit user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}
+Edit {{ child.name }} | Family Quest Center
+{% endblock %}
+
+{% block content %}
+
+{% set page_eyebrow = "Family Member" %}
+{% set page_icon = "✏️" %}
+{% set page_title = "Edit " ~ child.name %}
+{% set page_description =
+    "Update this child's profile information."
+%}
+{% set page_action_url =
+    url_for('children.view_child', child_id=child.id)
+%}
+{% set page_action_text = "Cancel" %}
+
+{% include "partials/page_header.html" %}
+
+<section class="section-block">
+
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Profile</p>
+            <h2>Child Information</h2>
+        </div>
+    </div>
+
+    <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-group">
+            <label for="name">
+                Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ child.name }}"
+                required
+             maxlength="100">
+        </div>
+
+        <div class="form-group">
+            <label for="initial">
+                Initial
+            </label>
+
+            <input
+                type="text"
+                id="initial"
+                name="initial"
+                value="{{ child.initial }}"
+                maxlength="1"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+
+            <p>
+                {% if child.active %}
+                    Active
+                {% else %}
+                    Archived
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                type="submit"
+                class="button button-primary"
+            >
+                Save Changes
+            </button>
+
+            <a
+                href="{{ url_for(
+                    'children.view_child',
+                    child_id=child.id
+                ) }}"
+                class="button button-secondary"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+<section class="section-block">
+
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Account Status</p>
+            <h2>
+                {% if child.active %}
+                    Archive Child
+                {% else %}
+                    Restore Child
+                {% endif %}
+            </h2>
+        </div>
+    </div>
+
+    <p>
+        {% if child.active %}
+            Archiving this child will hide the profile from
+            normal child selection and mission assignment lists.
+            Existing history and stars will remain saved.
+        {% else %}
+            Restoring this child will make the profile available
+            again for missions and family selection.
+        {% endif %}
+    </p>
+
+    <form
+        method="post"
+        action="{{ url_for(
+            'children.toggle_child',
+            child_id=child.id
+        ) }}"
+    >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button
+            type="submit"
+            class="button button-secondary"
+            {% if child.active %}onclick="return confirm('Archive this child profile? The child will be removed from gameplay while history is preserved.');"{% endif %}
+        >
+            {% if child.active %}
+                Archive Child
+            {% else %}
+                Restore Child
+            {% endif %}
+        </button>
+    </form>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{# Assigned Adventure lock explanation. #}
+{% extends "base.html" %}
+{% block title %}Adventure Locked{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Adventure Library</p>
+    <h1>🔒 Adventure Locked</h1>
+    <p class="page-description">Assigned Adventures are preserved so every child completes the same journey they started.</p>
+  </div>
+  <div class="page-header-actions">
+    <a class="button button-secondary" href="{{ url_for('parent_adventures.chains') }}">← Adventure Library</a>
+  </div>
+</section>
+
+<section class="dashboard-panel schedule-form-panel">
+  <div class="locked-adventure-message">
+    <h2>{{ adventure.name }}</h2>
+    <p>This Adventure has already been assigned to one or more children and can no longer be modified.</p>
+    <p>To preserve chapter order, instructions, progress, and completion history, create a duplicate for future changes.</p>
+    <div class="page-actions">
+      <a class="button button-secondary" href="{{ url_for('parent_adventures.chains') }}">Cancel</a>
+      <form method="post" action="{{ url_for('parent_adventures.duplicate_chain', adventure_id=adventure.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-primary" type="submit">Duplicate Adventure</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% if adventure.active %}
+<section class="section-block">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Adventure Status</p>
+      <h2>Archive Adventure</h2>
+    </div>
+  </div>
+  <p>Archiving this Adventure removes it from future assignment lists while preserving existing child progress and completion history.</p>
+  <form method="post" action="{{ url_for('parent_adventures.toggle_chain', adventure_id=adventure.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="active" value="0">
+    <button
+      class="button button-danger"
+      type="submit"
+      onclick="return confirm('Archive this Adventure? Existing assignment and completion history will be preserved.');"
+    >📦 Archive Adventure</button>
+  </form>
+</section>
+{% endif %}
+{% endblock %}

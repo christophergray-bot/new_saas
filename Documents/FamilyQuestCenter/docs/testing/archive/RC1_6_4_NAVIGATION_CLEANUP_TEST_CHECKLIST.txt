@@ -1,0 +1,9 @@
+RC1.6.4 Navigation Cleanup Test Checklist
+
+[ ] Open Parent Dashboard and confirm Mission Builder is not listed in Quick Actions.
+[ ] Expand All Tools and confirm the standalone Missions/Mission Builder card is removed.
+[ ] Confirm Quest Library remains available in Quick Actions and All Tools.
+[ ] Open Quest Library and confirm Assign Mission opens the scheduler with the selected Quest.
+[ ] Open Today's Missions and confirm the header action says Open Quest Library.
+[ ] Confirm the empty-state action on Today's Missions says Open Quest Library.
+[ ] Confirm existing recurring assignments still generate Today's Missions.

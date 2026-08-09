@@ -1,0 +1,180 @@
+{# Family Quest Center template: templates/quest_books/reader.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}{{ book.title }} | Quest Books{% endblock %}
+{% block body_class %}quest-book-reader-page{% endblock %}
+{% block content %}
+<section class="quest-book-reader-shell" id="quest-book-reader">
+  <div class="quest-book-reader-toolbar" aria-label="Quest Book navigation">
+    <div class="quest-book-reader-toolbar-copy">
+      <span class="quest-book-reader-toolbar-context">📖 Quest Books <span aria-hidden="true">•</span> {{ book.pack_name }}</span>
+      <strong>{{ book.icon }} {{ book.title }}</strong>
+    </div>
+    <a class="button button-secondary quest-book-library-button" href="{{ url_for('child.quest_books', user_id=child.id) }}">← Back to Library</a>
+  </div>
+  <div class="quest-book-reading-status">
+    <span><strong>{{ child.name }}</strong>'s story path</span>
+    <span>{{ progress.steps_taken }} choice{% if progress.steps_taken != 1 %}s{% endif %} made</span>
+  </div>
+
+  <article class="dashboard-panel quest-book-story-card{% if node.ending %} quest-book-story-ending{% endif %}">
+    <header class="quest-book-scene-header">
+      {% if node.ending %}
+        <div class="quest-book-ending-mark" aria-hidden="true">🎉</div>
+        <p class="eyebrow">The End</p>
+        <h2 id="quest-book-scene-title">{{ node.ending_title or node.title or 'Story Complete' }}</h2>
+      {% else %}
+        <p class="eyebrow">Story Scene</p>
+        <h2 id="quest-book-scene-title">{{ node.title or 'The Adventure Continues' }}</h2>
+      {% endif %}
+    </header>
+
+    <div class="quest-book-read-aloud quest-book-read-aloud-inline" id="quest-book-read-aloud" aria-label="Read aloud controls">
+      <div class="quest-book-read-aloud-heading">
+        <span class="quest-book-read-aloud-icon" aria-hidden="true">🔊</span>
+        <div>
+          <strong>Read This Page</strong>
+          <span id="quest-book-reader-status" class="quest-book-reader-status" aria-live="polite">Ready</span>
+        </div>
+      </div>
+      <div class="quest-book-read-aloud-actions">
+        <button class="button button-primary quest-book-audio-button" id="quest-book-read-play" type="button">
+          <span aria-hidden="true">▶</span> Read
+        </button>
+        <button class="button button-secondary quest-book-audio-button" id="quest-book-read-pause" type="button" disabled>
+          <span aria-hidden="true">⏸</span> Pause
+        </button>
+        <button class="button button-secondary quest-book-audio-button" id="quest-book-read-stop" type="button" disabled>
+          <span aria-hidden="true">■</span> Stop
+        </button>
+      </div>
+      <p id="quest-book-reader-unavailable" class="quest-book-reader-unavailable" hidden>
+        Read Aloud is not supported by this browser.
+      </p>
+    </div>
+
+    <div class="quest-book-story-text" id="quest-book-story-text">{{ node.text }}</div>
+
+    {% if node.ending %}
+      <div class="quest-book-completion-message">
+        <strong>You completed {{ book.title }}!</strong>
+        <span>Your journey is saved in your Quest Books library.</span>
+      </div>
+      <div class="quest-book-ending-actions">
+        <a class="button button-primary" href="{{ url_for('child.quest_books', user_id=child.id) }}">Back to Library</a>
+        <form method="post" action="{{ url_for('child.restart_quest_book', user_id=child.id, book_key=book.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button button-secondary" type="submit">Read Again</button>
+        </form>
+      </div>
+    {% else %}
+      <section class="quest-book-decision" aria-labelledby="quest-book-decision-heading">
+        <h3 id="quest-book-decision-heading">What do you do?</h3>
+        <div class="quest-book-choices" aria-label="Story choices">
+          {% for choice in node.choices %}
+          <form method="post" action="{{ url_for('child.choose_quest_book_path', user_id=child.id, book_key=book.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="next_node" value="{{ choice.next }}">
+            <button class="button button-primary quest-book-choice" type="submit">
+              <span>{{ choice.label }}</span><span aria-hidden="true">→</span>
+            </button>
+          </form>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </article>
+
+  <p class="quest-book-autosave-note">✓ Your story path saves automatically after every choice.</p>
+</section>
+
+<script>
+(() => {
+  const controls = document.getElementById("quest-book-read-aloud");
+  if (!controls) return;
+
+  const playButton = document.getElementById("quest-book-read-play");
+  const pauseButton = document.getElementById("quest-book-read-pause");
+  const stopButton = document.getElementById("quest-book-read-stop");
+  const status = document.getElementById("quest-book-reader-status");
+  const unavailable = document.getElementById("quest-book-reader-unavailable");
+  const title = document.getElementById("quest-book-scene-title");
+  const story = document.getElementById("quest-book-story-text");
+
+  const supported = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  if (!supported) {
+    playButton.disabled = true;
+    pauseButton.disabled = true;
+    stopButton.disabled = true;
+    unavailable.hidden = false;
+    status.textContent = "Unavailable";
+    return;
+  }
+
+  let utterance = null;
+  let paused = false;
+
+  function currentText() {
+    return [title?.textContent, story?.textContent]
+      .filter(Boolean)
+      .map(value => value.trim())
+      .filter(Boolean)
+      .join(". ");
+  }
+
+  function setIdle(label = "Ready") {
+    paused = false;
+    status.textContent = label;
+    playButton.textContent = "▶ Read";
+    playButton.disabled = false;
+    pauseButton.textContent = "⏸ Pause";
+    pauseButton.disabled = true;
+    stopButton.disabled = true;
+  }
+
+  function startReading() {
+    const text = currentText();
+    if (!text) return;
+
+    window.speechSynthesis.cancel();
+    utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    utterance.onstart = () => {
+      paused = false;
+      status.textContent = "Reading";
+      playButton.textContent = "↻ Restart";
+      pauseButton.disabled = false;
+      stopButton.disabled = false;
+    };
+    utterance.onend = () => setIdle("Finished");
+    utterance.onerror = () => setIdle("Stopped");
+    window.speechSynthesis.speak(utterance);
+  }
+
+  playButton.addEventListener("click", startReading);
+
+  pauseButton.addEventListener("click", () => {
+    if (!window.speechSynthesis.speaking) return;
+    if (paused) {
+      window.speechSynthesis.resume();
+      paused = false;
+      pauseButton.textContent = "⏸ Pause";
+      status.textContent = "Reading";
+    } else {
+      window.speechSynthesis.pause();
+      paused = true;
+      pauseButton.textContent = "▶ Resume";
+      status.textContent = "Paused";
+    }
+  });
+
+  stopButton.addEventListener("click", () => {
+    window.speechSynthesis.cancel();
+    setIdle("Stopped");
+  });
+
+  /* Never continue speaking after the child leaves or chooses the next path. */
+  window.addEventListener("pagehide", () => window.speechSynthesis.cancel());
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,367 @@
+{
+  "id": "explorer_starter",
+  "name": "Explorer Starter Pack",
+  "version": "2.1.1",
+  "category": "starter",
+  "description": "The complete Family Quest Center starter experience: everyday explorer quests, family adventures, a choose-your-path exploration book, frames, themes, and the new likeness-based Explorer character set with six skin-tone options for both girl and boy Explorers.",
+  "icon": "🧭",
+  "recommended_age": "5-12",
+  "quests": [
+    {
+      "name": "Base Camp Cleanup",
+      "description": "Tidy your room and put your gear, toys, and clothes where they belong.",
+      "difficulty": 1,
+      "stars": 1
+    },
+    {
+      "name": "Supply Station",
+      "description": "Help load or unload the dishwasher and put kitchen supplies away.",
+      "difficulty": 1,
+      "stars": 1
+    },
+    {
+      "name": "Laundry Expedition",
+      "description": "Gather your dirty clothes and place them in the hamper or help put clean clothes away.",
+      "difficulty": 1,
+      "stars": 1
+    },
+    {
+      "name": "Trail Sweep",
+      "description": "Sweep or vacuum an assigned area and leave the trail clear for the family.",
+      "difficulty": 1,
+      "stars": 1
+    },
+    {
+      "name": "Camp Table Reset",
+      "description": "Clear the table after a meal and help return the family base camp to order.",
+      "difficulty": 1,
+      "stars": 1
+    },
+    {
+      "name": "Gear Check",
+      "description": "Pack your backpack, school items, or tomorrow's needed gear so you are ready to explore the day ahead.",
+      "difficulty": 1,
+      "stars": 1
+    }
+  ],
+  "adventures": [
+    {
+      "name": "Neighborhood Discovery Walk",
+      "description": "Take a family-approved walk and see how many interesting things you can discover close to home.",
+      "bonus_xp": 5,
+      "chapters": [
+        {
+          "name": "Choose the Route",
+          "description": "With a parent, choose a safe route through your neighborhood, park, or nearby trail."
+        },
+        {
+          "name": "Nature Spotting",
+          "description": "Find three different plants, trees, birds, insects, or other signs of nature."
+        },
+        {
+          "name": "Landmark Hunt",
+          "description": "Find one landmark you have passed before but never really stopped to examine."
+        },
+        {
+          "name": "Explorer Report",
+          "description": "Share the most interesting thing you noticed during the walk."
+        }
+      ]
+    },
+    {
+      "name": "Backyard Field Expedition",
+      "description": "Explore your yard, a park, or another parent-approved outdoor space like a field researcher.",
+      "bonus_xp": 5,
+      "chapters": [
+        {
+          "name": "Pick a Study Zone",
+          "description": "Choose a small safe area to explore closely."
+        },
+        {
+          "name": "Look High and Low",
+          "description": "Search the ground, plants, trees, and sky for interesting details."
+        },
+        {
+          "name": "Make a Discovery",
+          "description": "Choose one rock, leaf, track, bug, cloud, or other natural feature to study without disturbing it."
+        },
+        {
+          "name": "Record the Find",
+          "description": "Draw it, describe it, or tell your family what you discovered."
+        }
+      ]
+    },
+    {
+      "name": "Indoor Explorer Hunt",
+      "description": "Go on an indoor discovery mission and learn something new about your own home.",
+      "bonus_xp": 5,
+      "chapters": [
+        {
+          "name": "Choose a Territory",
+          "description": "Pick a room, bookshelf, drawer, family photo area, or other parent-approved place to explore."
+        },
+        {
+          "name": "Find Three Curiosities",
+          "description": "Find three objects you have never examined closely before."
+        },
+        {
+          "name": "Ask the Expert",
+          "description": "Ask a family member about one object and learn its story or purpose."
+        },
+        {
+          "name": "Share the Discovery",
+          "description": "Tell the family one new thing you learned about your home."
+        }
+      ]
+    }
+  ],
+  "challenges": [],
+  "rewards": [
+    {
+      "name": "Explorer Treat",
+      "description": "Choose a family-approved treat after earning enough stars.",
+      "icon": "🍪",
+      "cost": 15,
+      "category_key": "treats_snacks"
+    }
+  ],
+  "achievements": [],
+  "avatars": [
+    {
+      "key": "explorer_girl_light",
+      "name": "Girl Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_girl_light_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_girl_medium_light",
+      "name": "Girl Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_girl_medium_light_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_girl_medium",
+      "name": "Girl Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_girl_medium_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_girl_medium_dark",
+      "name": "Girl Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_girl_medium_dark_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_girl_dark",
+      "name": "Girl Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_girl_dark_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_girl_deep_dark",
+      "name": "Girl Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_girl_deep_dark_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_boy_light",
+      "name": "Boy Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_boy_light_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_boy_medium_light",
+      "name": "Boy Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_boy_medium_light_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_boy_medium",
+      "name": "Boy Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_boy_medium_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_boy_medium_dark",
+      "name": "Boy Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_boy_medium_dark_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_boy_dark",
+      "name": "Boy Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_boy_dark_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_boy_deep_dark",
+      "name": "Boy Explorer",
+      "icon": "🧭",
+      "image": "/parent/content-packs/assets/explorer_starter_pack/characters/explorer_boy_deep_dark_v1.webp",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ],
+  "frames": [
+    {
+      "key": "explorer_bronze",
+      "name": "Bronze Explorer",
+      "icon": "🥉",
+      "class_name": "frame-explorer-bronze",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_silver",
+      "name": "Silver Explorer",
+      "icon": "🥈",
+      "class_name": "frame-explorer-silver",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_gold",
+      "name": "Gold Explorer",
+      "icon": "🥇",
+      "class_name": "frame-explorer-gold",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ],
+  "themes": [
+    {
+      "key": "explorer_trail",
+      "name": "Forest Trail",
+      "icon": "🌲",
+      "class_name": "theme-explorer-trail",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_map",
+      "name": "Adventure Map",
+      "icon": "🗺️",
+      "class_name": "theme-explorer-map",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "explorer_sky",
+      "name": "Open Sky",
+      "icon": "🌤️",
+      "class_name": "theme-explorer-sky",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ],
+  "pack_type": "core",
+  "author": "Family Quest Center",
+  "auto_install": false,
+  "discoverable": true,
+  "archive_allowed": false,
+  "difficulty": "Beginner",
+  "estimated_duration": "Getting started",
+  "skills": [
+    "Responsibility",
+    "Observation",
+    "Curiosity",
+    "Family Participation"
+  ],
+  "price_type": "free",
+  "price_cents": 0,
+  "books": [
+    {
+      "id": "mystery_of_hidden_trail",
+      "title": "The Mystery of the Hidden Trail",
+      "description": "A strange map sends a young explorer on a choose-your-path journey to discover what waits at the end of a forgotten trail.",
+      "icon": "🗺️",
+      "file": "books/mystery_of_hidden_trail.json",
+      "estimated_minutes": 10,
+      "xp_reward": 5
+    }
+  ],
+  "reward_categories": [
+    {
+      "key": "treats_snacks",
+      "name": "Treats & Snacks",
+      "icon": "🍪",
+      "display_order": 10
+    },
+    {
+      "key": "screen_game_time",
+      "name": "Screen & Game Time",
+      "icon": "🎮",
+      "display_order": 20
+    },
+    {
+      "key": "activities_adventures",
+      "name": "Activities & Adventures",
+      "icon": "🎟️",
+      "display_order": 30
+    },
+    {
+      "key": "special_privileges",
+      "name": "Special Privileges",
+      "icon": "👑",
+      "display_order": 40
+    }
+  ]
+}

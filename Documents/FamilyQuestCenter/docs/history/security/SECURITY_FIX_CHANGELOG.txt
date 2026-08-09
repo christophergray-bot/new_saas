@@ -1,0 +1,360 @@
+Removed cache directory: __pycache__
+Removed cache directory: models/__pycache__
+Removed cache directory: content/__pycache__
+Removed cache directory: services/__pycache__
+Removed cache directory: routes/__pycache__
+Removed cache directory: content/models/__pycache__
+Removed cache directory: content/services/__pycache__
+Removed cache directory: content/routes/__pycache__
+Removed cache directory: content/tools/legacy_migrations/__pycache__
+Removed cache directory: tools/legacy_migrations/__pycache__
+Removed database: old.chorce.db
+Removed database: content/old.chorce.db
+Removed database: content/chorce.db
+Created/updated .gitignore
+Archived SPRINT_1_2_2_CONTENT_PACKS_PHASE3.txt -> docs/history/release-notes/SPRINT_1_2_2_CONTENT_PACKS_PHASE3.txt
+Archived RC1_6_4_ASSIGNMENT_WORKFLOW_TEST_CHECKLIST.txt -> docs/testing/archive/RC1_6_4_ASSIGNMENT_WORKFLOW_TEST_CHECKLIST.txt
+Archived CONTENT_PACK_MANAGER_TEST_CHECKLIST.txt -> docs/testing/archive/CONTENT_PACK_MANAGER_TEST_CHECKLIST.txt
+Archived CONTENT_PACKS_PHASE5_TEST_CHECKLIST.txt -> docs/testing/archive/CONTENT_PACKS_PHASE5_TEST_CHECKLIST.txt
+Archived RC1_8_3_ADVENTURE_WORKFLOW_FINAL_POLISH.txt -> docs/history/release-notes/RC1_8_3_ADVENTURE_WORKFLOW_FINAL_POLISH.txt
+Archived SPRINT_1_4_FAMILY_EXPERIENCE_TEST_CHECKLIST.txt -> docs/testing/archive/SPRINT_1_4_FAMILY_EXPERIENCE_TEST_CHECKLIST.txt
+Archived RC1_6_4_COMMAND_CENTER_NOTIFICATION_ALIGNMENT_TEST_CHECKLIST.txt -> docs/testing/archive/RC1_6_4_COMMAND_CENTER_NOTIFICATION_ALIGNMENT_TEST_CHECKLIST.txt
+Archived requirements.txt -> docs/history/release-notes/requirements.txt
+Archived SPRINT_1_4_FAMILY_EXPERIENCE_RELEASE_NOTES.txt -> docs/history/release-notes/SPRINT_1_4_FAMILY_EXPERIENCE_RELEASE_NOTES.txt
+Archived RC1_9_1_PARENT_FAMILY_SETTINGS_REORGANIZATION.txt -> docs/history/release-notes/RC1_9_1_PARENT_FAMILY_SETTINGS_REORGANIZATION.txt
+Archived RC_0016_EMPTY_FAMILY_ONBOARDING_HOTFIX.txt -> docs/history/release-notes/RC_0016_EMPTY_FAMILY_ONBOARDING_HOTFIX.txt
+Archived SPRINT_1_3_CONTENT_PACK_MANAGER.txt -> docs/history/release-notes/SPRINT_1_3_CONTENT_PACK_MANAGER.txt
+Archived RC_0014_ADVENTURE_LIFECYCLE_TEST_CHECKLIST.txt -> docs/testing/archive/RC_0014_ADVENTURE_LIFECYCLE_TEST_CHECKLIST.txt
+Archived SPRINT_1_4_1_FAMILY_EXPERIENCE_POLISH.txt -> docs/history/release-notes/SPRINT_1_4_1_FAMILY_EXPERIENCE_POLISH.txt
+Archived ADVENTURE_SYSTEM_TEST_CHECKLIST.txt -> docs/testing/archive/ADVENTURE_SYSTEM_TEST_CHECKLIST.txt
+Archived RC1_7_1_DEFAULT_FAMILY_PACK_CLEANUP_TEST_CHECKLIST.txt -> docs/testing/archive/RC1_7_1_DEFAULT_FAMILY_PACK_CLEANUP_TEST_CHECKLIST.txt
+Archived SPRINT_1_2_3_CONTENT_PACKS_PHASE4.txt -> docs/history/release-notes/SPRINT_1_2_3_CONTENT_PACKS_PHASE4.txt
+Archived TESTING_CHECKLIST_1.0.0.txt -> docs/testing/archive/TESTING_CHECKLIST_1.0.0.txt
+Archived RC1_8_7_QUEST_ACTION_OVERLAP_FIX.txt -> docs/history/release-notes/RC1_8_7_QUEST_ACTION_OVERLAP_FIX.txt
+Archived RC_0014_ADVENTURE_LIFECYCLE_RELEASE_NOTES.txt -> docs/history/release-notes/RC_0014_ADVENTURE_LIFECYCLE_RELEASE_NOTES.txt
+Archived SPRINT_1_2_1_CONTENT_PACKS_PHASE2.txt -> docs/history/release-notes/SPRINT_1_2_1_CONTENT_PACKS_PHASE2.txt
+Archived SPRINT_1_2_4_CONTENT_PACKS_PHASE5.txt -> docs/history/release-notes/SPRINT_1_2_4_CONTENT_PACKS_PHASE5.txt
+Archived RC1_6_4_NAVIGATION_CLEANUP_TEST_CHECKLIST.txt -> docs/testing/archive/RC1_6_4_NAVIGATION_CLEANUP_TEST_CHECKLIST.txt
+Archived RC1_6_4_CHILD_ACHIEVEMENT_NOTIFICATION_TEST_CHECKLIST.txt -> docs/testing/archive/RC1_6_4_CHILD_ACHIEVEMENT_NOTIFICATION_TEST_CHECKLIST.txt
+Archived CONTENT_PACKS_PHASE4_TEST_CHECKLIST.txt -> docs/testing/archive/CONTENT_PACKS_PHASE4_TEST_CHECKLIST.txt
+Archived RC1_9_0_SECURITY_HARDENING_PHASE1.txt -> docs/history/release-notes/RC1_9_0_SECURITY_HARDENING_PHASE1.txt
+Archived CONTENT_PACKS_PHASE2_TEST_CHECKLIST.txt -> docs/testing/archive/CONTENT_PACKS_PHASE2_TEST_CHECKLIST.txt
+Archived SPRINT_1_2_CONTENT_PACKS_PHASE1.txt -> docs/history/release-notes/SPRINT_1_2_CONTENT_PACKS_PHASE1.txt
+Archived SPRINT_1_1_1_ADVENTURE_BUILDER_UI_POLISH.txt -> docs/history/release-notes/SPRINT_1_1_1_ADVENTURE_BUILDER_UI_POLISH.txt
+Archived RC1_8_1_REGRESSION_FIXES_FC0004_FC0012.txt -> docs/history/release-notes/RC1_8_1_REGRESSION_FIXES_FC0004_FC0012.txt
+Archived RC1_8_8_QUEST_ADVENTURE_CARD_LAYOUT_TEST.txt -> docs/testing/archive/RC1_8_8_QUEST_ADVENTURE_CARD_LAYOUT_TEST.txt
+Archived RC1_6_4_ASSIGNMENT_WORKFLOW_UPDATE.txt -> docs/history/release-notes/RC1_6_4_ASSIGNMENT_WORKFLOW_UPDATE.txt
+Archived RC_0015_PRESERVE_ADVENTURE_CONTEXT.txt -> docs/history/release-notes/RC_0015_PRESERVE_ADVENTURE_CONTEXT.txt
+Archived RC1_6_4_APPROVAL_LAYOUT_TEST_CHECKLIST.txt -> docs/testing/archive/RC1_6_4_APPROVAL_LAYOUT_TEST_CHECKLIST.txt
+Archived MISSION_BUILDER_TENANT_TEST_CHECKLIST.txt -> docs/testing/archive/MISSION_BUILDER_TENANT_TEST_CHECKLIST.txt
+Archived RC1_6_4_ADVENTURE_CONTEXT_AND_FORM_FOCUS_TEST_CHECKLIST.txt -> docs/testing/archive/RC1_6_4_ADVENTURE_CONTEXT_AND_FORM_FOCUS_TEST_CHECKLIST.txt
+Archived ADVENTURE_SYSTEM_REDESIGN_NOTES.txt -> docs/history/release-notes/ADVENTURE_SYSTEM_REDESIGN_NOTES.txt
+Archived RC1_9_2_PARENT_MANAGEMENT_LIVE_PAGES.txt -> docs/history/release-notes/RC1_9_2_PARENT_MANAGEMENT_LIVE_PAGES.txt
+Removed duplicate content-tree file: content/templates/parent/achievements/manager.html
+Removed duplicate content-tree file: content/templates/parent/achievements/form.html
+Removed duplicate content-tree file: content/templates/parent/adventures/chain_form.html
+Removed duplicate content-tree file: content/templates/parent/adventures/challenges.html
+Removed duplicate content-tree file: content/templates/parent/adventures/chains.html
+Removed duplicate content-tree file: content/templates/parent/adventures/assign.html
+Removed duplicate content-tree file: content/templates/parent/adventures/locked.html
+Removed duplicate content-tree file: content/templates/parent/children/edit.html
+Removed duplicate content-tree file: content/templates/parent/children/list.html
+Removed duplicate content-tree file: content/templates/parent/children/view.html
+Removed duplicate content-tree file: content/templates/parent/children/add.html
+Removed duplicate content-tree file: content/templates/parent/approvals/queue.html
+Removed duplicate content-tree file: content/templates/parent/journeys/library.html
+Removed duplicate content-tree file: content/templates/parent/journeys/form.html
+Removed duplicate content-tree file: content/templates/parent/archive/category.html
+Removed duplicate content-tree file: content/templates/parent/archive/center.html
+Removed duplicate content-tree file: content/templates/parent/rewards/edit.html
+Removed duplicate content-tree file: content/templates/parent/rewards/manager.html
+Removed duplicate content-tree file: content/templates/parent/rewards/requests.html
+Removed duplicate content-tree file: content/templates/parent/quests/edit.html
+Removed duplicate content-tree file: content/templates/parent/quests/library.html
+Removed duplicate content-tree file: content/templates/parent/quests/new.html
+Removed duplicate content-tree file: content/templates/parent/missions/schedules.html
+Removed duplicate content-tree file: content/templates/parent/missions/today.html
+Removed duplicate content-tree file: content/templates/parent/missions/schedule_form.html
+Removed duplicate content-tree file: content/templates/parent/content_packs/manager.html
+Removed duplicate content-tree file: content/templates/parent/content_packs/detail.html
+Removed duplicate content-tree file: content/templates/child/rewards/shop.html
+Removed duplicate content-tree file: content/templates/child/rewards/detail.html
+Removed duplicate content-tree file: content/templates/child/rewards/history.html
+Removed duplicate content-tree file: content/content/packs/out_door_explorer/pack.json
+Removed duplicate content-tree file: content/content/packs/nature_adventures/pack.json
+Removed duplicate content-tree file: content/content/packs/christmas/pack.json
+Removed duplicate content-tree file: content/content/packs/royal_character_set/pack.json
+Removed duplicate content-tree file: content/content/packs/baptist/pack.json
+Removed duplicate content-tree file: content/content/packs/explorer_starter/pack.json
+Removed duplicate content-tree file: content/content/packs/animal_care_pack/pack.json
+Removed duplicate content-tree file: content/static/uploads/rewards/ef97edf256a8409fa0bca01efae6dd17.png
+Removed duplicate content-tree file: content/static/uploads/rewards/ce90f2436fa845bf8c67b969e4b0a9c4.png
+Removed duplicate content-tree file: content/static/uploads/rewards/5d31f527caad4fca831c8722f3ae5e56.png
+Removed duplicate content-tree file: content/static/uploads/rewards/7d53afda77b943a393de8d17c8620c87.jpg
+Removed duplicate content-tree file: content/static/uploads/rewards/4876be5f4c954b51bc24336e25b0ddb7.png
+Removed duplicate content-tree file: content/static/uploads/rewards/22f4ec5647284da58e7b2659afe75180.png
+Removed duplicate content-tree file: content/static/uploads/rewards/dd406550e280403bb57650d6ca030398.png
+Removed duplicate content-tree file: content/static/uploads/rewards/7d989452d7304c7d83d070e228fd5259.png
+Removed duplicate content-tree file: content/static/uploads/rewards/e934e1726a3d47d89370ed0cf468cd95.png
+Removed duplicate content-tree file: content/templates/maintenance/integrity.html
+Removed duplicate content-tree file: content/templates/maintenance/center.html
+Removed duplicate content-tree file: content/templates/developer/migrations.html
+Removed duplicate content-tree file: content/templates/developer/content.html
+Removed duplicate content-tree file: content/templates/developer/errors.html
+Removed duplicate content-tree file: content/templates/developer/health.html
+Removed duplicate content-tree file: content/templates/developer/configuration.html
+Removed duplicate content-tree file: content/templates/developer/diagnostics.html
+Removed duplicate content-tree file: content/templates/developer/audit_log.html
+Removed duplicate content-tree file: content/templates/developer/dashboard.html
+Removed duplicate content-tree file: content/templates/child/family_challenges.html
+Removed duplicate content-tree file: content/templates/child/adventures.html
+Removed duplicate content-tree file: content/templates/child/progress.html
+Removed duplicate content-tree file: content/templates/child/trophy_room.html
+Removed duplicate content-tree file: content/templates/child/character.html
+Removed duplicate content-tree file: content/templates/child/timeline.html
+Removed duplicate content-tree file: content/templates/child/dashboard.html
+Removed duplicate content-tree file: content/templates/partials/feature_card.html
+Removed duplicate content-tree file: content/templates/partials/stat_card.html
+Removed duplicate content-tree file: content/templates/partials/page_header.html
+Removed duplicate content-tree file: content/templates/errors/400.html
+Removed duplicate content-tree file: content/templates/errors/404.html
+Removed duplicate content-tree file: content/templates/errors/500.html
+Removed duplicate content-tree file: content/templates/account/login.html
+Removed duplicate content-tree file: content/templates/account/register.html
+Removed duplicate content-tree file: content/templates/account/profile.html
+Removed duplicate content-tree file: content/templates/account/forgot_password.html
+Removed duplicate content-tree file: content/templates/account/change_password.html
+Removed duplicate content-tree file: content/templates/components/page_header.html
+Removed duplicate content-tree file: content/templates/parent/login.html
+Removed duplicate content-tree file: content/templates/parent/setup_pin.html
+Removed duplicate content-tree file: content/templates/parent/settings.html
+Removed duplicate content-tree file: content/templates/parent/reports.html
+Removed duplicate content-tree file: content/templates/parent/notifications.html
+Removed duplicate content-tree file: content/templates/parent/dashboard.html
+Removed duplicate content-tree file: content/templates/parent_management/security.html
+Removed duplicate content-tree file: content/templates/parent_management/activity.html
+Removed duplicate content-tree file: content/templates/parent_management/family_settings.html
+Removed duplicate content-tree file: content/templates/parent_management/notifications.html
+Removed duplicate content-tree file: content/templates/parent_management/overview.html
+Removed duplicate content-tree file: content/templates/onboarding/family_setup.html
+Removed duplicate content-tree file: content/templates/onboarding/explorer_training.html
+Removed duplicate content-tree file: content/templates/onboarding/family_ready.html
+Removed duplicate content-tree file: content/templates/onboarding/family_setup.html.bak
+Removed duplicate content-tree file: content/content/system/achievements.json
+Removed duplicate content-tree file: content/content/default_pack/pack.json
+Removed duplicate content-tree file: content/migrations/legacy/add_recurring_missions.sql
+Removed duplicate content-tree file: content/migrations/legacy/add_quest_schedules.sql
+Removed duplicate content-tree file: content/docs/history/S1-004_JOURNEY_ARCHITECTURE.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_1_NAVIGATION_FIXES.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_2_GAMEPLAY_FIXES.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_F_UI_POLISH_RELEASE_NOTES.txt
+Removed duplicate content-tree file: content/docs/history/FC-0009_RECENT_ACTIVITY.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_1_2_APPROVALS_AND_SEQUENCE.txt
+Removed duplicate content-tree file: content/docs/history/FILE_CLEANUP_AUDIT.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_1_S1-004_BUILDER_NAMING.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_G0_2_NAVIGATION_ARCHITECTURE.txt
+Removed duplicate content-tree file: content/docs/history/CLEAN_ACCEPTANCE_DATABASE_README.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_G0_1_AUTHENTICATION_STATE_HOTFIX.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_12_AVATAR_IDENTITY_SIMPLIFICATION.txt
+Removed duplicate content-tree file: content/docs/history/requirements.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_D_PHASE_1_RELEASE_NOTES.txt
+Removed duplicate content-tree file: content/docs/history/FC-0003_ACHIEVEMENT_MANAGER.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_G0_3_CLEAN_SCHEMA_HOTFIX.txt
+Removed duplicate content-tree file: content/docs/history/FC-0015_ARCHIVE_CENTER.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_D_PHASE_2_RELEASE_NOTES.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_2_DASHBOARD_LAYOUT_UPDATE.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_11_OUTDOOR_THEME_IDENTITY.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_4_PARENT_WORKFLOW_SYMMETRY.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_D_PHASE_3_PUBLIC_HOMEPAGE.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_G1A_RELEASE_NOTES.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_1_S1-003_MISSION_ADVENTURE_SEPARATION.txt
+Removed duplicate content-tree file: content/docs/history/FC-0006_ARCHIVE_CONSISTENCY_REVIEW.txt
+Removed duplicate content-tree file: content/docs/history/HOSTED_ARCHITECTURE_SPRINT_3_0_A.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_D_PHASE_3_1_LANDING_ROUTE_FIX.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_F1_PUBLIC_TENANT_HOTFIX_RELEASE_NOTES.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_2_ADVENTURE_ASSIGNMENT_FIX_V3.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_7_UI_CONSISTENCY.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_8_LAYOUT_ACTION_STANDARDIZATION.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_D_PHASE_2_1_NAVIGATION_UI_FIXES.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_C_AUTHENTICATION_REPORT.txt
+Removed duplicate content-tree file: content/docs/history/FC-0014_COLLAPSIBLE_PANEL_POLISH.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_13_OUTDOOR_ACHIEVEMENT_DEFAULTS.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_1_5_CODEBASE_AUDIT_REPORT.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_2_ADVENTURE_ASSIGNMENT_FIX.txt
+Removed duplicate content-tree file: content/docs/history/TENANT_ISOLATION_HOTFIX_G0_PHASE1.txt
+Removed duplicate content-tree file: content/docs/history/S1-004_10_CHILD_REWARD_LAYOUT_ALIGNMENT.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_G0_5A_FAMILY_DASHBOARD_CHILD_MODE_FIX.txt
+Removed duplicate content-tree file: content/docs/history/SPRINT_3_0_B_TENANT_DATA_LAYER_REPORT.txt
+Removed duplicate content-tree file: content/docs/testing/TESTING_CHECKLIST_SPRINT_3_0_D_PHASE_2.txt
+Removed duplicate content-tree file: content/docs/testing/RC1_6_4_ASSIGNMENT_WORKFLOW_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/docs/testing/ACHIEVEMENT_ENGINE_V2_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/docs/testing/CONTENT_PACK_FRAMEWORK_V1_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/docs/testing/TENANT_ISOLATION_TEST_CHECKLIST_G0_PHASE1.txt
+Removed duplicate content-tree file: content/docs/testing/TESTING_CHECKLIST_SPRINT_3_0_D_PHASE_2_1.txt
+Removed duplicate content-tree file: content/docs/testing/RC1_8_4_ASSIGNMENT_MANAGEMENT_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/docs/testing/DEFAULT_CONTENT_PACK_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/docs/testing/RC1_9_0_SECURITY_HARDENING_TEST_CHECKLIST.md
+Removed duplicate content-tree file: content/docs/testing/TESTING_CHECKLIST_SPRINT_3_0_D_PHASE_1.txt
+Removed duplicate content-tree file: content/docs/testing/REGRESSION_TEST_CHECKLIST_SPRINT_1_5.txt
+Removed duplicate content-tree file: content/docs/testing/RC1_8_2_ADVENTURE_SIMPLIFICATION_AND_NOTIFICATION_ISOLATION.txt
+Removed duplicate content-tree file: content/docs/testing/TESTING_CHECKLIST_SPRINT_3_0_F1.txt
+Removed duplicate content-tree file: content/docs/testing/TESTING_CHECKLIST_SPRINT_3_0_F.txt
+Removed duplicate content-tree file: content/docs/testing/TENANT_ISOLATION_TEST_CHECKLIST_3_0_B.txt
+Removed duplicate content-tree file: content/docs/testing/AUTHENTICATION_TEST_CHECKLIST_3_0_C.txt
+Removed duplicate content-tree file: content/docs/testing/RC1_9_1_PARENT_FAMILY_SETTINGS_REORGANIZATION.md
+Removed duplicate content-tree file: content/docs/testing/RC1_8_3_ADVENTURE_WORKFLOW_FINAL_POLISH_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/docs/testing/AUTHENTICATION_STATE_TEST_CHECKLIST_G0_1.txt
+Removed duplicate content-tree file: content/docs/testing/PACK_MANAGER_DIAGNOSTICS_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/docs/security/SECURITY_CONFIGURATION_GUIDE.md
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_8_3.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_6_1.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_8_2.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_7_1.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_1.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_8.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_s1_004_13_outdoor_achievements.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_8_0.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_v3_0_a_multifamily_foundation.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_2.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_6_2.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_5_2.py
+Removed duplicate content-tree file: content/tools/legacy_migrations/migrate_phase_9_9_0.py
+Removed duplicate content-tree file: content/static/js/app-shell.js
+Removed duplicate content-tree file: content/static/style.css
+Removed duplicate content-tree file: content/static/phase_7_security.css
+Removed duplicate content-tree file: content/system/achievements.json
+Removed duplicate content-tree file: content/models/quest_chains.py
+Removed duplicate content-tree file: content/models/administration.py
+Removed duplicate content-tree file: content/models/rewards.py
+Removed duplicate content-tree file: content/models/dashboard.py
+Removed duplicate content-tree file: content/models/reliability.py
+Removed duplicate content-tree file: content/models/settings.py
+Removed duplicate content-tree file: content/models/chores.py
+Removed duplicate content-tree file: content/models/users.py
+Removed duplicate content-tree file: content/models/progression.py
+Removed duplicate content-tree file: content/models/__init__.py
+Removed duplicate content-tree file: content/models/journeys.py
+Removed duplicate content-tree file: content/models/cosmetics.py
+Removed duplicate content-tree file: content/models/assignments.py
+Removed duplicate content-tree file: content/models/recurring_missions.py
+Removed duplicate content-tree file: content/models/notifications.py
+Removed duplicate content-tree file: content/models/family_challenges.py
+Removed duplicate content-tree file: content/models/economy.py
+Removed duplicate content-tree file: content/models/family_progression.py
+Removed duplicate content-tree file: content/models/achievements.py
+Removed duplicate content-tree file: content/docs/DEVELOPER_DOCUMENTATION_REPORT.md
+Removed duplicate content-tree file: content/docs/DEVELOPER_FILE_INVENTORY.md
+Removed duplicate content-tree file: content/docs/DEVELOPER_GUIDE.md
+Removed duplicate content-tree file: content/migrations/add_quest_chains_family_challenges.sql
+Removed duplicate content-tree file: content/migrations/add_achievements.sql
+Removed duplicate content-tree file: content/migrations/add_character_customization.sql
+Removed duplicate content-tree file: content/migrations/achievement_engine_v2.sql
+Removed duplicate content-tree file: content/migrations/add_character_progression.sql
+Removed duplicate content-tree file: content/migrations/add_administration_diagnostics.sql
+Removed duplicate content-tree file: content/migrations/add_reward_shop.sql
+Removed duplicate content-tree file: content/migrations/add_assignment_management.sql
+Removed duplicate content-tree file: content/migrations/add_reward_economy.sql
+Removed duplicate content-tree file: content/migrations/add_parent_security.sql
+Removed duplicate content-tree file: content/migrations/add_multifamily_foundation.sql
+Removed duplicate content-tree file: content/content/README.md
+Removed duplicate content-tree file: content/content/cosmetics.json
+Removed duplicate content-tree file: content/services/multifamily_foundation.py
+Removed duplicate content-tree file: content/services/family_security.py
+Removed duplicate content-tree file: content/services/adventure_service.py
+Removed duplicate content-tree file: content/services/default_achievements.py
+Removed duplicate content-tree file: content/services/security.py
+Removed duplicate content-tree file: content/services/content_packs.py
+Removed duplicate content-tree file: content/services/tenant_context.py
+Removed duplicate content-tree file: content/services/onboarding.py
+Removed duplicate content-tree file: content/services/__init__.py
+Removed duplicate content-tree file: content/services/account_auth.py
+Removed duplicate content-tree file: content/services/mission_tenant_isolation.py
+Removed duplicate content-tree file: content/services/mission_service.py
+Removed duplicate content-tree file: content/routes/parent_management.py
+Removed duplicate content-tree file: content/routes/account.py
+Removed duplicate content-tree file: content/routes/parent.py
+Removed duplicate content-tree file: content/routes/child.py
+Removed duplicate content-tree file: content/routes/rewards.py
+Removed duplicate content-tree file: content/routes/reward_shop.py
+Removed duplicate content-tree file: content/routes/reports.py
+Removed duplicate content-tree file: content/routes/content_packs.py
+Removed duplicate content-tree file: content/routes/onboarding.py
+Removed duplicate content-tree file: content/routes/__init__.py
+Removed duplicate content-tree file: content/routes/children.py
+Removed duplicate content-tree file: content/routes/journeys.py
+Removed duplicate content-tree file: content/routes/missions.py
+Removed duplicate content-tree file: content/routes/archive.py
+Removed duplicate content-tree file: content/routes/home.py
+Removed duplicate content-tree file: content/routes/notifications.py
+Removed duplicate content-tree file: content/routes/approvals.py
+Removed duplicate content-tree file: content/routes/auth.py
+Removed duplicate content-tree file: content/routes/maintenance.py
+Removed duplicate content-tree file: content/routes/achievements.py
+Removed duplicate content-tree file: content/routes/developer.py
+Removed duplicate content-tree file: content/routes/quests.py
+Removed duplicate content-tree file: content/routes/adventures.py
+Removed duplicate content-tree file: content/templates/family_dashboard.html
+Removed duplicate content-tree file: content/templates/base.html
+Removed duplicate content-tree file: content/templates/home.html
+Removed duplicate content-tree file: content/SPRINT_1_2_2_CONTENT_PACKS_PHASE3.txt
+Removed duplicate content-tree file: content/RC1_6_4_ASSIGNMENT_WORKFLOW_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/CONTENT_PACK_MANAGER_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/schema.sql
+Removed duplicate content-tree file: content/.env.example
+Removed duplicate content-tree file: content/CONTENT_PACKS_PHASE5_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/RC1_8_3_ADVENTURE_WORKFLOW_FINAL_POLISH.txt
+Removed duplicate content-tree file: content/SPRINT_1_4_FAMILY_EXPERIENCE_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/README.md
+Removed duplicate content-tree file: content/RC1_6_4_COMMAND_CENTER_NOTIFICATION_ALIGNMENT_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/init_db.py
+Removed duplicate content-tree file: content/requirements.txt
+Removed duplicate content-tree file: content/SPRINT_1_4_FAMILY_EXPERIENCE_RELEASE_NOTES.txt
+Removed duplicate content-tree file: content/RC1_9_1_PARENT_FAMILY_SETTINGS_REORGANIZATION.txt
+Removed duplicate content-tree file: content/RC_0016_EMPTY_FAMILY_ONBOARDING_HOTFIX.txt
+Removed duplicate content-tree file: content/SPRINT_1_3_CONTENT_PACK_MANAGER.txt
+Removed duplicate content-tree file: content/RC_0014_ADVENTURE_LIFECYCLE_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/SPRINT_1_4_1_FAMILY_EXPERIENCE_POLISH.txt
+Removed duplicate content-tree file: content/ADVENTURE_SYSTEM_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/database.py
+Removed duplicate content-tree file: content/RC1_7_1_DEFAULT_FAMILY_PACK_CLEANUP_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/SPRINT_1_2_3_CONTENT_PACKS_PHASE4.txt
+Removed duplicate content-tree file: content/TESTING_CHECKLIST_1.0.0.txt
+Removed duplicate content-tree file: content/RC1_8_7_QUEST_ACTION_OVERLAP_FIX.txt
+Removed duplicate content-tree file: content/RC_0014_ADVENTURE_LIFECYCLE_RELEASE_NOTES.txt
+Removed duplicate content-tree file: content/SPRINT_1_2_1_CONTENT_PACKS_PHASE2.txt
+Removed duplicate content-tree file: content/SPRINT_1_2_4_CONTENT_PACKS_PHASE5.txt
+Removed duplicate content-tree file: content/RC1_6_4_NAVIGATION_CLEANUP_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/RC1_6_4_CHILD_ACHIEVEMENT_NOTIFICATION_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/CONTENT_PACKS_PHASE4_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/RC1_9_0_SECURITY_HARDENING_PHASE1.txt
+Removed duplicate content-tree file: content/assignment_generator.py
+Removed duplicate content-tree file: content/CONTENT_PACKS_PHASE2_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/SPRINT_1_2_CONTENT_PACKS_PHASE1.txt
+Removed duplicate content-tree file: content/Procfile
+Removed duplicate content-tree file: content/SPRINT_1_1_1_ADVENTURE_BUILDER_UI_POLISH.txt
+Removed duplicate content-tree file: content/RC1_8_1_REGRESSION_FIXES_FC0004_FC0012.txt
+Removed duplicate content-tree file: content/Start Family Quest Center.bat
+Removed duplicate content-tree file: content/README.txt
+Removed duplicate content-tree file: content/PROJECT_STRUCTURE.txt
+Removed duplicate content-tree file: content/RELEASE_CLEANUP_REPORT.txt
+Removed duplicate content-tree file: content/app.py
+Removed duplicate content-tree file: content/RC1_8_8_QUEST_ADVENTURE_CARD_LAYOUT_TEST.txt
+Removed duplicate content-tree file: content/RC1_6_4_ASSIGNMENT_WORKFLOW_UPDATE.txt
+Removed duplicate content-tree file: content/RC_0015_PRESERVE_ADVENTURE_CONTEXT.txt
+Removed duplicate content-tree file: content/RC1_6_4_APPROVAL_LAYOUT_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/MISSION_BUILDER_TENANT_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/RELEASE_NOTES_1.0.0.txt
+Removed duplicate content-tree file: content/RC1_6_4_ADVENTURE_CONTEXT_AND_FORM_FOCUS_TEST_CHECKLIST.txt
+Removed duplicate content-tree file: content/ADVENTURE_SYSTEM_REDESIGN_NOTES.txt
+Removed duplicate content-tree file: content/RC1_9_2_PARENT_MANAGEMENT_LIVE_PAGES.txt
+Removed duplicate content-tree file: content/CLEAN_INSTALL_README.txt
+Removed duplicate content-tree file: content/config.py
+Added 68 explicit CSRF fields across 41 templates
+Enabled SQLite foreign keys in database.py
+
+Local Security 11-15
+- Added centralized server-side form field length limits.
+- Added form field-count and repeated-value limits.
+- Added maxlength attributes to common HTML fields.
+- Reviewed core tenant-scoped object access.
+- Added automated role, Parent PIN lock, cross-family ID, and oversized-input tests.

@@ -1,0 +1,15 @@
+Family Quest Center - Adventure-First System Redesign
+
+Implemented:
+- Adventures are created before assignment.
+- Ordered Chapters (stored internally as Journeys for database compatibility) are created inside the Adventure form.
+- Standalone Journey Library navigation is retired; old Journey URLs redirect to Adventure Library.
+- Adventure assignment is a separate action from creation.
+- One Adventure can be assigned to multiple children at the same time.
+- Each child receives an independent Adventure instance and progresses one Chapter at a time.
+- Child views display the Adventure goal first, followed by the current Chapter and its position.
+- Existing Adventure/Journey database tables and completed progress remain compatible.
+
+Important behavior:
+- Adventures with active assignments cannot have their Chapters edited.
+- Assigning the same active Adventure to the same child again reuses the current active assignment rather than creating a duplicate.

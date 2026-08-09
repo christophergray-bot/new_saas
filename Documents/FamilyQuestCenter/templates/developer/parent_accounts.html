@@ -1,0 +1,32 @@
+{# Family Quest Center template: templates/developer/parent_accounts.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Parent Accounts{% endblock %}
+{% block content %}
+{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Owner Dashboard' %}
+{% include "components/page_header.html" %}
+<section class="admin-section">
+  <form class="owner-family-filters" method="get">
+    <label>Search<input type="search" name="q" value="{{ search }}" placeholder="Parent, email, or family"></label>
+    <label>Status<select name="status"><option value="all">All</option>{% for value,label in [('active','Active'),('disabled','Disabled'),('pending','Pending Invitation')] %}<option value="{{ value }}" {% if selected_status==value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <label>Role<select name="role"><option value="all">All</option><option value="owner" {% if selected_role=='owner' %}selected{% endif %}>Parent One</option><option value="parent" {% if selected_role=='parent' %}selected{% endif %}>Parent Two</option></select></label>
+    <label>Email<select name="email_status"><option value="all">All</option><option value="verified" {% if selected_email_status=='verified' %}selected{% endif %}>Verified</option><option value="unverified" {% if selected_email_status=='unverified' %}selected{% endif %}>Not Verified</option></select></label>
+    <label>Sort<select name="sort">{% for value,label in [('name','Name'),('email','Email'),('last_login','Last Login'),('created','Date Created')] %}<option value="{{ value }}" {% if selected_sort==value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <button class="button button-primary" type="submit">Search</button>
+  </form>
+</section>
+<section class="admin-section">
+  <div class="section-heading"><div><span class="eyebrow">ACCOUNT SUPPORT</span><h2>Parent Accounts</h2></div><strong>{{ accounts|length }} found</strong></div>
+  {% if accounts %}<div class="owner-family-table-wrap"><table class="owner-family-table"><thead><tr><th>Parent</th><th>Email</th><th>Family</th><th>Role</th><th>Status</th><th>Last Login</th><th>Email</th><th></th></tr></thead><tbody>
+  {% for item in accounts %}<tr>
+    <td><strong>{{ item.display_name or 'Pending Parent' }}</strong></td>
+    <td>{{ item.email }}</td>
+    <td><a href="{{ url_for('developer.family_detail', family_id=item.family_id) }}">{{ item.family_name }}</a></td>
+    <td>{{ 'Parent One' if item.role=='owner' else 'Parent Two' }}</td>
+    <td>{% if item.record_type=='invitation' %}<span class="status-pill status-trial">Pending Invitation</span>{% elif item.active and item.membership_active %}<span class="status-pill status-active">Active</span>{% else %}<span class="status-pill status-suspended">Disabled</span>{% endif %}</td>
+    <td>{{ item.last_login_at or 'Never' }}</td>
+    <td>{{ 'Verified' if item.email_verified else 'Not Verified' }}</td>
+    <td>{% if item.record_type=='account' %}<a class="button button-secondary" href="{{ url_for('developer.parent_account_detail', account_id=item.id) }}">Manage</a>{% else %}<a class="button button-secondary" href="{{ url_for('developer.family_detail', family_id=item.family_id) }}">View Family</a>{% endif %}</td>
+  </tr>{% endfor %}
+  </tbody></table></div>{% else %}<p>No parent accounts match the selected filters.</p>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+Family Quest Center v2.0
+Sprint 1 — S1-004.13 Outdoor Achievement Defaults
+
+Added 25 outdoor-themed default achievements across five fully supported milestone categories:
+- Trail Milestones (approved missions)
+- Star Collector (lifetime stars)
+- Trail Consistency (current streak)
+- Explorer Experience (lifetime XP)
+- Explorer Levels (level reached)
+
+The bundled database and clean-install schema contain the same defaults.
+An idempotent migration script is included for existing installations.

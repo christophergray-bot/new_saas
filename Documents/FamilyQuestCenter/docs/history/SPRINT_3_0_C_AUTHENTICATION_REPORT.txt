@@ -1,0 +1,32 @@
+FAMILY QUEST CENTER — SPRINT 3.0-C
+SECURE ACCOUNT AUTHENTICATION
+
+Implemented
+- Email/password family account registration
+- First account claims the existing default family so upgraded data remains available
+- Later registrations create independent families
+- Werkzeug salted password hashing; plaintext passwords are never stored
+- Email uniqueness and password strength validation
+- Login, logout, Remember Me, account profile, and password change
+- Active-account and active-membership verification on every application request
+- Owner/parent authorization for parent and administrative routes
+- Parent PIN retained as a per-family second shared-device lock
+- Tenant context now validates family membership for authenticated accounts
+- Last-login timestamp tracking
+- Password-reset placeholder pending hosted email delivery
+
+Security boundary
+1. Hosted account login identifies the account and family.
+2. Tenant context verifies the active family membership.
+3. Owner/parent role authorizes parent tools.
+4. Parent PIN unlocks sensitive tools on a shared household device.
+
+Not yet included
+- Email verification delivery
+- Password-reset email tokens
+- Family invitations and additional-account management
+- CSRF middleware across legacy forms
+- PostgreSQL deployment
+
+These items are planned for later hosted sprints. This build should not yet be
+advertised as a production-complete public service.

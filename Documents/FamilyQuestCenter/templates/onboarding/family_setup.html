@@ -1,0 +1,78 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/onboarding/family_setup.html
+  Purpose: Renders the family setup user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Family Setup Adventure · {{ application_name }}{% endblock %}
+{% block content %}
+<section class="onboarding-shell">
+    <div class="onboarding-hero">
+        <div>
+            <span class="eyebrow">Family Setup Adventure</span>
+            <h1>Welcome, Quest Master!</h1>
+            <p>Complete these essential steps so your explorers have a mission and an adventure waiting for them.</p>
+		</div>
+        <div class="setup-progress" aria-label="{{ status.percent }} percent complete">
+            <strong>{{ status.completed_count }} of {{ status.total_count }}</strong>
+            <span>steps ready</span>
+        </div>
+    </div>
+    <div class="progress-track"><span style="width: {{ status.percent }}%"></span></div>
+
+    <aside class="info-banner" role="note">
+        <strong>🔒 Remember to lock the Parent Area when you are done.</strong>
+        <span>This protects your Quest Master tools before your children begin exploring Family Quest Center.</span>
+    </aside>
+
+    <div class="setup-checklist">
+        <article class="setup-step {% if status.steps.children %}is-complete{% endif %}">
+            <span class="setup-check">{% if status.steps.children %}✓{% else %}1{% endif %}</span>
+            <div><h2>Add your first Explorers</h2><p>Every adventure begins with an explorer. Create at least one child profile.</p></div>
+            <a class="button button-primary" href="{{ url_for('children.list_children') }}">Open Children Management</a>
+        </article>
+
+        <article class="setup-step {% if status.steps.missions %}is-complete{% endif %}">
+            <span class="setup-check">{% if status.steps.missions %}✓{% else %}2{% endif %}</span>
+            <div><h2>Create and assign your first Quest</h2><p>Open the Quest Library to create and assign quests to your explorers.</p></div>
+            <a class="button button-primary" href="{{ url_for('quests.library') }}">Open Quest Library</a>
+        </article>
+
+        <article class="setup-step {% if status.steps.adventures %}is-complete{% endif %}">
+            <span class="setup-check">{% if status.steps.adventures %}✓{% else %}3{% endif %}</span>
+            <div><h2>Create and assign your first Adventure</h2><p>Adventures are made up of Chapters that your explorer completes in order.</p></div>
+            <a class="button button-primary" href="{{ url_for('parent_adventures.chains') }}">Open Adventure Library</a>
+        </article>
+    </div>
+
+    <article class="panel onboarding-approval-note">
+        <span class="eyebrow">How Parent Approvals Work</span>
+        <h2>Completed missions wait for your review</h2>
+        <p>When an explorer clicks the <strong>Complete Mission</strong> button, the mission appears in your approval queue. Approve it to award the earned Stars and XP, or return it when more work is needed.</p>
+    </article>
+
+    {% if status.ready %}
+    <section class="onboarding-complete-card setup-choice-card">
+        <div class="celebration-icon" aria-hidden="true">🎉</div>
+        <h1>Congratulations, Quest Master!</h1>
+        <p>Before your explorers begin, take some time to explore the Parent Dashboard for more options, or lock the Parent Area now and let your kids check out the Quest Center.</p>
+        <div class="setup-choice-actions">
+            <form method="post" action="{{ url_for('onboarding.finish_family_setup') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="choice" value="explore">
+                <button class="button button-secondary button-large" type="submit">🔍 Explore Parent Dashboard</button>
+            </form>
+            <form method="post" action="{{ url_for('onboarding.finish_family_setup') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="choice" value="lock">
+                <button class="button button-primary button-large" type="submit">🔒 Lock Parent Area</button>
+            </form>
+        </div>
+    </section>
+    {% else %}
+    <p class="onboarding-footnote">Your progress is saved automatically. Use the <strong>Back to Family Setup</strong> link in the parent navigation to return here.</p>
+    {% endif %}
+</section>
+{% endblock %}

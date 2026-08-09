@@ -1,0 +1,96 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/account/register.html
+  Purpose: Renders the register user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Create Family Account | {{ application_name }}{% endblock %}
+{% block body_class %}account-access-page{% endblock %}
+{% block content %}
+{% set page_eyebrow = "New Family" %}
+{% set page_icon = "🌲" %}
+{% set page_title = "Create Your Family Account" %}
+{% set page_description = "Set up the home base for your family's quests, growth, and rewards." %}
+{% include "partials/page_header.html" %}
+
+<section class="auth-experience auth-experience-register" aria-label="Family account registration">
+    <article class="auth-feature-panel">
+        <div class="auth-feature-icon" aria-hidden="true">⛺</div>
+        <p class="eyebrow">Build Your Basecamp</p>
+        <h2>Start one shared family adventure.</h2>
+        <p>The first account becomes Parent One and receives full control of the family account.</p>
+        <div class="auth-feature-points">
+            <span>👨‍👩‍👧 Create one private family space</span>
+            <span>📋 Add children, quests, and missions</span>
+            <span>✨ Build progress through encouragement</span>
+        </div>
+    </article>
+
+    <article class="auth-form-card">
+        {% if existing_account and existing_membership %}
+            <div class="toast toast-warning auth-session-notice" role="status">
+                <span class="toast-icon" aria-hidden="true">💡</span>
+                <span class="toast-message">This browser is currently signed in as <strong>{{ existing_account['display_name'] }}</strong>. Creating a new family account will switch this browser to the new account.</span>
+            </div>
+        {% endif %}
+        <div class="auth-card-heading">
+            <span class="auth-card-icon" aria-hidden="true">🏕️</span>
+            <div>
+                <p class="eyebrow">Account Setup</p>
+                <h2>Create Family Account</h2>
+                <p>Parent One will have full household control.</p>
+            </div>
+        </div>
+
+        <form method="post" class="form-stack auth-form-stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label for="family_name">Family name
+                <input id="family_name" name="family_name" maxlength="100" required>
+            </label>
+            <label for="display_name">Your name
+                <input id="display_name" name="display_name" maxlength="100" autocomplete="name" required>
+            </label>
+            <label for="email">Email address
+                <input id="email" type="email" name="email" autocomplete="email" required maxlength="254" value="{{ billing_email or '' }}" {% if billing_email %}readonly{% endif %}>
+                {% if billing_email %}<small>This email was confirmed during Stripe checkout.</small>{% endif %}
+            </label>
+            <label for="password">Password
+                <input id="password" type="password" name="password" autocomplete="new-password" required>
+                <small>Use at least 10 characters, including a letter and number.</small>
+            </label>
+            <label for="confirm_password">Confirm password
+                <input id="confirm_password" type="password" name="confirm_password" autocomplete="new-password" required>
+            </label>
+
+            <fieldset class="starter-experience-fieldset">
+                <legend>Choose your starter experience</legend>
+                <label class="starter-experience-option starter-experience-recommended">
+                    <input type="radio" name="starter_experience" value="explorer_starter" checked>
+                    <span class="starter-experience-icon" aria-hidden="true">🧭</span>
+                    <span class="starter-experience-copy">
+                        <strong>Default Family Pack</strong>
+                        <small>Recommended — begin with one example quest and the Outdoor Adventure. Built-in achievements and basic character choices are included automatically.</small>
+                    </span>
+                </label>
+                <label class="starter-experience-option">
+                    <input type="radio" name="starter_experience" value="empty">
+                    <span class="starter-experience-icon" aria-hidden="true">📭</span>
+                    <span class="starter-experience-copy">
+                        <strong>Empty Family</strong>
+                        <small>Start with only the universal core achievements and build all family content yourself.</small>
+                    </span>
+                </label>
+            </fieldset>
+
+            <button class="button button-primary auth-submit-button" type="submit">🏕️ Create Family Account</button>
+        </form>
+
+        <div class="auth-link-row auth-link-row-centered">
+            <span>Already registered?</span>
+            <a href="{{ url_for('account.login') }}">Sign in</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

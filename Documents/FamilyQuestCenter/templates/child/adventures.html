@@ -1,0 +1,38 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/adventures.html
+  Purpose: Renders the adventures user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}My Adventures{% endblock %}{% block content %}
+<section class="page-header"><div><span class="section-eyebrow">{{ child.name|upper }}'S GROWTH</span><h1>My Adventures</h1><p>See what you are working toward and the Chapter that comes next.</p></div></section>
+{% if celebrations %}
+<section class="adventure-grid">
+{% for adventure in celebrations %}
+<article class="adventure-card child-adventure-card">
+  <div class="adventure-card-head"><div><span class="status-pill status-completed">{{ 'Awaiting Celebration' if adventure.pending_approval else 'Adventure Complete' }}</span><h2>{{ adventure.adventure_name }}</h2></div><strong>{{ adventure.total_steps }} Chapters</strong></div>
+  {% if adventure.adventure_description %}<p>{{ adventure.adventure_description }}</p>{% endif %}
+  {% if adventure.pending_approval %}<p>Your Quest Master will celebrate this Adventure and award the completion bonus soon.</p>{% else %}<p>🎉 Your Adventure has been celebrated!{% if adventure.parent_message %} “{{ adventure.parent_message }}”{% endif %}</p>{% endif %}
+</article>
+{% endfor %}
+</section>
+{% endif %}
+<section class="adventure-grid">{% for chapter in chains %}
+<article class="adventure-card child-adventure-card">
+  <div class="adventure-card-head"><div><span class="status-pill status-assigned">Active Adventure</span><h2>{{ chapter.adventure_name }}</h2></div><strong>Chapter {{ chapter.step_order }} of {{ chapter.total_steps }}</strong></div>
+  <div class="adventure-story-block">
+    <span class="section-eyebrow">ADVENTURE</span>
+    {% if chapter.adventure_description %}<p>{{ chapter.adventure_description }}</p>{% else %}<p>Complete each Chapter to finish this Adventure.</p>{% endif %}
+  </div>
+  <div class="current-chapter-panel">
+    <span class="section-eyebrow">CURRENT CHAPTER</span>
+    <h3>Chapter {{ chapter.step_order }} — {{ chapter.chapter_name }}</h3>
+    <p class="helper-text"><strong>Your Mission</strong></p>
+    {% if chapter.description %}<p>{{ chapter.description }}</p>{% else %}<p>Ask your parent what you should complete for this Chapter.</p>{% endif %}
+    <div class="schedule-details"><span>Completion Reward: ✨ {{ chapter.bonus_xp }} XP</span></div>
+  </div>
+  <div class="mission-actions"><form method="post" action="{{ url_for('child.complete_today_journey', user_id=child.id, journey_instance_id=chapter.id, next='adventures') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" type="submit">Complete Chapter {{ chapter.step_order }}</button></form></div>
+</article>
+{% else %}<div class="polished-empty-state"><div class="empty-state-icon">🗺️</div><h3>No Adventures Assigned Yet</h3><p>Your parent can assign an Adventure when you are ready.</p></div>{% endfor %}</section>
+{% endblock %}

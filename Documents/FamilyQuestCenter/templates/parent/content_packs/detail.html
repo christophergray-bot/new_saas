@@ -1,0 +1,129 @@
+{# Family Quest Center Pack Store detail #}
+{% extends "base.html" %}
+{% block title %}{{ pack.name }} | Pack Store{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Pack Store</p>
+    <h1>{{ pack.icon }} {{ pack.name }}</h1>
+    <p class="page-description">{{ pack.description }}</p>
+  </div>
+  <div class="page-header-actions">
+    {% if request_mode %}
+      <a class="button button-secondary" href="{{ url_for('home.family_pack_store') }}">← Back to Pack Store</a>
+    {% elif store_child %}
+      <a class="button button-secondary" href="{{ url_for('child.pack_store', user_id=store_child.id) }}">← Back to Pack Store</a>
+    {% else %}
+      <a class="button button-secondary" href="{{ url_for('content_packs.store') }}">← Back to Pack Store</a>
+    {% endif %}
+  </div>
+</section>
+
+<section class="dashboard-panel pack-overview-panel">
+  <div class="pack-detail-hero">
+    <div class="pack-detail-icon">{{ pack.icon }}</div>
+    <div class="pack-detail-main">
+      <div class="pack-detail-title-line"><p class="eyebrow">{{ 'Starter' if pack.pack_type == 'core' else pack.category|title }} Pack</p><span class="pack-price-pill {% if pack.price_type == 'free' %}pack-price-free{% endif %}">{{ pack.price_label }}</span></div>
+      <h2>What You'll Get</h2>
+      <p>{{ pack.description }}</p>
+    </div>
+  </div>
+  <div class="pack-detail-meta">
+    <div><span>Author</span><strong>{{ pack.author }}</strong></div>
+    <div><span>Version</span><strong>{{ pack.version }}</strong></div>
+    <div><span>Recommended Age</span><strong>{{ pack.recommended_age or 'All ages' }}</strong></div>
+    <div><span>Difficulty</span><strong>{{ pack.difficulty }}</strong></div>
+    <div><span>Estimated Duration</span><strong>{{ pack.estimated_duration }}</strong></div>
+  </div>
+  <div class="pack-skill-row">{% for skill in pack.skills %}<span>{{ skill }}</span>{% endfor %}</div>
+
+  <div class="pack-detail-primary-action">
+    {% if request_mode %}
+      {% if pack.installation and pack.installation.status == 'active' %}
+        <button class="button button-secondary button-large" type="button" disabled>✓ Installed for Your Family</button>
+      {% elif pack.family_request and pack.family_request.status == 'pending' %}
+        <button class="button button-secondary button-large" type="button" disabled>⏳ Awaiting Parent Approval</button>
+      {% else %}
+        <form method="post" action="{{ url_for('home.family_pack_store_request', pack_key=pack.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button button-primary button-large" type="submit">Request This Pack{% if pack.price_type == 'paid' %} · {{ pack.price_label }}{% endif %}</button>
+        </form>
+      {% endif %}
+    {% elif store_child %}
+      {% if pack.installation and pack.installation.status == 'active' %}
+        <button class="button button-secondary button-large" type="button" disabled>✓ Installed for Your Family</button>
+      {% elif pack.family_request and pack.family_request.status == 'pending' %}
+        <button class="button button-secondary button-large" type="button" disabled>⏳ Awaiting Parent Approval</button>
+      {% else %}
+        <form method="post" action="{{ url_for('child.request_content_pack', user_id=store_child.id, pack_key=pack.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button button-primary button-large" type="submit">Request This Pack{% if pack.price_type == 'paid' %} · {{ pack.price_label }}{% endif %}</button>
+        </form>
+      {% endif %}
+    {% else %}
+      {% if not pack.installation and pack.price_type == 'free' %}
+        <form method="post" action="{{ url_for('content_packs.install', pack_key=pack.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button button-primary button-large" type="submit">Install Pack</button>
+        </form>
+      {% elif not pack.installation and pack.price_type == 'paid' %}
+        <button class="button button-secondary button-large" type="button" disabled>Premium Purchase Coming Later</button>
+      {% elif pack.installation.status == 'archived' %}
+        <form method="post" action="{{ url_for('content_packs.restore', pack_key=pack.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button button-primary button-large" type="submit">Restore Pack</button>
+        </form>
+      {% else %}
+        {% if pack.manager_status == 'update_available' %}
+          <form method="post" action="{{ url_for('content_packs.update', pack_key=pack.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-primary button-large" type="submit">↻ Update Pack</button>
+          </form>
+        {% endif %}
+        {% if pack.archive_allowed %}
+          <form method="post" action="{{ url_for('content_packs.archive', pack_key=pack.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-danger button-large" type="submit"
+                    onclick="return confirm('Archive this Content Pack? Installed pack content will be removed from active use while completed history is preserved.');">
+              📦 Archive Pack
+            </button>
+          </form>
+        {% else %}
+          <button class="button button-secondary button-large" type="button" disabled>✓ Installed for Your Family</button>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% macro item_section(title, icon, items, item_type) %}
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">{{ items|length }} Included</p><h2>{{ icon }} {{ title }}</h2></div></div>
+  {% if items %}
+    <div class="pack-content-list">
+      {% for item in items %}
+        <article>
+          <div><strong>{{ item.title if item_type == 'book' else item.name }}</strong>{% if item.subtitle %}<small>{{ item.subtitle }}</small>{% endif %}</div>
+          {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+          {% if item_type == 'adventure' and item.chapters %}<ol>{% for chapter in item.chapters %}<li>Chapter {{ loop.index }}: {{ chapter.name }}</li>{% endfor %}</ol>{% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}<p class="muted-text">No {{ title|lower }} are included in this pack.</p>{% endif %}
+</section>
+{% endmacro %}
+
+{{ item_section('Quests','✅',pack.quests or [],'quest') }}
+{{ item_section('Adventures','🗺️',pack.adventures or [],'adventure') }}
+{{ item_section('Challenges','🎯',pack.challenges or [],'challenge') }}
+{{ item_section('Rewards','🎁',pack.rewards or [],'reward') }}
+{{ item_section('Quest Books','📖',pack.books or [],'book') }}
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">Explorer Identity</p><h2>🎨 Cosmetics</h2></div></div>
+  <div class="pack-cosmetic-groups">
+    <div><h3>Avatars</h3>{% for item in pack.avatars or [] %}<span class="pack-cosmetic-chip">{% if item.image %}<img class="pack-cosmetic-thumb" src="{{ item.image }}" alt="">{% else %}{{ item.icon }}{% endif %} {{ item.name }}</span>{% else %}<p>None</p>{% endfor %}</div>
+    <div><h3>Frames</h3>{% for item in pack.frames or [] %}<span class="pack-cosmetic-chip">{{ item.icon }} {{ item.name }}</span>{% else %}<p>None</p>{% endfor %}</div>
+    <div><h3>Themes</h3>{% for item in pack.themes or [] %}<span class="pack-cosmetic-chip">{{ item.icon }} {{ item.name }}</span>{% else %}<p>None</p>{% endfor %}</div>
+  </div>
+</section>
+{% endblock %}

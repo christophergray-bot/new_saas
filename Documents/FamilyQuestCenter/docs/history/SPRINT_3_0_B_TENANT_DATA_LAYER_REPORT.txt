@@ -1,0 +1,32 @@
+FAMILY QUEST CENTER — SPRINT 3.0-B
+TENANT-AWARE DATA LAYER
+
+Implemented
+-----------
+1. Added a centralized request-level tenant context.
+2. Validates the selected family is active before returning tenant data.
+3. Added reusable ownership checks and a route decorator for URL-ID records.
+4. Scoped core child/profile operations by family_id.
+5. Scoped Quest Library create/read/update/archive/duplicate operations by family_id.
+6. Scoped core mission/assignment lists, creation, completion, and record lookup.
+7. Scoped Reward Library, Available Treasures, reward requests, and approvals.
+8. Scoped parent-shell pending mission and reward counts.
+9. Updated the application version to 3.0.0-b-tenant-aware-data-layer.
+
+Backward compatibility
+----------------------
+Until account login is introduced in Sprint 3.0-C, the app selects the first
+active family and stores that family ID in the session. Existing local data
+continues to appear under the migrated default family.
+
+Security boundary
+-----------------
+This is an application data-layer foundation, not a public multi-family release.
+Do not deploy it for unrelated families until authentication, membership
+resolution, complete route authorization, and adversarial isolation tests are
+finished in later sprints.
+
+Next sprint
+-----------
+Sprint 3.0-C: email/password authentication, family membership resolution,
+login/logout, password hashing, and parent-role authorization.

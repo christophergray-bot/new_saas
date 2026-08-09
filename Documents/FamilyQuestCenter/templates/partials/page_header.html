@@ -1,0 +1,42 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/partials/page_header.html
+  Purpose: Renders the page header user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+<section class="page-header">
+
+    <div class="page-header-content">
+
+        {% if page_eyebrow %}
+            <p class="eyebrow">
+                {{ page_eyebrow }}
+            </p>
+        {% endif %}
+
+        <h1>
+            {% if page_icon %}
+                <span aria-hidden="true">{{ page_icon }}</span>
+            {% endif %}
+
+            {{ page_title }}
+        </h1>
+
+        {% if page_description %}
+            <p class="page-description">
+                {{ page_description }}
+            </p>
+        {% endif %}
+
+    </div>
+
+    {% if page_action_url and page_action_text %}
+        <div class="page-header-action">
+            <a class="button {% if page_action_text and (page_action_text.startswith('←') or page_action_text.startswith('Back')) %}button-back{% else %}button-primary{% endif %}" href="{{ page_action_url }}">
+                {{ page_action_text }}
+            </a>
+        </div>
+    {% endif %}
+
+</section>

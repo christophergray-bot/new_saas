@@ -1,0 +1,12 @@
+{# Family Quest Center template: templates/developer/report_detail.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}{{ report.title }}{% endblock %}
+{% block content %}
+{% set eyebrow = "PLATFORM REPORT" %}{% set title = report.title %}{% set subtitle = "Read-only platform reporting. Approved and finalized activity is used where applicable." %}
+{% include "components/page_header.html" %}
+<section class="admin-section report-controls no-print"><form method="get" class="report-filter-form"><label>Start date<input type="date" name="start_date" value="{{ report.start_date }}"></label><label>End date<input type="date" name="end_date" value="{{ report.end_date }}"></label><button class="button" type="submit">Refresh</button><a class="button secondary" href="{{ url_for('developer.report_csv', report_key=report.key, start_date=report.start_date, end_date=report.end_date) }}">Export CSV</a><button class="button secondary" type="button" onclick="window.print()">Print</button></form></section>
+<section class="admin-section"><div class="owner-overview-grid">{% for item in report.metrics %}<article class="diagnostic-stat"><strong>{{ item.value }}</strong><span>{{ item.label }}</span></article>{% endfor %}</div></section>
+<section class="admin-section"><div class="admin-section-header"><div><span class="section-eyebrow">DETAIL</span><h2>Report Data</h2></div></div>
+{% if report.rows %}<div class="report-table-wrap" tabindex="0"><table class="report-table"><thead><tr>{% for column in report.columns %}<th>{{ column|replace('_',' ')|title }}</th>{% endfor %}</tr></thead><tbody>{% for row in report.rows %}<tr>{% for column in report.columns %}<td>{{ row[column] if column in row else '' }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted-copy">No data matched this report period.</p>{% endif %}
+</section>
+{% endblock %}

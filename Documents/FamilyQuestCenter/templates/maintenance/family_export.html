@@ -1,0 +1,18 @@
+{# Family Quest Center template: templates/maintenance/family_export.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Export Family Data · {{ application_name }}{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Family Data</p>
+    <h1>Export Family Data</h1>
+    <p>Download a copy of the active family's information. This export does not include other families or the application database.</p>
+  </div>
+</section>
+<section class="panel">
+  <h2>What's included</h2>
+  <p>The export includes family-scoped children, quests, schedules, assignments, rewards, adventures, challenges, achievements, XP, stars, and related history.</p>
+  <p><strong>Import is not available in Version 1.0.</strong> Keep this file as a personal copy of your family's data.</p>
+  <a class="button button-primary" href="{{ url_for('maintenance.export_data') }}">Download Family Export</a>
+</section>
+{% endblock %}

@@ -1,0 +1,140 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/dashboard.html
+  Purpose: Renders the dashboard user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}Quest Master Command Center | Family Quest Center{% endblock %}
+
+{% block content %}
+{% set page_eyebrow = "Parent Dashboard" %}
+{% set page_icon = "🛡️" %}
+{% set page_title = "Quest Master Command Center" %}
+{% set page_description = "Manage quests, review progress, and guide your adventurers." %}
+{% include "partials/page_header.html" %}
+
+<section class="section-block dashboard-overview-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Family Overview</p>
+            <h2>Today's Snapshot</h2>
+        </div>
+    </div>
+
+    <div class="dashboard-summary-grid">
+        <article class="dashboard-summary-card">
+            <span class="dashboard-summary-icon" aria-hidden="true">👨‍👩‍👧</span>
+            <strong class="dashboard-summary-value">{{ children|length }}</strong>
+            <span class="dashboard-summary-label">Children</span>
+        </article>
+
+        <article class="dashboard-summary-card">
+            <span class="dashboard-summary-icon" aria-hidden="true">📅</span>
+            <strong class="dashboard-summary-value">{{ assigned_today_count }}</strong>
+            <span class="dashboard-summary-label">Assigned Quests</span>
+        </article>
+
+        <article class="dashboard-summary-card">
+            <span class="dashboard-summary-icon" aria-hidden="true">⏳</span>
+            <strong class="dashboard-summary-value">{{ pending_approval_count }}</strong>
+            <span class="dashboard-summary-label">Pending Approval</span>
+        </article>
+
+        <article class="dashboard-summary-card">
+            <span class="dashboard-summary-icon" aria-hidden="true">🗺️</span>
+            <strong class="dashboard-summary-value">{{ active_adventure_count }}</strong>
+            <span class="dashboard-summary-label">Assigned Adventures</span>
+        </article>
+    </div>
+</section>
+
+<section class="section-block dashboard-quick-actions-section">
+    <article class="dashboard-panel dashboard-quick-actions-panel">
+        <div class="dashboard-panel-heading">
+            <div>
+                <p class="eyebrow">Parent Tools</p>
+                <h2>Quick Actions</h2>
+            </div>
+        </div>
+
+        <div class="dashboard-quick-actions">
+            <a href="{{ url_for('quests.library') }}"><span class="dashboard-quick-icon" aria-hidden="true">📋</span><span><strong>Assign Quest</strong><small>Open the Quest Library and assign a quest</small></span></a>
+            <a href="{{ url_for('parent_adventures.chains') }}"><span class="dashboard-quick-icon" aria-hidden="true">🗺️</span><span><strong>Assign Adventure</strong><small>Open the Adventure Library and assign an adventure</small></span></a>
+            {% set completed_review_count = pending_quest_approval_count + pending_adventure_approval_count %}
+            <a href="{{ url_for('approvals.queue') }}"><span class="dashboard-quick-icon" aria-hidden="true">✅</span><span><strong>Review Completed Quests and Adventures{% if completed_review_count %} ({{ completed_review_count }}){% endif %}</strong><small>Open the Approval Center to celebrate your explorer.</small></span></a>
+            <a href="{{ url_for('rewards.requests_queue') }}"><span class="dashboard-quick-icon" aria-hidden="true">🎁</span><span><strong>Review Reward Requests{% if pending_reward_request_count %} ({{ pending_reward_request_count }}){% endif %}</strong><small>Reward your explorer for their hard work.</small></span></a>
+            <a href="{{ url_for('rewards.manager') }}"><span class="dashboard-quick-icon" aria-hidden="true">🛍️</span><span><strong>Reward Management</strong><small>Create rewards, categories, prices, and inventory.</small></span></a>
+        </div>
+    </article>
+</section>
+
+<section class="section-block dashboard-weekly-section">
+    <div class="dashboard-panel dashboard-weekly-panel">
+        <div class="dashboard-panel-heading">
+            <div>
+                <p class="eyebrow">This Week</p>
+                <h2>Family Statistics</h2>
+            </div>
+        </div>
+        <p class="dashboard-week-label">{{ weekly_stats.week_label }}</p>
+        <div class="dashboard-weekly-grid">
+            <article class="dashboard-weekly-stat">
+                <span class="dashboard-weekly-icon" aria-hidden="true">✨</span>
+                <div><strong>{{ weekly_stats.xp_earned }}</strong><span>XP Earned</span></div>
+            </article>
+            <article class="dashboard-weekly-stat">
+                <span class="dashboard-weekly-icon" aria-hidden="true">✅</span>
+                <div><strong>{{ weekly_stats.quests_completed }}</strong><span>Quests Completed</span></div>
+            </article>
+            <article class="dashboard-weekly-stat">
+                <span class="dashboard-weekly-icon" aria-hidden="true">🏁</span>
+                <div><strong>{{ weekly_stats.adventures_completed }}</strong><span>Adventures Completed</span></div>
+            </article>
+            <article class="dashboard-weekly-stat">
+                <span class="dashboard-weekly-icon" aria-hidden="true">🔥</span>
+                <div><strong>{{ weekly_stats.longest_streak }}</strong><span>Longest Active Streak</span></div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section-block">
+    <details class="fqc-collapsible dashboard-tools-panel" open>
+        <summary class="dashboard-tools-summary">
+            <span>
+                <span class="eyebrow">All Tools</span>
+                <strong>Command Center</strong>
+            </span>
+            <span class="dashboard-tools-toggle" aria-hidden="true">⌄</span>
+        </summary>
+
+        <div class="feature-grid dashboard-tools-grid">
+        {% set feature_icon = "👨‍👩‍👧" %}{% set feature_title = "Children Management" %}{% set feature_description = "Manage your young adventurers and their profiles." %}{% set feature_url = url_for('children.list_children') %}{% set feature_available = true %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "👨" %}{% set feature_title = "Parent Management" %}{% set feature_description = "Manage parent accounts, notifications, activity, and invitations." %}{% set feature_url = url_for('parent_management.overview') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "📚" %}{% set feature_title = "Quest Library" %}{% set feature_description = "Create and manage reusable family quests." %}{% set feature_url = url_for('quests.library') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "📅" %}{% set feature_title = "Today's Quests" %}{% set feature_description = "Review the quests automatically scheduled for today." %}{% set feature_url = url_for('missions.today') %}{% include "partials/feature_card.html" %}
+                {% set feature_icon = "⏳" %}{% set feature_title = "Pending Approvals" %}{% set feature_description = "Review completed Quests and Adventures." %}{% set feature_url = url_for('approvals.queue') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "🗺️" %}{% set feature_title = "Adventure Library" %}{% set feature_description = "Create Adventures with ordered Chapters, then assign them to one or more children." %}{% set feature_url = url_for('parent_adventures.chains') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "🤝" %}{% set feature_title = "Challenges" %}{% set feature_description = "Create and manage family challenges." %}{% set feature_url = url_for('parent_adventures.challenges') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "🏆" %}{% set feature_title = "Achievement Catalog" %}{% set feature_description = "Review the built-in automatic achievement progression." %}{% set feature_url = url_for('achievements.manager') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "🎁" %}{% set feature_title = "Reward Management" %}{% set feature_description = "Create rewards, categories, prices, and inventory." %}{% set feature_url = url_for('rewards.manager') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "🛍️" %}{% set feature_title = "Reward Requests" %}{% set feature_description = "Review and manage children's reward requests." %}{% set feature_url = url_for('rewards.requests_queue') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "🔔" %}{% set feature_title = "Notifications" %}{% set feature_description = "Review recent family activity and system notices." %}{% set feature_url = url_for('notifications.center') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "📈" %}{% set feature_title = "Reports" %}{% set feature_description = "View stars, streaks, ranks, and activity." %}{% set feature_url = url_for('reports.overview') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "📦" %}{% set feature_title = "Pack Store" %}{% set feature_description = "Browse and install curated Quests, Adventures, Challenges, Rewards, and cosmetic collections." %}{% set feature_url = url_for('content_packs.store') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "📦" %}{% set feature_title = "Archive Center" %}{% set feature_description = "Restore archived children, quests, adventures, rewards, and schedules." %}{% set feature_url = url_for('archive.center') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "⚙️" %}{% set feature_title = "Family Settings" %}{% set feature_description = "Manage family identity, quest defaults, operations, progression, and sessions." %}{% set feature_url = url_for('parent_management.family_settings') %}{% include "partials/feature_card.html" %}
+        {% set feature_icon = "💳" %}{% set feature_title = "Billing & Subscription" %}{% set feature_description = "Review membership status, payment details, cancellation, and renewal options." %}{% set feature_url = url_for('billing.status') %}{% include "partials/feature_card.html" %}
+        {% if developer_access %}
+        {% set feature_icon = "💾" %}{% set feature_title = "Backup & Restore" %}{% set feature_description = "Create, download, restore, and verify installation-level database backups." %}{% set feature_url = url_for('maintenance.center') %}{% include "partials/feature_card.html" %}
+        {% else %}
+        {% set feature_icon = "📤" %}{% set feature_title = "Export Family Data" %}{% set feature_description = "Download a family-scoped export without access to the application database." %}{% set feature_url = url_for('maintenance.family_export') %}{% include "partials/feature_card.html" %}
+        {% endif %}
+        {% if developer_access %}{% set feature_icon = "🛠️" %}{% set feature_title = "Developer Tools" %}{% set feature_description = "Open diagnostics, configuration, and technical tools." %}{% set feature_url = url_for('developer.dashboard') %}{% include "partials/feature_card.html" %}{% endif %}
+        </div>
+    </details>
+</section>
+{% endblock %}

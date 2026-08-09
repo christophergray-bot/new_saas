@@ -1,0 +1,12 @@
+FAMILY QUEST CENTER - ACHIEVEMENT ENGINE V2 TEST CHECKLIST
+
+1. Start application with an existing database; confirm no schema error.
+2. Open Parent > All Tools > Achievement Catalog. Confirm no Create/Edit/Archive controls.
+3. Open a child Trophy Room. Confirm earned achievements plus only the next available tier in each progression are shown.
+4. Approve the first Quest. Confirm First Steps unlocks and the child receives the popup.
+5. Reach 50 lifetime stars. Confirm Star Collector: 50 unlocks and Star Collector: 100 becomes the visible next goal.
+6. Build a 3-day streak. Confirm Streak: 3 unlocks and Streak: 6 becomes ready.
+7. Reach Level 1/2/4 and verify the next level milestone advances.
+8. Complete an Adventure. Confirm Adventure Explorer: 1 unlocks and tier 2 becomes ready.
+9. Confirm future tiers beyond the next goal are not visible.
+10. Confirm earned achievements remain in the Trophy Room and notification popups do not repeat.

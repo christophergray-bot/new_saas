@@ -1,0 +1,24 @@
+Family Quest Center 3.0-D Phase 2
+Parent Management and Command Center Naming
+
+Implemented
+- Added Parent Management to the Quest Master Command Center.
+- Added Parent One and Parent Two account cards.
+- Added Parent Two invitation preparation and cancellation.
+- Added Parent Two removal for Parent One.
+- Added dedicated Parent Security page.
+- Added parent notification preferences.
+- Added parent-account activity history.
+- Added separate Family Settings page for family name, time zone, country, and date format.
+- Updated Command Center naming:
+  * Children Management
+  * Parent Management
+  * Reward Management
+  * Achievement Management
+  * Adventure Library
+  * Family Settings
+- Preserved the Phase 1 authentication UI alignment.
+
+Important hosted-environment note
+- Parent Two invitations are stored securely with unique tokens.
+- Automated email delivery and invitation acceptance are intentionally deferred to the Railway/hosted deployment phase, when an email provider and public URL are available.

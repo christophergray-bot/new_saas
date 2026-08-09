@@ -1,0 +1,34 @@
+FAMILY QUEST CENTER — SPRINT 3.0-A
+MULTI-FAMILY ARCHITECTURE FOUNDATION
+
+PURPOSE
+Create a backward-compatible tenant foundation before adding public login.
+The current local family continues to function as the default family.
+
+IMPLEMENTED
+1. families table
+2. account_users table for future email/password authentication
+3. family_memberships table with owner, parent, and caregiver roles
+4. family_id added to family-owned data tables
+5. existing records assigned to the default family
+6. indexes added for future tenant-scoped queries
+7. centralized tenant_context helper
+8. automatic, idempotent startup migration
+
+NOT YET IMPLEMENTED
+- Email/password registration and login
+- Password reset or email verification
+- Invitation workflow
+- Mandatory family filtering in every route/model query
+- PostgreSQL conversion
+- Subscription/billing
+
+SECURITY NOTE
+This build establishes the schema but is not yet safe for multiple unrelated
+families on a public server. Tenant query isolation must be completed before
+public multi-family use.
+
+NEXT SPRINT
+3.0-B — Tenant Query Scoping
+Convert model and route data access to require the current family ID, add
+cross-family access tests, and preserve the existing Parent PIN workflow.

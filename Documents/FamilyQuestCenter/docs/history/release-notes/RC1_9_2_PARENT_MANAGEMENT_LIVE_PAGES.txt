@@ -1,0 +1,12 @@
+RC1.9.2 Parent Management Live Pages
+
+- Notifications and Parent Activity cards now open their working pages instead of showing Coming Soon.
+- Parent Activity is scoped to the authenticated family.
+- Audit records now store family_id for future parent activity entries.
+- Existing legacy audit rows without family_id are intentionally excluded to prevent cross-family exposure.
+
+Test:
+1. Open Parent Management and confirm both cards show Open buttons.
+2. Save notification preferences and confirm they persist.
+3. Change profile/PIN or invite Parent Two, then confirm the event appears in Parent Activity.
+4. Sign into a second family and confirm the first family activity is not visible.

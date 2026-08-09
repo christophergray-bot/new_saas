@@ -1,0 +1,97 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/missions/today.html
+  Purpose: Renders the today user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}Assigned Quests{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div>
+        <p class="eyebrow">Responsibility System</p>
+        <h1>Assigned Quests</h1>
+        <p class="page-description">
+            Scheduled assignments for {{ today_date }}.
+        </p>
+    </div>
+
+    <div class="page-header-actions">
+        <a
+            class="button button-secondary"
+            href="{{ url_for('quests.library') }}"
+        >
+            Open Quest Library
+        </a>
+
+    </div>
+</section>
+
+<section class="dashboard-panel">
+
+    {% if assignments %}
+
+        {% set current_child = namespace(name="") %}
+
+        {% for assignment in assignments %}
+
+            {% if current_child.name != assignment.child_name %}
+
+                {% if current_child.name %}
+                    </div>
+                {% endif %}
+
+                <h2 class="mission-child-name">
+                    {{ assignment.child_name }}
+                </h2>
+
+                <div class="mission-list">
+
+                {% set current_child.name = assignment.child_name %}
+
+            {% endif %}
+
+            <article class="mission-card">
+                <div>
+                    <strong>{{ assignment.title }}</strong>
+
+                    <p>
+                        {{ assignment.stars }} Stars
+                        · Status: {{ assignment.status|title }}
+                    </p>
+                </div>
+
+                <span
+                    class="
+                        status-pill
+                        status-{{ assignment.status }}
+                    "
+                >
+                    {{ assignment.status|title }}
+                </span>
+            </article>
+
+        {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <div class="empty-icon">🗺️</div>
+            <h2>No quests assigned for today</h2>
+            <p>
+                Assigned Quests are generated automatically from active Quest assignments. There are no Quests scheduled for today.
+            </p>
+            <a class="button button-secondary" href="{{ url_for('quests.library') }}">Open Quest Library</a>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

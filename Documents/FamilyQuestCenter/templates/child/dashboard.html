@@ -1,0 +1,302 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/dashboard.html
+  Purpose: Renders the dashboard user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}{{ child.name }}'s Quest Board{% endblock %}
+{% block content %}
+
+<div class="character-theme {{ character.theme.class_name }}">
+<section class="page-header character-header">
+    <div>
+        <p class="eyebrow">Today's Adventure</p>
+        <h1>{{ child.name }}'s Quest Board</h1>
+        <p>Complete quests, earn stars, gain XP, and unlock new explorer customizations.</p>
+    </div>
+    <div class="character-rank-badge">
+        <span>Level {{ progression.level }}</span>
+        <strong>{{ progression.rank_title }}</strong>
+    </div>
+</section>
+
+<section class="dashboard-panel character-card">
+    <div class="character-card-heading">
+        <div class="character-avatar cosmetic-avatar {{ character.frame.class_name }}">
+            {% if character.avatar.image %}<img class="cosmetic-avatar-image" src="{{ character.avatar.image }}" alt="{{ character.avatar.name }}">{% else %}{{ character.avatar.icon }}{% endif %}
+        </div>
+        <div class="character-identity">
+            <p class="eyebrow">Explorer Profile</p>
+            <h2>{{ child.name }}</h2>
+            <p class="display-title">{{ character.avatar.name }}</p>
+            <p>{{ progression.rank_title }}</p>
+        </div>
+        <div class="page-actions"><a class="button button-primary" href="{{ url_for('reward_shop.shop', user_id=child.id) }}">🏪 Reward Shop</a><a class="button button-secondary" href="{{ url_for('child.character', user_id=child.id) }}">Customize Explorer</a></div>
+    </div>
+
+    <div class="stats-grid character-stats-grid">
+        <div class="stat-card"><span class="stat-value">{{ child.total_points }}</span><span class="stat-label">⭐ Spendable Stars</span></div>
+        <div class="stat-card"><span class="stat-value">{{ progression.total_xp }}</span><span class="stat-label">✨ Lifetime XP</span></div>
+        <div class="stat-card"><span class="stat-value">{{ progression.level }}</span><span class="stat-label">🏆 Current Level</span></div>
+        <div class="stat-card"><span class="stat-value">{{ child.current_streak }}</span><span class="stat-label">🔥 Streak</span></div>
+    </div>
+
+    <div class="achievement-summary-card">
+        <div>
+            <p class="eyebrow">Trophy Room</p>
+            <h3>{{ achievement_summary.earned }} of {{ achievement_summary.total }} achievements earned</h3>
+            {% if achievement_summary.recent %}<p>Latest: {{ achievement_summary.recent.icon }} {{ achievement_summary.recent.name }}</p>
+            {% else %}<p>Complete quests to unlock your first trophy.</p>{% endif %}
+        </div>
+        <a class="button button-secondary" href="{{ url_for('child.trophy_room', user_id=child.id) }}">View Trophy Room</a>
+    </div>
+
+    <div class="xp-progress-block">
+        <div class="level-labels"><span>Level {{ progression.level }}</span><span>Level {{ progression.level + 1 }}</span></div>
+        <div class="progress-track xp-progress-track" role="progressbar" aria-valuenow="{{ progression.current_level_xp }}" aria-valuemin="0" aria-valuemax="{{ progression.xp_per_level }}">
+            <div class="progress-fill" style="width: {{ progression.progress_percent }}%;"></div>
+        </div>
+        <p class="xp-progress-text"><strong>{{ progression.current_level_xp }} / {{ progression.xp_per_level }} XP</strong> toward the next level</p>
+    </div>
+</section>
+
+
+<section class="dashboard-panel child-today-panel">
+    <div class="panel-header child-today-header">
+        <div class="child-my-day-title">
+            <div>
+                <p class="eyebrow">Today</p>
+                <h2>My Day</h2>
+            </div>
+            {% if active_challenge %}
+            <a class="button button-secondary active-challenge-shortcut" href="{{ url_for('child_adventures.child_challenges', user_id=child.id) }}" aria-label="View active challenge: {{ active_challenge.name }}">🤝 Active Challenge</a>
+            {% endif %}
+        </div>
+        <div class="child-today-toggle" role="tablist" aria-label="Choose today's view">
+            <button class="child-today-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="today-missions" data-today-tab="missions">Assigned Quests</button>
+            <button class="child-today-tab" type="button" role="tab" aria-selected="false" aria-controls="today-journey" data-today-tab="journey">Today's Adventure</button>
+        </div>
+    </div>
+
+    <div id="today-missions" class="child-today-view is-active" role="tabpanel" data-today-view="missions">
+        {% set mission_assignments = assignments | rejectattr('mission_type', 'equalto', 'adventure') | list %}
+        {% set mission_todo = mission_assignments | rejectattr('status', 'equalto', 'approved') | list %}
+        {% set mission_done = mission_assignments | selectattr('status', 'equalto', 'approved') | list %}
+
+        <div class="child-status-toggle" role="tablist" aria-label="Filter today's missions">
+            <button class="child-status-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="mission-todo-list" data-status-tab="missions-todo">To Do ({{ mission_todo | length }})</button>
+            <button class="child-status-tab" type="button" role="tab" aria-selected="false" aria-controls="mission-done-list" data-status-tab="missions-done">Done ({{ mission_done | length }})</button>
+        </div>
+
+        <div id="mission-todo-list" class="child-status-view is-active" role="tabpanel" data-status-view="missions-todo">
+            {% if mission_todo %}
+            <div class="mission-list child-scroll-list">
+            {% for assignment in mission_todo %}
+                <article id="quest-card-{{ assignment.id }}" class="mission-card mission-card-daily">
+                    <div>
+                        <span class="mission-type-badge mission-type-daily">☀️ Quest</span>
+                        <h3>{{ assignment.title }}</h3>
+                        {% if assignment.description %}<p>{{ assignment.description }}</p>{% endif %}
+                        <small>Difficulty {{ assignment.difficulty }} • ⭐ {{ assignment.stars }} • ✨ {{ assignment.xp_reward }} XP</small>
+                    </div>
+                    <div class="mission-actions">
+                        {% if assignment.status == "completed" %}
+                        <span class="status-pill status-completed">Waiting for Approval</span>
+                        {% else %}
+                        <span class="status-pill status-assigned">Assigned</span>
+                        <form method="post" action="{{ url_for('child.complete', assignment_id=assignment.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="button button-primary" type="submit">Complete Quest</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+            </div>
+            {% else %}<div class="empty-state"><h3>All Done!</h3><p>You have completed all of today's Quests.</p></div>{% endif %}
+        </div>
+
+        <div id="mission-done-list" class="child-status-view" role="tabpanel" hidden data-status-view="missions-done">
+            {% if mission_done %}
+            <div class="mission-list child-scroll-list">
+            {% for assignment in mission_done %}
+                <article id="quest-card-{{ assignment.id }}" class="mission-card mission-card-daily">
+                    <div>
+                        <span class="mission-type-badge mission-type-daily">☀️ Quest</span>
+                        <h3>{{ assignment.title }}</h3>
+                        {% if assignment.description %}<p>{{ assignment.description }}</p>{% endif %}
+                        <small>Difficulty {{ assignment.difficulty }} • ⭐ {{ assignment.stars }} • ✨ {{ assignment.xp_reward }} XP</small>
+                    </div>
+                    <div class="mission-actions"><span class="status-pill status-approved">Completed ✔</span></div>
+                </article>
+            {% endfor %}
+            </div>
+            {% else %}<div class="empty-state"><h3>Nothing Done Yet</h3><p>Completed Quests will appear here.</p></div>{% endif %}
+        </div>
+    </div>
+
+    <div id="today-journey" class="child-today-view" role="tabpanel" hidden data-today-view="journey">
+        {% set pending_adventures = adventure_celebrations | selectattr('pending_approval', 'equalto', 1) | list %}
+        {% set approved_adventures = adventure_celebrations | rejectattr('pending_approval', 'equalto', 1) | list %}
+        {% set adventure_todo_count = (journeys | length) + (pending_adventures | length) %}
+        {% set adventure_done_count = (completed_journeys | length) + (approved_adventures | length) %}
+        <div class="child-status-toggle" role="tablist" aria-label="Filter today's Adventure">
+            <button class="child-status-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="adventure-todo-list" data-status-tab="adventures-todo">To Do ({{ adventure_todo_count }})</button>
+            <button class="child-status-tab" type="button" role="tab" aria-selected="false" aria-controls="adventure-done-list" data-status-tab="adventures-done">Done ({{ adventure_done_count }})</button>
+        </div>
+
+        <div id="adventure-todo-list" class="child-status-view is-active" role="tabpanel" data-status-view="adventures-todo">
+            {% if journeys or pending_adventures %}
+            <div class="mission-list child-scroll-list">
+            {% for journey in journeys %}
+                <article id="adventure-card-{{ journey.id }}" class="mission-card mission-card-journey">
+                    <div>
+                        <span class="mission-type-badge mission-type-journey">🧭 Journey</span>
+                        <h3>{{ journey.title }}</h3>
+                        <p>{{ journey.description or 'Continue your growth Journey.' }}</p>
+                        <p class="mission-source">Adventure: <strong>{{ journey.adventure_name }}</strong></p>
+                        <small>Chapter {{ journey.step_order }} of {{ journey.total_steps }} • Adventure reward: ✨ {{ journey.bonus_xp }} XP</small>
+                    </div>
+                    <div class="mission-actions">
+                        <span class="status-pill status-assigned">Ready</span>
+                        <form method="post" action="{{ url_for('child.complete_today_journey', user_id=child.id, journey_instance_id=journey.id, next='dashboard_adventures') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="button button-primary" type="submit">Complete Chapter {{ journey.step_order }}</button>
+                        </form>
+                    </div>
+                </article>
+            {% endfor %}
+            {% for adventure in pending_adventures %}
+                <article id="adventure-card-{{ adventure.id }}" class="mission-card mission-card-journey">
+                    <div><span class="mission-type-badge mission-type-journey">🏆 Adventure</span><h3>{{ adventure.adventure_name }}</h3><p>Waiting for your Quest Master to approve your completed Adventure.</p></div>
+                    <div class="mission-actions"><span class="status-pill status-completed">Waiting for Approval</span></div>
+                </article>
+            {% endfor %}
+            </div>
+            {% else %}<div class="empty-state"><h3>All Done!</h3><p>You do not have an Adventure Chapter ready right now.</p></div>{% endif %}
+        </div>
+
+        <div id="adventure-done-list" class="child-status-view" role="tabpanel" hidden data-status-view="adventures-done">
+            {% if completed_journeys or approved_adventures %}
+            <div class="mission-list child-scroll-list">
+            {% for journey in completed_journeys %}
+                <article class="mission-card mission-card-journey">
+                    <div>
+                        <span class="mission-type-badge mission-type-journey">🧭 Journey</span>
+                        <h3>{{ journey.title }}</h3>
+                        <p>{{ journey.description or 'Adventure Chapter completed.' }}</p>
+                        <p class="mission-source">Adventure: <strong>{{ journey.adventure_name }}</strong></p>
+                        <small>Chapter {{ journey.step_order }} of {{ journey.total_steps }}</small>
+                    </div>
+                    <div class="mission-actions"><span class="status-pill status-approved">Completed ✔</span></div>
+                </article>
+            {% endfor %}
+            {% for adventure in approved_adventures %}
+                <article class="mission-card mission-card-journey">
+                    <div><span class="mission-type-badge mission-type-journey">🏆 Adventure</span><h3>{{ adventure.adventure_name }}</h3><p>Adventure completed and celebrated!</p></div>
+                    <div class="mission-actions"><span class="status-pill status-approved">Completed ✔</span></div>
+                </article>
+            {% endfor %}
+            </div>
+            {% else %}<div class="empty-state"><h3>Nothing Done Yet</h3><p>Completed Adventures will appear here.</p></div>{% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+(() => {
+    const tabs = document.querySelectorAll('[data-today-tab]');
+    const views = document.querySelectorAll('[data-today-view]');
+
+    function selectTodayView(selected, updateUrl = false) {
+        tabs.forEach((item) => {
+            const active = item.dataset.todayTab === selected;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        views.forEach((view) => {
+            const active = view.dataset.todayView === selected;
+            view.classList.toggle('is-active', active);
+            view.hidden = !active;
+        });
+
+        if (updateUrl) {
+            const url = new URL(window.location.href);
+            if (selected === 'journey') {
+                url.searchParams.set('view', 'journey');
+                url.hash = 'today-journey';
+            } else {
+                url.searchParams.delete('view');
+                url.hash = '';
+            }
+            window.history.replaceState({}, '', url);
+        }
+    }
+
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => selectTodayView(tab.dataset.todayTab, true));
+    });
+
+    const requestedView = new URLSearchParams(window.location.search).get('view');
+    const requestedHash = window.location.hash;
+    if (requestedView === 'journey' || requestedHash === '#today-journey' || requestedHash.startsWith('#adventure-card-')) {
+        selectTodayView('journey');
+    }
+
+    document.querySelectorAll('.child-today-view').forEach((todayView) => {
+        const statusTabs = todayView.querySelectorAll('[data-status-tab]');
+        const statusViews = todayView.querySelectorAll('[data-status-view]');
+
+        function selectStatusView(selected) {
+            statusTabs.forEach((item) => {
+                const active = item.dataset.statusTab === selected;
+                item.classList.toggle('is-active', active);
+                item.setAttribute('aria-selected', active ? 'true' : 'false');
+            });
+            statusViews.forEach((view) => {
+                const active = view.dataset.statusView === selected;
+                view.classList.toggle('is-active', active);
+                view.hidden = !active;
+            });
+        }
+
+        statusTabs.forEach((tab) => {
+            tab.addEventListener('click', () => selectStatusView(tab.dataset.statusTab));
+        });
+    });
+
+    if (requestedHash.startsWith('#quest-card-') || requestedHash.startsWith('#adventure-card-')) {
+        const target = document.querySelector(requestedHash);
+        if (target) {
+            const statusView = target.closest('[data-status-view]');
+            const todayView = target.closest('[data-today-view]');
+            if (todayView) {
+                selectTodayView(todayView.dataset.todayView);
+            }
+            if (statusView) {
+                const selected = statusView.dataset.statusView;
+                const parentTodayView = statusView.closest('[data-today-view]');
+                if (parentTodayView) {
+                    const statusTabs = parentTodayView.querySelectorAll('[data-status-tab]');
+                    const statusViews = parentTodayView.querySelectorAll('[data-status-view]');
+                    statusTabs.forEach((item) => {
+                        const active = item.dataset.statusTab === selected;
+                        item.classList.toggle('is-active', active);
+                        item.setAttribute('aria-selected', active ? 'true' : 'false');
+                    });
+                    statusViews.forEach((view) => {
+                        const active = view.dataset.statusView === selected;
+                        view.classList.toggle('is-active', active);
+                        view.hidden = !active;
+                    });
+                }
+            }
+            requestAnimationFrame(() => target.scrollIntoView({ block: 'center' }));
+        }
+    }
+})();
+</script>
+</div>
+{% endblock %}

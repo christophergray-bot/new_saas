@@ -1,0 +1,88 @@
+{# Family Quest Center template: templates/parent/children/view.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}{{ child.name }} | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Family Member" %}
+{% set page_icon = "🧒" %}
+{% set page_title = child.name %}
+{% set page_description = "Review this explorer's assignments, adventures, rewards, achievements, and progress." %}
+{% set page_action_url = url_for('children.list_children') %}
+{% set page_action_text = "Back to Family Members" %}
+{% include "partials/page_header.html" %}
+
+<section class="section-block">
+  <div class="section-heading">
+    <div><p class="eyebrow">Explorer Overview</p><h2>Statistics</h2></div>
+    <a href="{{ url_for('children.edit_child', child_id=child.id) }}" class="button button-primary">Edit Child</a>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><span>🏆</span><strong>{{ child.current_level }}</strong><small>Level</small></div>
+    <div class="stat-card"><span>⭐</span><strong>{{ child.total_points }}</strong><small>Stars</small></div>
+    <div class="stat-card"><span>✨</span><strong>{{ child.total_xp }}</strong><small>Total XP</small></div>
+    <div class="stat-card"><span>🔥</span><strong>{{ child.current_streak }}</strong><small>Day Streak</small></div>
+    <div class="stat-card"><span>✅</span><strong>{{ statistics.quests_completed }}</strong><small>Quests Completed</small></div>
+    <div class="stat-card"><span>🏁</span><strong>{{ statistics.adventures_completed }}</strong><small>Adventures Completed</small></div>
+    <div class="stat-card"><span>🎁</span><strong>{{ statistics.rewards_earned }}</strong><small>Rewards Earned</small></div>
+    <div class="stat-card"><span>🏅</span><strong>{{ statistics.achievements_earned }}</strong><small>Achievements</small></div>
+  </div>
+</section>
+
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">Quest History</p><h2>Assignments</h2></div><strong>{{ statistics.assignments_total }} total</strong></div>
+  {% if assignments %}
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>Quest</th><th>Due Date</th><th>Status</th><th>Stars</th><th>Difficulty</th></tr></thead>
+    <tbody>{% for item in assignments %}<tr>
+      <td><strong>{{ item.title }}</strong>{% if item.description %}<br><small>{{ item.description }}</small>{% endif %}</td>
+      <td>{{ item.due_date or '—' }}</td><td>{{ item.status|replace('_',' ')|title }}</td>
+      <td>{{ item.stars }}</td><td>{{ item.difficulty }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="muted-text">No quest assignments yet.</p>{% endif %}
+</section>
+
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">Explorer Journeys</p><h2>Adventures</h2></div></div>
+  {% if adventures %}
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>Adventure</th><th>Started</th><th>Status</th><th>Completed</th></tr></thead>
+    <tbody>{% for item in adventures %}<tr>
+      <td><strong>{{ item.name }}</strong>{% if item.description %}<br><small>{{ item.description }}</small>{% endif %}</td>
+      <td>{{ item.start_date or '—' }}</td>
+      <td>{% if item.pending_approval %}Pending Approval{% else %}{{ item.status|replace('_',' ')|title }}{% endif %}</td>
+      <td>{{ item.completed_at or '—' }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="muted-text">No adventures assigned yet.</p>{% endif %}
+</section>
+
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">Reward History</p><h2>Rewards</h2></div></div>
+  {% if rewards %}
+  <div class="table-wrap"><table class="data-table">
+    <thead><tr><th>Reward</th><th>Cost</th><th>Status</th><th>Requested</th></tr></thead>
+    <tbody>{% for item in rewards %}<tr>
+      <td><strong>{{ item.icon or '🎁' }} {{ item.name }}</strong></td>
+      <td>{{ item.cost }} Stars</td><td>{{ item.status|replace('_',' ')|title }}</td>
+      <td>{{ item.requested_at or '—' }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="muted-text">No reward requests yet.</p>{% endif %}
+</section>
+
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">Trophy Room</p><h2>Achievements</h2></div></div>
+  {% if achievements %}
+  <div class="feature-grid">
+    {% for item in achievements %}
+    <article class="feature-card">
+      <div class="feature-icon">{{ item.icon or '🏅' }}</div>
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+      <small>Earned {{ item.earned_at }}</small>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}<p class="muted-text">No achievements earned yet.</p>{% endif %}
+</section>
+{% endblock %}

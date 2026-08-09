@@ -1,0 +1,49 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/achievements/manager.html
+  Purpose: Renders the manager user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Achievement Catalog | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div><p class="eyebrow">Built-In Progression</p><h1>🏆 Achievement Catalog</h1><p>Achievements are automatic, progressive, and managed by Family Quest Center.</p></div>
+</section>
+<section class="dashboard-panel filter-panel">
+  <form class="filter-bar" method="get">
+    <input type="search" name="q" value="{{ search_query }}" placeholder="Search achievements" aria-label="Search achievements">
+    
+    <select name="requirement" aria-label="Requirement type">
+      <option value="all">All requirements</option>
+      {% for value, label in requirement_labels.items() %}<option value="{{ value }}" {% if selected_requirement == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <button class="button button-primary" type="submit">Filter</button>
+    <a class="button button-secondary" href="{{ url_for('achievements.manager') }}">Clear</a>
+  </form>
+</section>
+<section class="dashboard-panel">
+{% if achievements %}
+  <div class="achievement-admin-grid">
+  {% for achievement in achievements %}
+    <article class="achievement-admin-card {% if not achievement.active %}is-inactive{% endif %}">
+      <div class="achievement-admin-icon" aria-hidden="true">{{ achievement.icon }}</div>
+      <div class="achievement-admin-content">
+        <div class="achievement-admin-heading"><div><p class="eyebrow">{{ achievement.category }}</p><h2>{{ achievement.name }}</h2>{% if pack_sources.get(achievement.id) %}<span class="pack-source-badge">{{ pack_sources[achievement.id].icon }} {{ pack_sources[achievement.id].name }}</span>{% endif %}</div><span class="status-pill {% if not achievement.active %}inactive{% endif %}">{{ 'Active' if achievement.active else 'Archived' }}</span></div>
+        <p>{{ achievement.description }}</p>
+        <div class="achievement-admin-details">
+          <span>🎯 {{ requirement_labels.get(achievement.requirement_type, achievement.requirement_type) }}: {{ achievement.requirement_value }}</span>
+          <span>✨ {{ achievement.xp_reward }} XP</span><span>⭐ {{ achievement.star_reward }} stars</span>
+          <span>{{ '🙈 Hidden until earned' if achievement.hidden else '👁️ Visible before earned' }}</span>
+          <span>🏅 Earned by {{ achievement.earned_count }} child{{ '' if achievement.earned_count == 1 else 'ren' }}</span>
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state"><div class="empty-icon">🏆</div><h2>No achievements found</h2><p>The built-in achievement catalog will appear here.</p></div>
+{% endif %}
+</section>
+{% endblock %}

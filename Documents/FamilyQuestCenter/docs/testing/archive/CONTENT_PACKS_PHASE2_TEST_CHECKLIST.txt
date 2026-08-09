@@ -1,0 +1,14 @@
+Content Packs Phase 2 Manual Test Checklist
+
+1. Start with a family that has not installed Explorer Starter Pack.
+2. Install Explorer Starter Pack.
+3. Confirm the pack status is Active.
+4. Confirm pack quests, adventures, challenges, and rewards appear in their libraries.
+5. Individually archive one pack quest from Quest Library.
+6. Return to Content Packs and archive Explorer Starter Pack.
+7. Confirm remaining active pack items are archived.
+8. Restore Explorer Starter Pack.
+9. Confirm items archived by the pack are active again.
+10. Confirm the quest archived individually remains archived.
+11. Confirm completed history and child progress remain available.
+12. Sign into a different family and confirm its pack status/content is independent.

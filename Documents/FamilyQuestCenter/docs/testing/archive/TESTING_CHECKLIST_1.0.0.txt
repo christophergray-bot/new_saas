@@ -1,0 +1,47 @@
+FAMILY QUEST CENTER v1.0.0 — CLEAN INSTALL TESTING CHECKLIST
+============================================================
+
+FIRST RUN
+[ ] Application starts without an error.
+[ ] Parent area prompts for creation of a new PIN.
+[ ] New PIN works after closing and restarting the application.
+[ ] Family and application settings save correctly.
+
+CHILDREN
+[ ] Create, edit, deactivate, and reactivate a child.
+[ ] Child dashboard displays the correct child and statistics.
+
+QUESTS AND MISSIONS
+[ ] Create, edit, archive, and restore a quest.
+[ ] Assign a quest once.
+[ ] Create daily, weekly, and monthly recurring assignments.
+[ ] Repeated page loads do not create duplicate assignments.
+[ ] Child completes a quest and parent approves it.
+[ ] XP, stars, levels, and streaks update correctly.
+
+ADVENTURES
+[ ] Create an adventure with ordered quest steps.
+[ ] Assign an adventure once.
+[ ] Create daily, weekly, and monthly recurring adventures.
+[ ] Completing one step unlocks the next step.
+[ ] Dashboard progress and status are accurate.
+
+REWARDS
+[ ] Create and edit a reward.
+[ ] Child requests a reward.
+[ ] Parent approves, denies, and redeems requests as applicable.
+
+PARENT DASHBOARD
+[ ] Family overview totals are accurate.
+[ ] Pending approvals link to the correct item.
+[ ] Recent activity is newest first.
+[ ] Active adventure progress is accurate.
+[ ] Weekly statistics are accurate.
+[ ] Quick Action cards open the correct pages.
+
+RELIABILITY
+[ ] Restarting the app preserves data and settings.
+[ ] Empty states display correctly before data is created.
+[ ] Common pages work at desktop and narrow browser widths.
+[ ] No unexpected entries appear in the developer error log.
+[ ] Database integrity check reports OK.

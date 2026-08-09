@@ -1,0 +1,27 @@
+Family Quest Center
+Sprint 3.0-G.1A — Mission Builder Family Isolation
+
+This is a code-only patch. It does not replace chorce.db or delete family data.
+
+FIXED
+- New Mission Builder schedules now store the active family_id.
+- Mission Builder lists only schedules owned by the signed-in family.
+- Schedule view, edit, archive, and restore actions require matching family ownership.
+- Mission generation processes only schedules owned by the active family.
+- Selected children and quests are validated as belonging to the active family.
+- Existing schedules are repaired at startup using matching child and quest ownership.
+- Ambiguous cross-family schedules are disabled instead of being exposed.
+- Archived quest schedules are family-scoped.
+- Clean installations include the Mission Builder family ownership column and index.
+
+INSTALLATION
+1. Stop Family Quest Center.
+2. Extract this ZIP.
+3. Copy the included files and folders into the existing application folder.
+4. Allow Windows to replace matching files.
+5. Do not copy, replace, or delete chorce.db.
+6. Restart Family Quest Center. The schedule repair runs automatically.
+
+IMPORTANT
+Existing schedules whose child and quest belong to different families are disabled.
+Recreate those schedules under the correct family if needed.

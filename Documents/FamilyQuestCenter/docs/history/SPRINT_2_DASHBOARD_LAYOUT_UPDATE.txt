@@ -1,0 +1,9 @@
+Family Quest Center Version 1.0.0
+Sprint 2 Dashboard Layout Update (v6)
+
+Changes completed:
+1. Parent Tools / Quick Actions now appears directly below Today's Snapshot.
+2. Quick Actions now uses the full dashboard width rather than occupying one column of the main dashboard grid.
+3. All Tools / Command Center is collapsed by default.
+
+No database migration is required.

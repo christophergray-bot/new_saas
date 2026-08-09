@@ -1,0 +1,17 @@
+Family Quest Center v1.2.1 — Content Packs Phase 2
+
+Implemented:
+- Archive an installed Content Pack as a unit.
+- Restore an archived Content Pack as a unit.
+- Preserve completed history and family progress.
+- Preserve items that were already archived individually.
+- Restore only the items that were archived by the pack action.
+- Maintain family-specific pack status and source tracking.
+- Upgrade existing content_pack_items tables with pack_archived tracking.
+
+Behavior:
+- Archive Pack archives currently active pack quests, adventures, challenges, and rewards.
+- An item already archived individually is left untouched.
+- Restore Pack reactivates only items archived by Archive Pack.
+- Individual archive/restore controls remain available in each library.
+- No user-created family content is deleted.

@@ -1,0 +1,48 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/archive/category.html
+  Purpose: Renders the category user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Archived {{ meta.title }} | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Archive Center" %}
+{% set page_icon = meta.icon %}
+{% set page_title = "Archived " ~ meta.title %}
+{% set page_description = meta.description %}
+{% set page_action_url = url_for('archive.center') %}
+{% set page_action_text = "← Archive Center" %}
+{% include "partials/page_header.html" %}
+<section class="dashboard-panel filter-panel">
+  <form class="filter-bar" method="get">
+    <input type="search" name="q" value="{{ search_query }}" placeholder="Search archived {{ meta.title|lower }}" aria-label="Search archive">
+    <button class="button button-primary" type="submit">Search</button>
+    <a class="button button-secondary" href="{{ url_for('archive.category', kind=kind) }}">Clear</a>
+  </form>
+</section>
+<section class="dashboard-panel">
+{% if rows %}
+  <div class="quest-list">
+  {% for row in rows %}
+    <article class="quest-card">
+      <div class="quest-card-main">
+        <div class="quest-card-heading"><h2>{{ row.title }}</h2><span class="status-pill inactive">Archived</span></div>
+        <p>{{ row.subtitle or 'No description provided.' }}</p>
+        {% if row.created_at %}<small>Created {{ row.created_at }}</small>{% endif %}
+      </div>
+      <div class="quest-actions">
+        <form method="post" action="{{ url_for('archive.restore', kind=kind, record_type=row.record_type, record_id=row.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button button-secondary" type="submit">↩ Restore</button>
+        </form>
+      </div>
+    </article>
+  {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state"><div class="empty-icon">📦</div><h2>No archived {{ meta.title|lower }}</h2><p>Archived items in this category will appear here.</p></div>
+{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+RC1.7.1 DEFAULT FAMILY PACK CLEANUP TEST CHECKLIST
+
+1. Open Parent > Content Packs > Installed.
+2. Confirm only one Default Family Pack card appears.
+3. Confirm the card is marked Active, Built In, and Up to Date.
+4. Confirm no Archive Pack button appears for the Default Family Pack.
+5. Confirm the card shows 1 Quest, 1 Adventure, 0 Challenges, 1 Reward, and 4 Cosmetics.
+6. Confirm no 0 Achievements pack statistic is displayed.
+7. Open View Contents and confirm System Achievements are described as application-controlled, not pack-installed.
+8. Restart the application and confirm the pack card is still shown only once.
+9. If updating over an older folder that still contains content/packs/explorer_starter/pack.json, confirm it is ignored and does not create a duplicate card.
+10. Register a new family with the Default Family Pack and confirm starter content installs once without duplicates.

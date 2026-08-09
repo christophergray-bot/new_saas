@@ -1,0 +1,5 @@
+Single-database Alembic migration repository for Family Quest Center.
+
+Railway staging and production run `flask --app app db upgrade` before the
+web process starts. Local SQLite retains the existing first-run schema path
+while route-by-route persistence modernization is completed.

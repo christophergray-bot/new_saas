@@ -1,0 +1,85 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/family_dashboard.html
+  Purpose: Renders the family dashboard user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}Choose Your Explorer | Family Quest Center{% endblock %}
+{% block body_class %}child-selector-page{% endblock %}
+
+{% block content %}
+<section class="family-selector-hero">
+    <p class="eyebrow">Family Dashboard</p>
+    <h1>Choose Your Explorer</h1>
+    <p>Pick your explorer and get started!</p>
+</section>
+
+<section class="family-selector-shell" aria-labelledby="explorer-list-heading">
+    <div class="family-selector-heading">
+        <div>
+            <p class="eyebrow">Explorer Profiles</p>
+            <h2 id="explorer-list-heading">Who's going on a quest?</h2>
+        </div>
+        {% if session.get('parent_authenticated') %}
+            <a class="button button-secondary" href="{{ url_for('children.list_children') }}">Manage Children</a>
+        {% endif %}
+    </div>
+
+    {% if children %}
+    <div class="profile-selector-grid">
+        {% for child in children %}
+        <a class="profile-selector-card" href="{{ url_for('child.dashboard', user_id=child.id) }}" aria-label="Open {{ child.name }}'s Quest Board">
+            <span class="profile-selector-avatar" aria-hidden="true">{% if child.avatar_image %}<img class="profile-selector-avatar-image" src="{{ child.avatar_image }}" alt="">{% else %}{{ child.avatar_icon or child.initial }}{% endif %}</span>
+            <span class="profile-selector-copy">
+                <strong>{{ child.name }}</strong>
+                <span class="profile-selector-stats">
+                    <span>Level {{ child.current_level }}</span>
+                    <span aria-hidden="true">•</span>
+                    <span>{{ child.total_points }} stars</span>
+                </span>
+            </span>
+            <span class="profile-selector-action family-quest-board-action">Open Quest Board <span aria-hidden="true">→</span></span>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <article class="empty-state panel">
+        <div class="empty-state-icon">🧭</div>
+        <h2>No child profiles yet</h2>
+        <p>Unlock the Parent Area and add a child profile to begin.</p>
+        <a class="button button-primary" href="{{ url_for('auth.login', next=url_for('children.add_child')) }}">Unlock Parent Area</a>
+    </article>
+    {% endif %}
+</section>
+
+
+
+
+<section class="section-block family-adventures-compact" aria-labelledby="family-adventures-heading">
+    <article class="dashboard-panel dashboard-quick-actions-panel">
+        <div class="dashboard-panel-heading">
+            <div>
+                <p class="eyebrow">Explore Together</p>
+                <h2 id="family-adventures-heading">Family Adventures</h2>
+                <p>Curated content and experiences designed for the whole family.</p>
+            </div>
+        </div>
+        <div class="dashboard-quick-actions family-adventures-actions">
+            <a class="family-adventure-action" href="{{ url_for('home.family_pack_store') }}">
+                <span class="dashboard-quick-icon" aria-hidden="true">📦</span>
+                <span><strong>Pack Store</strong><small>Curated content</small></span>
+                <span class="status-pill status-approved">Open</span>
+            </a>
+            <a class="family-adventure-action" href="{{ url_for('home.family_quest_books') }}">
+                <span class="dashboard-quick-icon" aria-hidden="true">📖</span>
+                <span><strong>Quest Books</strong><small>Choose your path</small></span>
+                <span class="status-pill status-approved">Open</span>
+            </a>
+        </div>
+    </article>
+</section>
+
+{% endblock %}

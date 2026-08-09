@@ -1,0 +1,22 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/partials/stat_card.html
+  Purpose: Renders the stat card user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+<article class="stat-card">
+
+    <span class="stat-card-icon" aria-hidden="true">
+        {{ stat_icon }}
+    </span>
+
+    <strong class="stat-card-value">
+        {{ stat_value }}
+    </strong>
+
+    <span class="stat-card-label">
+        {{ stat_label }}
+    </span>
+
+</article>

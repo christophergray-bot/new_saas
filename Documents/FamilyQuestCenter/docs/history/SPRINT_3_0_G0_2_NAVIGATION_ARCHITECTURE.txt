@@ -1,0 +1,14 @@
+SPRINT 3.0-G.0.2 — NAVIGATION ARCHITECTURE
+
+Fixed:
+- Added a signed-in Family Dashboard at /family with active child profile cards.
+- Signed-in logo now opens the Family Dashboard.
+- Signed-in Home navigation is now Family Dashboard.
+- Lock Parent Area now clears only the parent PIN state and redirects to the Family Dashboard.
+- Child-page Home shortcut now returns to the Family Dashboard.
+- Public visitors still see the public landing page and marketing navigation.
+
+Expected flow:
+Public Landing -> Sign In/Register -> Parent Area
+Parent Area -> Lock Parent Area -> Family Dashboard -> Child Quest Board
+Child Quest Board -> Family Dashboard -> choose another child or unlock Parent Area

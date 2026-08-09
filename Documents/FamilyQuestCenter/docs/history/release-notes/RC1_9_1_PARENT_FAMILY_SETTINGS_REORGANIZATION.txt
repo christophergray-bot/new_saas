@@ -1,0 +1,9 @@
+RC1.9.1 - Parent and Family Settings Reorganization
+
+Parent Management now contains parent-specific tools: notifications, parent activity, parent account details, profile security, and Parent Two invitations.
+
+My Profile now contains account details, Change Password, and Change Parent PIN.
+
+Family Settings now contains Family Identity, Quest Defaults, Operations, Experience & Progression, Session, and the future Sessions and Trusted Devices area.
+
+Legacy Parent Settings and Parent Security URLs redirect to the new destinations.

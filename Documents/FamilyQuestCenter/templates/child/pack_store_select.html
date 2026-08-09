@@ -1,0 +1,49 @@
+{# Family Quest Center template: templates/child/pack_store_select.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+
+{% block title %}Choose Your Explorer | Pack Store{% endblock %}
+{% block body_class %}child-selector-page{% endblock %}
+
+{% block content %}
+<section class="family-selector-hero">
+    <p class="eyebrow">Pack Store</p>
+    <h1>Choose Your Explorer</h1>
+    <p>Pick who is browsing so pack requests go to the right parent approval.</p>
+</section>
+
+<section class="family-selector-shell" aria-labelledby="pack-store-explorer-heading">
+    <div class="family-selector-heading">
+        <div>
+            <p class="eyebrow">Explorer Profiles</p>
+            <h2 id="pack-store-explorer-heading">Who's exploring the Pack Store?</h2>
+        </div>
+        <a class="button button-secondary" href="{{ url_for('home.family_dashboard') }}">← Family Dashboard</a>
+    </div>
+
+    {% if children %}
+    <div class="profile-selector-grid">
+        {% for child in children %}
+        <a class="profile-selector-card" href="{{ url_for('child.pack_store', user_id=child.id) }}" aria-label="Open Pack Store for {{ child.name }}">
+            <span class="profile-selector-avatar" aria-hidden="true">{% if child.avatar_image %}<img class="profile-selector-avatar-image" src="{{ child.avatar_image }}" alt="">{% else %}{{ child.avatar_icon or child.initial }}{% endif %}</span>
+            <span class="profile-selector-copy">
+                <strong>{{ child.name }}</strong>
+                <span class="profile-selector-stats">
+                    <span>Browse packs</span>
+                    <span aria-hidden="true">•</span>
+                    <span>Request parent approval</span>
+                </span>
+            </span>
+            <span class="profile-selector-action">Open Pack Store <span aria-hidden="true">→</span></span>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <article class="empty-state panel">
+        <div class="empty-state-icon">📦</div>
+        <h2>No child profiles yet</h2>
+        <p>A child profile is required before a pack can be requested.</p>
+        <a class="button button-secondary" href="{{ url_for('home.family_dashboard') }}">Return to Family Dashboard</a>
+    </article>
+    {% endif %}
+</section>
+{% endblock %}

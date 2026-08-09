@@ -1,0 +1,14 @@
+Family Quest Center
+Sprint 3.0-D Phase 2.1 — Navigation and Button Consistency Fixes
+
+Completed
+- Added Back to Command Center on Parent Management.
+- Added Back to Parent Management on Security, Notifications, and Parent Activity.
+- Added Back to Command Center on Family Settings.
+- Change Password now returns to Parent Security when opened there.
+- Change Password still returns to My Account when opened from My Account.
+- Standardized Save Notification Preferences to the primary button design.
+- Standardized Invite Parent Two to the primary button design.
+- Standardized Cancel Invitation to the secondary button design.
+- Standardized Remove Parent Two as a danger action.
+- Standardized Save Family Settings to the primary button design.

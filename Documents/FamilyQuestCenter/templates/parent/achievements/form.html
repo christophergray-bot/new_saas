@@ -1,0 +1,35 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/achievements/form.html
+  Purpose: Renders the form user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% set editing = achievement is not none %}
+{% block title %}{{ 'Edit' if editing else 'New' }} Achievement | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header"><div><p class="eyebrow">Achievement Manager</p><h1>{{ '✏ Edit Achievement' if editing else '🏆 Create Achievement' }}</h1><p>Define the milestone, trigger, visibility, and reward.</p></div></section>
+<section class="dashboard-panel">
+<form method="post" class="quest-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="form-row">
+    <div class="form-group"><label for="name">Achievement Name</label><input id="name" name="name" maxlength="100" required value="{{ request.form.get('name', achievement.name if editing else '') }}" placeholder="Example: Quest Beginner"></div>
+    <div class="form-group"><label for="icon">Icon</label><input id="icon" name="icon" maxlength="12" required value="{{ request.form.get('icon', achievement.icon if editing else '🏆') }}" placeholder="🏆"></div>
+  </div>
+  <div class="form-group"><label for="description">Description</label><textarea id="description" name="description" rows="3" maxlength="500" required placeholder="Describe how this milestone is earned.">{{ request.form.get('description', achievement.description if editing else '') }}</textarea></div>
+  <div class="form-row">
+    <div class="form-group"><label for="category">Category</label><input id="category" name="category" maxlength="50" required value="{{ request.form.get('category', achievement.category if editing else 'General') }}" placeholder="Progress, Consistency, Mastery"></div>
+    <div class="form-group"><label for="requirement_type">Requirement</label><select id="requirement_type" name="requirement_type" required>{% set selected_type = request.form.get('requirement_type', achievement.requirement_type if editing else 'QUESTS_COMPLETED') %}{% for value, label in requirement_labels.items() %}<option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label for="requirement_value">Required Amount</label><input id="requirement_value" name="requirement_value" type="number" min="1" max="1000000" required value="{{ request.form.get('requirement_value', achievement.requirement_value if editing else 1) }}"></div>
+    <div class="form-group"><label for="xp_reward">Bonus XP</label><input id="xp_reward" name="xp_reward" type="number" min="0" max="100000" required value="{{ request.form.get('xp_reward', achievement.xp_reward if editing else 0) }}"></div>
+    <div class="form-group"><label for="star_reward">Bonus Stars</label><input id="star_reward" name="star_reward" type="number" min="0" max="100000" required value="{{ request.form.get('star_reward', achievement.star_reward if editing else 0) }}"></div>
+  </div>
+  <div class="checkbox-group"><input id="hidden" name="hidden" type="checkbox" {% if request.form %}{% if request.form.get('hidden') %}checked{% endif %}{% elif editing and achievement.hidden %}checked{% endif %}><label for="hidden">Hide this achievement from children until it is earned</label></div>
+  {% if editing and achievement.active == 0 %}<p class="muted-text">This achievement is archived. Save changes here, then restore it from the Achievement Manager when ready.</p>{% endif %}
+  <div class="form-actions"><button class="button button-primary" type="submit">{{ 'Save Achievement' if editing else 'Create Achievement' }}</button><a class="button button-secondary" href="{{ url_for('achievements.manager') }}">Cancel</a></div>
+</form>
+</section>
+{% endblock %}

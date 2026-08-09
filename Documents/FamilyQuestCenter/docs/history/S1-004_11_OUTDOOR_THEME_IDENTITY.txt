@@ -1,0 +1,10 @@
+Family Quest Center v2.0
+Sprint 1 — S1-004.11 Outdoor Theme Identity
+
+Changes:
+- Replaced every default avatar display name and icon with an outdoor explorer identity.
+- Replaced every cosmetic title display name and added an outdoor icon.
+- Replaced every profile frame display name, icon, and visual style with an outdoor design.
+- Replaced every character theme display name, icon, and color treatment with an outdoor environment.
+- Preserved existing internal cosmetic keys so saved child selections remain compatible.
+- No database schema or route changes.

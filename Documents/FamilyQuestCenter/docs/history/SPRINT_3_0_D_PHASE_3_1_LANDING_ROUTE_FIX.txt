@@ -1,0 +1,15 @@
+Family Quest Center
+Sprint 3.0-D Phase 3.1 - Landing Page Route Fix
+
+Fixed:
+- The public root route (/) is now exempt from account authentication redirects.
+- Signed-out visitors opening http://127.0.0.1:5000/ now see the public landing page.
+- Sign In remains available at /account/login.
+- Registration remains available at /account/register.
+- All family and administrative pages remain protected.
+
+Expected flow:
+1. Start the application with Start Family Quest Center.bat.
+2. Browser opens the public landing page.
+3. Select Sign In or Start Your Family Adventure.
+4. After authentication, continue into the family application.

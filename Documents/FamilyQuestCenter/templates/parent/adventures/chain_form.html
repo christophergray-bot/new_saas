@@ -1,0 +1,148 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/adventures/chain_form.html
+  Purpose: Renders the chain form user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Adventure' if adventure else 'Create Adventure' }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Adventure Library</p>
+    <h1>{{ 'Edit Adventure' if adventure else 'Create an Adventure' }}</h1>
+    <p class="page-description">Create the Adventure first, then add its ordered Chapters. Assignment happens later from the Adventure Library.</p>
+  </div>
+</section>
+
+<section class="dashboard-panel schedule-form-panel">
+<form class="quest-form" method="post" id="adventure-builder-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="form-row">
+    <div class="form-group">
+      <label for="name">Adventure Name</label>
+      <input id="name" name="name" required maxlength="80" value="{{ adventure.name if adventure else '' }}" placeholder="Example: Become a Student Cook">
+    </div>
+    <div class="form-group">
+      <label for="bonus_xp">Adventure Completion Bonus XP</label>
+      <input id="bonus_xp" type="number" name="bonus_xp" min="0" value="{{ adventure.bonus_xp if adventure else 100 }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description">Adventure Description</label>
+    <textarea id="description" name="description" rows="3" placeholder="What will the child learn or accomplish?" maxlength="2000">{{ adventure.description if adventure else '' }}</textarea>
+  </div>
+
+  <div class="form-group checkbox-group">
+    <label>
+      <input type="checkbox" name="approval_required" {% if not adventure or adventure.approval_required %}checked{% endif %}>
+      Requires Parent Approval
+    </label>
+    <p class="helper-text">When checked, the Adventure waits in the Approval Center after the final Chapter.</p>
+  </div>
+
+  <section class="chapter-builder-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Adventure Chapters</p>
+        <h2>Journey Steps</h2>
+        <p class="helper-text">Each Chapter is one ordered milestone in the Adventure. The child completes one Chapter at a time.</p>
+      </div>
+    </div>
+    <div id="chapter-list" class="chapter-builder-list" aria-live="polite"></div>
+    <p id="chapter-empty" class="empty-state-compact">No Chapters added yet.</p>
+    <div class="chapter-add-action">
+      <button class="button button-primary" type="button" id="add-chapter">＋ Add Next Chapter</button>
+    </div>
+  </section>
+
+  <div class="page-actions">
+    <a class="button button-secondary" href="{{ url_for('parent_adventures.chains') }}">Back to Adventure Library</a>
+    <button class="button button-primary" type="submit">{{ 'Save Adventure' if adventure else 'Create Adventure' }}</button>
+  </div>
+</form>
+</section>
+
+{% if adventure and adventure.active %}
+<section class="section-block">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Adventure Status</p>
+      <h2>Archive Adventure</h2>
+    </div>
+  </div>
+  <p>Archiving this Adventure removes it from active assignment lists while preserving completed history.</p>
+  <form method="post" action="{{ url_for('parent_adventures.toggle_chain', adventure_id=adventure.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="active" value="0">
+    <button class="button button-danger" type="submit" onclick="return confirm('Archive this Adventure? Existing assignment history will be preserved.');">📦 Archive Adventure</button>
+  </form>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const list = document.getElementById('chapter-list');
+  const empty = document.getElementById('chapter-empty');
+  const chapters = [];
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  }
+
+  function render() {
+    list.innerHTML = '';
+    empty.hidden = chapters.length > 0;
+    chapters.forEach((chapter, index) => {
+      const card = document.createElement('article');
+      card.className = 'chapter-builder-card';
+      card.innerHTML = `
+        <input type="hidden" name="chapter_id" value="${escapeHtml(chapter.id || '')}">
+        <div class="chapter-builder-head">
+          <div><span class="chapter-number">📖 Chapter ${index + 1}</span><strong>${escapeHtml(chapter.name || 'New Chapter')}</strong></div>
+          <div class="chapter-order-actions">
+            <button class="button button-secondary button-small" type="button" data-action="up" ${index === 0 ? 'disabled' : ''}>↑</button>
+            <button class="button button-secondary button-small" type="button" data-action="down" ${index === chapters.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="button button-danger button-small" type="button" data-action="remove">Remove</button>
+          </div>
+        </div>
+        <div class="form-group"><label>Chapter Name<input name="chapter_name" required maxlength="80" value="${escapeHtml(chapter.name)}" placeholder="Example: Count the Trees"></label></div>
+        <div class="form-group"><label>Chapter Instructions<textarea name="chapter_description" rows="3" required placeholder="Tell the child exactly what to do in this Chapter." maxlength="1000">${escapeHtml(chapter.description)}</textarea></label></div>`;
+      const nameInput = card.querySelector('[name="chapter_name"]');
+      nameInput.addEventListener('input', () => { chapter.name = nameInput.value; card.querySelector('.chapter-builder-head strong').textContent = chapter.name || 'New Chapter'; });
+      card.querySelector('[data-action="up"]').addEventListener('click', () => { [chapters[index-1], chapters[index]] = [chapters[index], chapters[index-1]]; render(); });
+      card.querySelector('[data-action="down"]').addEventListener('click', () => { [chapters[index], chapters[index+1]] = [chapters[index+1], chapters[index]]; render(); });
+      card.querySelector('[data-action="remove"]').addEventListener('click', () => { chapters.splice(index, 1); render(); });
+      list.appendChild(card);
+    });
+  }
+
+  function addChapter(data = {}, focusNewChapter = true) {
+    chapters.push({id:data.id || '', name:data.name || '', description:data.description || ''});
+    render();
+    const cards = list.querySelectorAll('.chapter-builder-card');
+    if (focusNewChapter) cards[cards.length - 1]?.querySelector('[name="chapter_name"]')?.focus();
+  }
+
+  document.getElementById('add-chapter').addEventListener('click', () => addChapter());
+  {% if adventure %}
+    {% for journey in adventure.journeys %}
+      addChapter({id:{{ journey.id }}, name:{{ journey.name|tojson }}, description:{{ (journey.description or '')|tojson }}}, false);
+    {% endfor %}
+  {% else %}
+    addChapter({}, false);
+  {% endif %}
+  document.getElementById('name')?.focus({preventScroll: true});
+  window.scrollTo({top: 0, left: 0, behavior: 'instant'});
+
+  document.getElementById('adventure-builder-form').addEventListener('submit', event => {
+    if (!chapters.length) { event.preventDefault(); alert('Add at least one Chapter.'); }
+  });
+});
+</script>
+{% endblock %}

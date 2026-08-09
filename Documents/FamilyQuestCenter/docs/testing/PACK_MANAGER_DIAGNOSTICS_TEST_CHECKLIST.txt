@@ -1,0 +1,13 @@
+RC1.7.2 PACK MANAGER & DIAGNOSTICS TEST CHECKLIST
+
+1. Open Content Pack Manager and confirm the Default Family Pack displays once.
+2. Confirm its status is Built In and the Up to Date control is disabled.
+3. Confirm View Diagnostics opens the Release Diagnostics page.
+4. Confirm Application, Schema, Achievement Engine, and Database Integrity values display.
+5. Confirm Pack Manager Status lists each discovered pack exactly once.
+6. Confirm Default Family Pack shows manifest and installed versions.
+7. Confirm current-family counts match visible children, quests, adventures, and rewards.
+8. Confirm pack manifest validation reports healthy.
+9. Confirm Developer Center contains Release Diagnostics.
+10. Confirm child accounts cannot access /developer/diagnostics.
+11. Restart the app and verify no duplicate packs or content are created.

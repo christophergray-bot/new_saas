@@ -1,0 +1,16 @@
+Content Packs Phase 5 — Manual Test Checklist
+
+1. Start with a clean database.
+2. Open Create Family Account.
+3. Confirm Explorer Starter Pack is selected by default.
+4. Register Family A with Explorer Starter Pack.
+5. Create the Parent PIN and open Content Packs.
+6. Confirm Explorer Starter Pack is installed and active.
+7. Confirm starter quests, adventures, challenges, rewards, pack achievements, avatars, frames, and theme are available.
+8. Sign out.
+9. Register Family B and choose Empty Family.
+10. Create the Parent PIN.
+11. Confirm Explorer Starter Pack is not installed.
+12. Confirm Family B sees only universal core achievements and no starter quests/adventures/challenges/rewards.
+13. Confirm Family A still sees its installed content.
+14. Install Explorer Starter Pack manually for Family B from Content Packs and confirm successful installation.

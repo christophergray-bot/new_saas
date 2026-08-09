@@ -1,0 +1,26 @@
+FAMILY QUEST CENTER
+Sprint 3.0-D — Phase 1: Authentication UI Alignment
+
+PURPOSE
+Bring all account and parent-access screens into the established Family Quest Center visual system before Family Management features are added.
+
+COMPLETED
+- Rebuilt account sign-in page using the standard page header, cards, buttons, spacing, typography, and outdoor identity.
+- Rebuilt family registration page and clearly identified the first account as Parent One.
+- Rebuilt My Account as a consistent two-card account and security view.
+- Rebuilt Change Password and Password Help pages.
+- Rebuilt Parent PIN unlock and first-time PIN setup pages.
+- Replaced legacy .btn usage with the site-wide .button system.
+- Added responsive behavior for desktop, tablet, and mobile layouts.
+- Preserved all existing routes, form field names, and authentication behavior.
+
+NOT INCLUDED IN PHASE 1
+- Family Profile
+- Parent One / Parent Two management
+- Parent invitations
+- Family statistics
+- Family notifications
+- Family activity
+- Family notes
+
+Those items remain in later Sprint 3.0-D phases.

@@ -1,0 +1,40 @@
+Family Quest Center — RC1.6.4 Assignment Workflow Test Checklist
+Date: 2026-08-01
+
+DATABASE / STARTUP
+[ ] Start the application with the existing chorce.db.
+[ ] Confirm no "no such table: adventure_instances_v2" error appears.
+[ ] Open the Adventure Library once and confirm its tables initialize normally.
+
+QUEST ASSIGNMENT
+[ ] Open Quest Library.
+[ ] Confirm every active Quest has an Assign Mission button.
+[ ] Confirm archived Quests do not have Assign Mission.
+[ ] Select Assign Mission and confirm the chosen Quest is preselected.
+[ ] Confirm the existing Mission Scheduler appearance is retained.
+[ ] Create a Daily, Weekly, Monthly, and Custom schedule.
+[ ] Confirm Cancel returns to Quest Library.
+[ ] Confirm successful assignment returns to Quest Library.
+
+ADVENTURE ASSIGNMENT
+[ ] Open Adventure Library.
+[ ] Confirm the old collapsed assignment section is gone.
+[ ] Confirm active Adventures have Assign Adventure.
+[ ] Open Assign Adventure and confirm it matches Mission Scheduler styling.
+[ ] Confirm Adventure name, child, chapter count, bonus XP, chapter order, and start date display.
+[ ] Assign an Adventure to a child.
+[ ] Confirm the first chapter is available and later chapters remain progressive.
+[ ] Confirm Cancel returns to Adventure Library.
+
+REGRESSION
+[ ] Edit and archive a Quest.
+[ ] Edit and archive an Adventure.
+[ ] Confirm existing Mission Scheduler list and edit pages still work.
+[ ] Confirm child Adventure progress still works.
+
+Assignment summaries
+[ ] Quest cards show each active child assignment and its frequency.
+[ ] Quest cards show "Not currently assigned" when no active schedule exists.
+[ ] Adventure cards show each active child assignment and current Chapter progress.
+[ ] Adventure cards show "Not currently assigned" when no active Adventure instance exists.
+[ ] Paused schedules, archived Quests, completed Adventures, and cancelled Adventures are not shown as current assignments.

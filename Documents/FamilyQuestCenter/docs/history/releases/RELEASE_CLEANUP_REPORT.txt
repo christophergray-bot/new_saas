@@ -1,0 +1,17 @@
+FAMILY QUEST CENTER — VERSION 1.0 RELEASE CLEANUP
+
+Cleanup performed
+- Removed Python bytecode and cache folders.
+- Removed editor, operating-system, and runtime-log artifacts.
+- Moved historical sprint and issue notes out of the application root.
+- Moved older testing checklists into docs/testing.
+- Moved one-time Python migration scripts into tools/legacy_migrations.
+- Moved top-level legacy SQL helpers into migrations/legacy.
+- Preserved all application source, templates, static assets, current schema,
+  current database, and startup files.
+
+Cleanup approach
+This was a conservative release cleanup. Files were reorganized rather than
+aggressively deleted when they might still be useful for maintenance or audit
+history. No application routes, models, services, templates, or CSS files were
+removed solely based on static analysis.

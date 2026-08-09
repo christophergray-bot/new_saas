@@ -1,0 +1,121 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/quests/new.html
+  Purpose: Renders the new user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}
+New Quest | Family Quest Center
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-heading">
+    <div>
+        <p class="eyebrow">Quest Library</p>
+        <h1>Create a New Quest</h1>
+        <p>
+            Add a reusable quest that can later be assigned to an adventurer.
+        </p>
+    </div>
+</section>
+
+
+    
+
+<section class="dashboard-panel">
+
+    <form method="post" class="quest-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-group">
+            <label for="title">Quest Name</label>
+
+            <input
+                id="title"
+                name="title"
+                type="text"
+                maxlength="100"
+                required
+                value="{{ request.form.get('title', '') }}"
+                placeholder="Example: Feed the dogs"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+                placeholder="Describe what must be completed."
+             maxlength="2000">{{ request.form.get('description', '') }}</textarea>
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label for="difficulty">Difficulty</label>
+
+                <select id="difficulty" name="difficulty">
+                    {% for number in range(1, 6) %}
+                        <option
+                            value="{{ number }}"
+                            {% if request.form.get('difficulty', defaults.default_quest_difficulty)|int == number %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ number }} — {{ "⭐" * number }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="stars">Stars Awarded</label>
+
+                <input
+                    id="stars"
+                    name="stars"
+                    type="number"
+                    min="0"
+                    max="1000"
+                    value="{{ request.form.get('stars', defaults.default_quest_stars) }}"
+                    required
+                >
+            </div>
+
+        </div>
+
+        <div class="checkbox-group">
+            <input
+                id="approval_required"
+                name="approval_required"
+                type="checkbox"
+                {% if request.form %}{% if request.form.get("approval_required") %}checked{% endif %}{% elif defaults.default_approval_required %}checked{% endif %}
+            >
+
+            <label for="approval_required">
+                Require parent approval before stars are awarded
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <button class="primary-button" type="submit">
+                Create Quest
+            </button>
+
+            <a class="secondary-button" href="{{ url_for('quests.library') }}">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

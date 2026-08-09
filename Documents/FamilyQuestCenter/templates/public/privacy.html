@@ -1,0 +1,18 @@
+{# Family Quest Center template: templates/public/privacy.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Privacy | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Family Information" %}
+{% set page_icon = "🔒" %}
+{% set page_title = "Privacy" %}
+{% set page_description = "How Family Quest Center approaches family information and account privacy." %}
+{% include "partials/page_header.html" %}
+<section class="dashboard-panel">
+  <h2>Family privacy matters</h2>
+  <p>Family Quest Center is designed for family use. Parents should enter only the information needed to operate their family account and should use children’s first names rather than unnecessary identifying details.</p>
+  <h2>Account and activity information</h2>
+  <p>The service stores account, family, quest, adventure, reward, achievement, and activity information needed to provide the application.</p>
+  <h2>Questions</h2>
+  <p>Use the Contact page for privacy questions or support.</p>
+</section>
+{% endblock %}

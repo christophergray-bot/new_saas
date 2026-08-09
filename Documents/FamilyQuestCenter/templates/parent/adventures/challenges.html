@@ -1,0 +1,19 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/adventures/challenges.html
+  Purpose: Renders the challenges user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Family Challenges{% endblock %}
+{% block content %}
+<section class="page-header"><div><span class="section-eyebrow">TEAMWORK</span><h1>Family Challenges</h1><p>Create shared goals that every child can help complete.</p></div></section>
+<section class="dashboard-panel filter-panel"><form class="filter-bar" method="get"><input type="search" name="q" value="{{ search_query }}" placeholder="Search challenges" aria-label="Search challenges"><button class="button button-primary" type="submit">Filter</button><a class="button button-secondary" href="{{ url_for('parent_adventures.challenges') }}">Clear</a></form></section>
+<section class="admin-two-column">
+<form class="admin-section stacked-form" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><h2>New Challenge</h2><label>Name<input name="name" required maxlength="100"></label><label>Description<textarea name="description" rows="2" maxlength="2000"></textarea></label><label>Goal type<select name="goal_type">{% for key,label in goal_types.items() %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select></label><label>Target<input type="number" name="target_value" min="1" value="25" required></label><div class="form-grid"><label>Starts<input type="date" name="start_date" value="{{ today }}" required></label><label>Ends<input type="date" name="end_date" value="{{ default_end }}" required></label></div><label>Family reward<input name="reward_text" placeholder="Movie night, pizza night, family outing..."></label><button class="button button-primary">Create Challenge</button></form>
+<div>{% for challenge in challenges %}<article class="challenge-card {% if not challenge.active %}is-inactive{% endif %}"><div class="challenge-heading"><div><span class="status-pill {% if not challenge.active %}inactive{% endif %}">{{ 'Active' if challenge.active else 'Archived' }}</span><h2>{{ challenge.name }}</h2></div><strong>{{ challenge.percent }}%</strong></div><p>{{ challenge.description }}</p><div class="progress-track"><span style="width:{{ challenge.percent }}%"></span></div><p><strong>{{ challenge.current_value }} / {{ challenge.target_value }}</strong> {{ challenge.goal_label|lower }}</p>{% if challenge.reward_text %}<p>🎁 {{ challenge.reward_text }}</p>{% endif %}<form method="post" action="{{ url_for('parent_adventures.toggle_challenge',challenge_id=challenge.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="active" value="{{ 0 if challenge.active else 1 }}"><button class="button {% if challenge.active %}button-danger{% else %}button-primary{% endif %}" {% if challenge.active %}onclick="return confirm('Archive this family challenge? Progress history will be preserved.');"{% endif %}>{{ '📦 Archive' if challenge.active else '↩ Restore' }}</button></form></article>{% else %}<div class="admin-section"><p>No active family challenges found.</p></div>{% endfor %}</div>
+</section>
+{% endblock %}

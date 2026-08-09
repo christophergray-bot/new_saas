@@ -1,0 +1,11 @@
+Family Quest Center v2.0
+Sprint 1 — S1-004.10 Child Reward Layout Alignment
+
+Changes:
+- Child Reward Shop renamed visually to Available Treasures.
+- Child rewards now use the same full-width stacked card layout as the Parent Reward Library.
+- Each card shows the image/icon, category, name, description, star cost, and availability.
+- Parent management controls are excluded.
+- Child actions include Request/Redeem, Not Enough Stars, pending approval, and View Details.
+- Responsive layout remains full-width and stacks cleanly on smaller screens.
+- No database or route changes.

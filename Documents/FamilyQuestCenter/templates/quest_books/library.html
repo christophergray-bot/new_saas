@@ -1,0 +1,89 @@
+{# Family Quest Center template: templates/quest_books/library.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Quest Books | Family Quest Center{% endblock %}
+{% block body_class %}quest-books-page{% endblock %}
+{% block content %}
+<section class="page-header quest-books-header">
+  <div>
+    <p class="eyebrow">Explore Together</p>
+    <h1>📖 Quest Books</h1>
+    <p>Choose your path through short interactive stories included with your family's Content Packs.</p>
+  </div>
+  <div class="page-header-actions">
+    <a class="button button-secondary" href="{{ url_for('home.family_dashboard') }}">← Family Dashboard</a>
+  </div>
+</section>
+
+{% if not child %}
+<section class="dashboard-panel quest-book-reader-picker" aria-labelledby="reader-picker-heading">
+  <div class="panel-header">
+    <div><p class="eyebrow">Who's Reading?</p><h2 id="reader-picker-heading">Choose Your Explorer</h2></div>
+  </div>
+  <p class="muted-text">Books belong to the whole family, but each explorer keeps their own story path and progress.</p>
+  <div class="quest-book-explorer-grid">
+    {% for explorer in children %}
+      <a class="quest-book-explorer" href="{{ url_for('child.quest_books', user_id=explorer.id) }}">
+        <span class="quest-book-explorer-avatar">{% if explorer.avatar_image %}<img class="profile-selector-avatar-image" src="{{ explorer.avatar_image }}" alt="">{% else %}{{ explorer.avatar_icon or explorer.initial }}{% endif %}</span>
+        <strong>{{ explorer.name }}</strong>
+      </a>
+    {% else %}
+      <p>No active explorer profiles are available yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% else %}
+<section class="quest-book-active-reader" aria-label="Current reader">
+  <span>{% if child and child.avatar_image is defined and child.avatar_image %}<img class="profile-selector-avatar-image" src="{{ child.avatar_image }}" alt="">{% elif character is defined and character and character.avatar and character.avatar.image %}<img class="profile-selector-avatar-image" src="{{ character.avatar.image }}" alt="">{% else %}{{ (character.avatar.icon if character is defined and character and character.avatar else child.initial) if child else '📖' }}{% endif %}</span>
+  <div><small>Reading as</small><strong>{{ child.name }}</strong></div>
+  <a href="{{ url_for('home.family_dashboard') }}">Change Explorer</a>
+</section>
+{% endif %}
+
+<section class="quest-book-library" aria-labelledby="quest-book-library-heading">
+  <div class="section-heading">
+    <div><p class="eyebrow">Family Library</p><h2 id="quest-book-library-heading">Your Quest Books</h2></div>
+  </div>
+  {% if books %}
+  <div class="quest-book-grid">
+    {% for book in books %}
+    <article class="quest-book-card">
+      <div class="quest-book-cover" aria-hidden="true">{{ book.icon }}</div>
+      <div class="quest-book-card-copy">
+        <p class="eyebrow">From {{ book.pack_name }}</p>
+        <h3>{{ book.title }}</h3>
+        <p>{{ book.description }}</p>
+        <div class="quest-book-meta">
+          <span>⏱️ About {{ book.estimated_minutes }} min</span>
+          {% if book.xp_reward %}<span>✨ {{ book.xp_reward }} XP on first completion</span>{% endif %}
+        </div>
+      </div>
+      <div class="quest-book-card-action">
+        {% if child %}
+          {% if book.status == 'completed' %}<span class="status-pill status-approved">Completed</span>
+          {% elif book.status == 'in_progress' %}<span class="status-pill status-completed">In Progress</span>
+          {% else %}<span class="status-pill">New</span>{% endif %}
+          {% if book.status == 'completed' %}
+          <form method="post" action="{{ url_for('child.restart_quest_book', user_id=child.id, book_key=book.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-primary" type="submit">Read Again</button>
+          </form>
+          {% else %}
+          <a class="button button-primary" href="{{ url_for('child.read_quest_book', user_id=child.id, book_key=book.id) }}">{{ book.action_label }}</a>
+          {% endif %}
+        {% else %}
+          <span class="status-pill">Choose an Explorer</span>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <article class="polished-empty-state">
+    <div class="empty-state-icon">📚</div>
+    <h2>Your library is waiting</h2>
+    <p>Quest Books included with installed Content Packs will appear here automatically.</p>
+    <a class="button button-secondary" href="{{ url_for('home.family_pack_store') }}">Browse Pack Store</a>
+  </article>
+  {% endif %}
+</section>
+{% endblock %}

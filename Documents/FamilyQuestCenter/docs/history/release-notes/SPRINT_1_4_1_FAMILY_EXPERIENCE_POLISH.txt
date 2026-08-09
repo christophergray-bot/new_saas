@@ -1,0 +1,9 @@
+Family Quest Center v1.4.1 — Family Experience Polish
+
+- Family Setup is clearly available in parent navigation until onboarding is complete.
+- Mission setup completes from either a one-time assignment or an active Mission Builder schedule.
+- Rewards were removed from required onboarding.
+- Parent approvals are explained without an acknowledgement button.
+- The Parent Area lock is introduced as an opening reminder.
+- Completion offers Explore Parent Dashboard or Lock Parent Area.
+- Explorer Training now says to click the Complete Mission button.

@@ -1,0 +1,18 @@
+Family Quest Center v1.4.0 — Family Experience
+
+Parent: Family Setup Adventure
+- New registrations proceed from Parent PIN creation to a resumable setup checklist.
+- Checklist detects the first child, first assigned mission, first assigned adventure, and active rewards.
+- Parent approval guidance is acknowledged directly in the checklist.
+- Final action locks the Parent Area and opens a child-safe completion screen.
+- Enter Family Quest Center opens the Family Dashboard in locked mode.
+- Incomplete setups return to the checklist after normal sign-in/unlock.
+
+Child: Explorer Training
+- The first time each child profile is opened, a seven-step tutorial appears.
+- It explains the Quest Board, Adventures, Chapters, completion, approvals, Stars, Rewards, and Achievements.
+- Training is stored per child and does not repeat after completion.
+
+Database
+- Adds family_onboarding and child_training tables automatically at startup.
+- No existing family data is deleted or replaced.

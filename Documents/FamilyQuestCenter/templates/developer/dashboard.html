@@ -1,0 +1,74 @@
+{# Family Quest Center template: templates/developer/dashboard.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Application Owner Dashboard{% endblock %}
+{% block content %}
+{% set eyebrow = "PLATFORM ADMINISTRATION" %}
+{% set title = "Application Owner Dashboard" %}
+{% set subtitle = "Monitor platform health, customer activity, subscriptions, and operations." %}
+{% include "components/page_header.html" %}
+
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">PLATFORM OVERVIEW</span><h2>Current Status</h2></div></div>
+  <div class="owner-overview-grid">
+    {% for label, value in overview.items() %}
+      <article class="diagnostic-stat"><strong>{{ value }}</strong><span>{{ label }}</span></article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="admin-section owner-attention-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">ACTION REQUIRED</span><h2>Items Needing Attention</h2></div></div>
+  {% if attention_items %}
+    <div class="owner-attention-list">
+      {% for item in attention_items %}
+        <a class="owner-attention-item" href="{{ url_for(item.endpoint) }}">
+          <span class="owner-attention-icon" aria-hidden="true">{{ item.icon }}</span>
+          <span><strong>{{ item.title }}</strong><small>{{ item.detail }}</small></span>
+          <span aria-hidden="true">→</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="owner-all-clear">✅ No platform issues require attention.</p>
+  {% endif %}
+</section>
+
+<div class="admin-two-column owner-dashboard-columns">
+  <section class="admin-section">
+    <div class="admin-section-header"><div><span class="section-eyebrow">PLATFORM HEALTH</span><h2>Service Status</h2></div><a href="{{ url_for('developer.health') }}">View details →</a></div>
+    <div class="owner-health-list">
+      {% for item in health_summary %}
+        <div class="owner-health-row">
+          <span>{{ item.label }}</span>
+          <strong class="owner-status owner-status-{{ item.status }}">{{ item.value }}</strong>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="admin-section">
+    <div class="admin-section-header"><div><span class="section-eyebrow">QUICK ACTIONS</span><h2>Common Tasks</h2></div></div>
+    <div class="owner-quick-actions">
+      <a class="admin-tool-card" href="{{ url_for('developer.families') }}"><span>👨‍👩‍👧‍👦</span><strong>Search Families</strong><small>Find and review customer families</small></a>
+      <a class="admin-tool-card" href="{{ url_for('developer.parent_accounts') }}"><span>👤</span><strong>Search Parent Accounts</strong><small>Support account access and recovery</small></a>
+      <a class="admin-tool-card" href="{{ url_for('developer.health') }}"><span>🩺</span><strong>View System Health</strong><small>Inspect runtime and database health</small></a>
+      <a class="admin-tool-card" href="{{ url_for('maintenance.center') }}"><span>💾</span><strong>Create Backup</strong><small>Open Backup & Restore</small></a>
+      <a class="admin-tool-card" href="{{ url_for('developer.audit_log') }}"><span>📜</span><strong>Open Audit Log</strong><small>Review administrative activity</small></a>
+      <a class="admin-tool-card" href="{{ url_for('developer.settings') }}"><span>⚙️</span><strong>System Settings</strong><small>Registration and platform controls</small></a>
+    </div>
+  </section>
+</div>
+
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">RECENT PLATFORM ACTIVITY</span><h2>Latest Events</h2></div><a href="{{ url_for('developer.audit_log') }}">View all →</a></div>
+  {% if recent_activity %}
+    <div class="admin-list owner-activity-scroll" tabindex="0" aria-label="Recent platform activity">
+      {% for entry in recent_activity %}
+        <div class="admin-list-row"><div><strong>{{ entry.action|replace('_', ' ')|title }}</strong><small>{{ entry.details or entry.entity_type or 'Platform activity' }}</small></div><time>{{ entry.created_at }}</time></div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted-copy">No platform activity has been recorded yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

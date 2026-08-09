@@ -1,0 +1,12 @@
+Family Quest Center v1.3.0 — Content Pack Manager
+
+Implemented:
+- Installed, Available, and Archived Content Pack tabs
+- Pack summary statistics
+- Detailed pack contents page
+- Pack metadata and future pack preview cards
+- Installed version and archive/restore controls
+- Source Pack badges in Quest, Adventure, Reward, and Achievement libraries
+- Cover artwork placeholders and update-status location
+
+No database is included. Existing family data is preserved.

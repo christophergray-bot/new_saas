@@ -1,0 +1,61 @@
+{# Family Quest Center template: templates/developer/diagnostics.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Release Diagnostics | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow="Administration" %}{% set page_icon="🔎" %}{% set page_title="Release Diagnostics" %}
+{% set page_description="A read-only snapshot of application versions, database health, installed packs, and system-wide records." %}
+{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text="← Developer Center" %}
+{% include "partials/page_header.html" %}
+
+<section class="pack-summary-grid" aria-label="Release diagnostic summary">
+  <article class="pack-stat-card"><span>Application</span><strong>{{ snapshot.application_version }}</strong></article>
+  <article class="pack-stat-card"><span>Schema</span><strong>{{ snapshot.schema_version }}</strong></article>
+  <article class="pack-stat-card"><span>Achievement Engine</span><strong>v{{ snapshot.achievement_engine_version }}</strong></article>
+  <article class="pack-stat-card"><span>Database Integrity</span><strong>{{ snapshot.database_integrity|title }}</strong></article>
+</section>
+
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">CONTENT PLATFORM</span><h2>Pack Manager Status</h2></div><a href="{{ url_for('developer.packs') }}">Open Pack Management →</a></div>
+  <div class="diagnostic-stat-grid">
+    <article class="diagnostic-stat"><strong>{{ snapshot.packs.active_count }}</strong><span>Active Packs</span></article>
+    <article class="diagnostic-stat"><strong>{{ snapshot.packs.available_count }}</strong><span>Available Packs</span></article>
+    <article class="diagnostic-stat"><strong>{{ snapshot.packs.archived_count }}</strong><span>Archived Packs</span></article>
+    <article class="diagnostic-stat"><strong>{{ snapshot.packs.update_count }}</strong><span>Updates Available</span></article>
+  </div>
+  <div class="admin-list">
+  {% for pack in snapshot.packs.packs %}
+    <div class="admin-list-row"><div><strong>{{ pack.icon }} {{ pack.name }}</strong><small>{{ pack.pack_type|title }} · Manifest v{{ pack.version }}{% if pack.installation %} · Installed v{{ pack.installation.installed_version }} · {{ pack.installation.status|title }}{% else %} · Not installed{% endif %}</small></div><span class="status-pill {{ 'status-approved' if pack.manager_status in ['built_in','installed'] else '' }}">{{ pack.manager_status|replace('_',' ')|title }}</span></div>
+  {% endfor %}
+  </div>
+</section>
+
+<div class="admin-two-column">
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">SYSTEM-WIDE</span><h2>Record Counts</h2></div></div>
+  <div class="diagnostic-stat-grid">
+  {% for label, value in snapshot.counts.items() %}<article class="diagnostic-stat"><strong>{{ value }}</strong><span>{{ label }}</span></article>{% endfor %}
+  </div>
+</section>
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">COSMETICS</span><h2>Active Content</h2></div></div>
+  <div class="diagnostic-stat-grid">
+  {% for label, value in snapshot.active_cosmetics.items() %}<article class="diagnostic-stat"><strong>{{ value }}</strong><span>{{ label|title }}</span></article>{% else %}<p class="muted-copy">No active cosmetic records found.</p>{% endfor %}
+  </div>
+</section>
+</div>
+
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">VALIDATION</span><h2>Pack Manifests</h2></div></div>
+  <div class="health-grid">
+  {% for item in snapshot.packs.validation %}
+    <article class="health-card health-{{ item.status }}"><span class="health-dot"></span><div><strong>{{ item.file }}</strong><small>{{ item.detail }}</small></div></article>
+  {% endfor %}
+  </div>
+</section>
+
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">DATABASE</span><h2>Migration Status</h2></div></div>
+  {% if snapshot.last_migration %}<p><strong>Last migration:</strong> {{ snapshot.last_migration.get('migration_name', snapshot.last_migration.get('version', 'Recorded migration')) }} · {{ snapshot.last_migration.get('applied_at', '') }}</p>{% else %}<p class="muted-copy">No migration history is recorded.</p>{% endif %}
+  <p><strong>Active families:</strong> {{ snapshot.active_family_count }} · <strong>Integrity check:</strong> {{ snapshot.database_integrity }}</p>
+</section>
+{% endblock %}

@@ -1,0 +1,5 @@
+Family Quest Center v1.2.2 - Content Packs Phase 3
+
+Added pack-based Achievements, Avatars, Frames, and Themes.
+Each family receives its own availability records. Pack archive/restore applies to these items without affecting other families.
+Core system cosmetics remain available even before a pack is installed.

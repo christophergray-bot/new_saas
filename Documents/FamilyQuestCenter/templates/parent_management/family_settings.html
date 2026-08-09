@@ -1,0 +1,79 @@
+{# Family-wide identity, quest, operations, progression, and session settings. #}
+{% extends "base.html" %}
+{% block title %}Family Settings | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow="Command Center" %}{% set page_icon="⚙️" %}{% set page_title="Family Settings" %}
+{% set page_description="Configure settings that apply to the entire family workspace." %}
+{% set page_action_url=url_for('parent.dashboard') %}{% set page_action_text="← Back to Command Center" %}
+{% include "partials/page_header.html" %}
+
+<section class="section-block settings-stack">
+<article class="dashboard-panel" id="identity">
+  <p class="eyebrow">Family Identity</p><h2>Family and Regional Preferences</h2>
+  <form method="post" class="auth-form settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="form_action" value="identity">
+    <div class="form-row">
+      <div class="form-group"><label for="application_name">Application Name</label><input id="application_name" name="application_name" maxlength="60" required value="{{ settings.application_name }}"><small>Displayed in the header, page title, and footer.</small></div>
+      <div class="form-group"><label for="family_name">Family Name</label><input id="family_name" name="family_name" value="{{ settings.family_name }}" maxlength="60" required><small>Used to identify this family throughout Family Quest Center.</small></div>
+    </div>
+    <div class="form-row form-row-three">
+      <div class="form-group"><label for="timezone">Time Zone</label><select id="timezone" name="timezone"><option value="America/Los_Angeles" {% if settings.timezone=='America/Los_Angeles' %}selected{% endif %}>Pacific Time</option><option value="America/Denver" {% if settings.timezone=='America/Denver' %}selected{% endif %}>Mountain Time</option><option value="America/Chicago" {% if settings.timezone=='America/Chicago' %}selected{% endif %}>Central Time</option><option value="America/New_York" {% if settings.timezone=='America/New_York' %}selected{% endif %}>Eastern Time</option></select></div>
+      <div class="form-group"><label for="country">Country</label><input id="country" name="country" value="{{ settings.country }}" maxlength="60"></div>
+      <div class="form-group"><label for="date_format">Date Format</label><select id="date_format" name="date_format"><option value="MM/DD/YYYY" {% if settings.date_format=='MM/DD/YYYY' %}selected{% endif %}>MM/DD/YYYY</option><option value="DD/MM/YYYY" {% if settings.date_format=='DD/MM/YYYY' %}selected{% endif %}>DD/MM/YYYY</option><option value="YYYY-MM-DD" {% if settings.date_format=='YYYY-MM-DD' %}selected{% endif %}>YYYY-MM-DD</option></select></div>
+    </div>
+    <div class="form-actions"><button class="button button-primary" type="submit">Save Family Identity</button></div>
+  </form>
+</article>
+
+<article class="dashboard-panel" id="quest-defaults">
+  <p class="eyebrow">Quest Defaults</p><h2>New Quest Starting Values</h2><p>These values prefill new quests. Existing quests are not changed.</p>
+  <form method="post" class="auth-form settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="form_action" value="quest_defaults">
+    <div class="form-row form-row-three">
+      <div class="form-group"><label for="default_quest_difficulty">Default Difficulty</label><select id="default_quest_difficulty" name="default_quest_difficulty">{% for number in range(1, 6) %}<option value="{{ number }}" {% if settings.default_quest_difficulty == number %}selected{% endif %}>{{ number }} — {{ "⭐" * number }}</option>{% endfor %}</select></div>
+      <div class="form-group"><label for="default_quest_stars">Default Stars</label><input id="default_quest_stars" name="default_quest_stars" type="number" min="0" max="1000" value="{{ settings.default_quest_stars }}" required></div>
+      <div class="form-group setting-checkbox-card"><label for="default_approval_required">Approval Required</label><label class="checkbox-group"><input id="default_approval_required" name="default_approval_required" type="checkbox" {% if settings.default_approval_required %}checked{% endif %}> Require parent approval by default</label></div>
+    </div><div class="form-actions"><button class="button button-primary" type="submit">Save Quest Defaults</button></div>
+  </form>
+</article>
+
+<article class="dashboard-panel" id="operations">
+  <p class="eyebrow">Operations</p><h2>Daily Rules</h2>
+  <form method="post" class="auth-form settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="form_action" value="operations">
+    <div class="form-row">
+      <div class="form-group"><label for="daily_reset_time">Daily Reset Time</label><input id="daily_reset_time" name="daily_reset_time" type="time" value="{{ settings.daily_reset_time }}" required></div>
+      <div class="form-group"><label for="streak_grace_days">Streak Grace Days</label><input id="streak_grace_days" name="streak_grace_days" type="number" min="0" max="7" value="{{ settings.streak_grace_days }}" required></div>
+    </div><div class="form-actions"><button class="button button-primary" type="submit">Save Operations</button></div>
+  </form>
+</article>
+
+<article class="dashboard-panel" id="experience">
+  <p class="eyebrow">Experience &amp; Progression</p><h2>Configure Quest XP Awards</h2><p>These values determine XP awarded when a quest is approved. Previously earned XP is not changed.</p>
+  <form method="post" class="auth-form settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="form_action" value="experience">
+    <div class="form-row form-row-three">{% for number in range(1, 6) %}<div class="form-group"><label for="experience_xp_difficulty_{{ number }}">Difficulty {{ number }} XP</label><input id="experience_xp_difficulty_{{ number }}" name="xp_difficulty_{{ number }}" type="number" min="0" max="10000" value="{{ settings['xp_difficulty_' ~ number] }}" required></div>{% endfor %}</div>
+    <div class="form-actions"><button class="button button-primary" type="submit">Save Experience &amp; Progression</button></div>
+  </form>
+</article>
+
+<article class="dashboard-panel" id="session">
+  <p class="eyebrow">Session</p><h2>Parent-Area Session</h2>
+  <form method="post" class="auth-form settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="form_action" value="session">
+    <div class="form-row form-row-two">
+      <div class="form-group"><label for="session_timeout_seconds">Parent Session Timeout</label><input id="session_timeout_seconds" name="session_timeout_seconds" type="number" min="60" max="86400" value="{{ settings.session_timeout_seconds }}" required><small>Seconds of inactivity before Parent Area locks. Default: 600 seconds (10 minutes).</small></div>
+      <div class="form-group"><label for="child_session_timeout_seconds">Child Session Timeout</label><input id="child_session_timeout_seconds" name="child_session_timeout_seconds" type="number" min="3600" max="86400" value="{{ settings.child_session_timeout_seconds }}" required><small>Seconds of inactivity before Child Mode returns to the Family page. Default: 43,200 seconds (12 hours).</small></div>
+    </div>
+    <div class="form-actions"><button class="button button-primary" type="submit">Save Session Settings</button></div>
+  </form>
+  <form method="post" action="{{ url_for('auth.logout') }}" class="form-actions">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-secondary" type="submit">🔒 Lock Parent Area Now</button></form>
+</article>
+
+<article class="dashboard-panel" id="trusted-devices">
+  <p class="eyebrow">Future Security</p><h2>Sessions and Trusted Devices</h2><p>Active-session management and trusted-device controls will be added during hosted account development. This section is reserved here because it applies to the family workspace.</p>
+</article>
+</section>
+{% endblock %}

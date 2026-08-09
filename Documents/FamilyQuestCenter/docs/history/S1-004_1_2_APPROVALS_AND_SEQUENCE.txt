@@ -1,0 +1,17 @@
+S1-004.1 / S1-004.2 — Unified Approvals and Sequential Journeys
+
+Included:
+- Version 2 Journeys are submitted to the parent Approval Center before XP is awarded.
+- Approval Center combines Missions, legacy Adventure steps, and Version 2 Journeys.
+- Approval filters: All, Missions, Journeys.
+- Approving a Journey awards Journey XP and unlocks only the next Journey.
+- Approving the final Journey completes the Adventure and awards bonus XP.
+- Returning a Journey makes it available to the child again.
+- Adventure Builder now supports explicit Journey ordering with Move Up and Move Down controls.
+- Existing Adventures can be edited when they have no active assignments.
+- Children cannot skip locked Journeys.
+- A submitted Journey remains visible as Waiting for Approval.
+
+Database compatibility:
+- Existing journey_instances tables receive pending_approval and submitted_at columns automatically.
+- No manual database migration is required.

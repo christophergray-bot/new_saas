@@ -1,0 +1,18 @@
+SPRINT 3.0-C AUTHENTICATION TEST CHECKLIST
+
+[ ] Opening / while signed out redirects to /account/login
+[ ] First registration claims existing family data
+[ ] A second registration creates a separate family
+[ ] Duplicate email is rejected
+[ ] Weak password is rejected
+[ ] Password is stored as a hash, not plaintext
+[ ] Valid owner login succeeds
+[ ] Invalid password returns a generic error
+[ ] Remember Me persists the account session
+[ ] Sign Out clears account, family, role, and parent-PIN session state
+[ ] Parent pages require account login and parent PIN
+[ ] Caregiver membership cannot enter parent/administrative routes
+[ ] My Account displays the correct family and role
+[ ] Change Password rejects the wrong current password
+[ ] New password works after sign-out and sign-in
+[ ] Family A cannot access Family B records by changing URL IDs

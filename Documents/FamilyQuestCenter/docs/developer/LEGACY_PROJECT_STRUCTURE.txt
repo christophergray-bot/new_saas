@@ -1,0 +1,39 @@
+FAMILY QUEST CENTER — RELEASE PROJECT STRUCTURE
+
+Application entry points
+  app.py                         Flask application
+  Start Family Quest Center.bat Windows launcher
+  config.py                      Application configuration
+  database.py                    SQLite connection lifecycle
+  init_db.py                     Creates a clean database from schema.sql
+  schema.sql                     Current clean-install schema
+
+Application code
+  routes/                        Web routes and request handling
+  models/                        Database access and domain logic
+  services/                      Authentication, tenant, and gameplay services
+  templates/                     Jinja HTML templates
+  static/                        CSS and static web assets
+  content/                       Bundled application content
+
+Database maintenance
+  migrations/                    Current SQL migration references
+  migrations/legacy/             Older SQL migration helpers
+  tools/legacy_migrations/       Older one-time Python migration tools
+
+Documentation
+  README.txt                     Main setup and usage guide
+  CLEAN_INSTALL_README.txt       Clean-install instructions
+  RELEASE_NOTES_1.0.0.txt        Current release notes
+  TESTING_CHECKLIST_1.0.0.txt    Current acceptance checklist
+  docs/testing/                  Older testing checklists
+  docs/history/                  Historical sprint and issue notes
+
+Runtime data
+  chorce.db                      Existing test database in the test build only
+
+Items intentionally removed
+  Python bytecode and __pycache__ folders
+  Editor metadata
+  Temporary/system files
+  Runtime log files

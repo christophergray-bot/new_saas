@@ -1,0 +1,33 @@
+Family Quest Center v1.0.0 - Sprint 1 Navigation & Workflow Fixes
+
+Resolved:
+- FC-0010 Parent Navigation Consistency Review
+- FC-0011 Child Home / Quest Board Navigation
+- FC-0012 Parent Navigation Label Review
+- FC-0013 Generate Today's Quests Button Review
+
+Changes:
+1. Parent hamburger navigation now includes Today's Quests, Quest Schedules, Reward Manager, and clearly labeled Reward Requests.
+2. Parent Command Center All Tools now includes every current parent-facing management area, including Challenges.
+3. Child-facing pages now display persistent Home and Quest Board shortcut buttons near the top.
+4. Parent dashboard action changed from Change Profile to Return to Family Home.
+5. Manual Generate Today's Quests controls were removed from the daily page because generation occurs automatically when the page loads.
+6. The backend manual generation endpoint remains intact for compatibility and maintenance use.
+
+Database migration required: No.
+
+
+SPRINT 1 CORRECTION
+- Restored an explicit Parent Dashboard link in the hamburger navigation.
+- Added persistent parent shortcuts near the top of parent pages: Home, Dashboard, and Lock.
+- Renamed the locked-state hamburger option to Parent Access.
+
+
+Navigation refinement v3:
+- Parent hamburger limited to Dashboard, Notifications, Approvals, Reward Requests, Reports, Settings, Backup/Exp., Developer, and Logout.
+- Parent context shortcuts limited to Dashboard and Logout; Logout returns to Family Home.
+- Dashboard Quick Actions set to Today's Missions, Today's Quests, Quest Library, Adventures, Challenges, and Reward Manager.
+- Added a Reward Requests dashboard card below Pending Approvals.
+
+- Added Today's Missions to the All Tools Command Center.
+- Made the All Tools Command Center card collapsible (expanded by default).

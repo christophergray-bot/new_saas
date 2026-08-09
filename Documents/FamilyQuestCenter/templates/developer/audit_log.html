@@ -1,0 +1,30 @@
+{# Family Quest Center template: templates/developer/audit_log.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Audit Center{% endblock %}
+{% block content %}
+{% set eyebrow="PLATFORM ACCOUNTABILITY" %}{% set title="Audit Center" %}{% set subtitle="Search administrative, security, family, account, settings, backup, and system activity." %}{% set page_action_url=url_for('developer.operations') %}{% set page_action_text='← Operations' %}{% include "components/page_header.html" %}
+
+<div class="diagnostic-stat-grid audit-summary-grid">
+  {% for label,value in summary.items() %}<article class="diagnostic-stat"><strong>{{ value }}</strong><span>{{ label }}</span></article>{% endfor %}
+</div>
+
+<section class="admin-section">
+<form class="report-filter-grid audit-filter-grid" method="get">
+  <label>Search<input name="q" value="{{ filters.search or '' }}" placeholder="Action, person, family, target, or detail"></label>
+  <label>Exact action<input name="action" value="{{ filters.action or '' }}" placeholder="Example: family_suspended"></label>
+  <label>Category<select name="category">
+    {% for value,label in [('all','All'),('family','Families'),('parent','Parent Accounts'),('security','Security'),('backup','Backup & Recovery'),('settings','System Settings'),('subscription','Subscriptions'),('packs','Packs'),('system','System')] %}<option value="{{ value }}" {% if filters.category==value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+  </select></label>
+  <label>Start date<input type="date" name="start_date" value="{{ filters.start_date or '' }}"></label>
+  <label>End date<input type="date" name="end_date" value="{{ filters.end_date or '' }}"></label>
+  <div class="filter-actions"><button class="button button-primary" type="submit">Apply Filters</button><a class="button button-secondary" href="{{ url_for('developer.audit_log') }}">Clear</a><a class="button button-secondary" href="{{ url_for('developer.audit_log_csv', q=filters.search or '', action=filters.action or '', category=filters.category or 'all', start_date=filters.start_date or '', end_date=filters.end_date or '') }}">Export CSV</a></div>
+</form>
+</section>
+
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">RESULTS</span><h2>{{ entries|length }} Audit Event{% if entries|length != 1 %}s{% endif %}</h2></div></div>
+  <div class="table-scroll audit-table-scroll"><table class="admin-table"><thead><tr><th>Date</th><th>Actor</th><th>Action</th><th>Target</th><th>Family</th><th>Details</th></tr></thead><tbody>
+  {% for row in entries %}<tr><td>{{ row.created_at }}</td><td><strong>{{ row.actor_name or row.actor_type }}</strong><small>{{ row.actor_type|replace('_',' ')|title }}</small></td><td><span class="audit-action">{{ row.action|replace('_',' ')|title }}</span></td><td>{{ row.entity_type or '—' }}{% if row.entity_id %} #{{ row.entity_id }}{% endif %}</td><td>{{ row.family_id or '—' }}</td><td class="audit-details">{{ row.details or '—' }}</td></tr>{% else %}<tr><td colspan="6">No audit entries match the selected filters.</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+Family Quest Center v2.0 — Sprint 1 — S1-004.12
+Avatar Identity Simplification
+
+Changes:
+- Removed the separate character-title cosmetic category.
+- The selected avatar now provides both the profile image/icon and displayed identity title.
+- Character customization now contains only Avatar, Frame, and Theme sections.
+- Existing title_key database field is retained for backward compatibility and is synchronized to the selected avatar key when saved.
+- No schema migration is required.

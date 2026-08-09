@@ -1,0 +1,14 @@
+Family Quest Center Version 2
+Sprint 1 — S1-004 Builder Naming Foundation
+
+Changes
+- Parent Quest Schedules is now labeled Mission Builder.
+- New/Edit schedule screens use Build Mission and Edit Mission language.
+- Parent Adventure management is now labeled Journey Builder.
+- Adventure creation uses Journey-oriented wording in the parent interface.
+- Parent Dashboard links now use Mission Builder and Journey Builder.
+- Child dashboard behavior is unchanged.
+- Existing data and URLs are preserved.
+
+Important transition note
+This build establishes the approved parent-facing naming convention. The legacy Adventure storage still uses quest-chain tables internally; replacement with first-class Journey records remains the next implementation phase.

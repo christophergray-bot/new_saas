@@ -1,0 +1,22 @@
+{# Family Quest Center template: templates/developer/families.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Families{% endblock %}
+{% block content %}
+{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Owner Dashboard' %}
+{% include "components/page_header.html" %}
+<section class="admin-section">
+  <form class="owner-family-filters" method="get">
+    <label>Search<input type="search" name="q" value="{{ search }}" placeholder="Family, parent, or email"></label>
+    <label>Status<select name="status"><option value="all">All</option>{% for value in ['active','trial','suspended','archived'] %}<option value="{{ value }}" {% if selected_status==value %}selected{% endif %}>{{ value|title }}</option>{% endfor %}</select></label>
+    <label>Subscription<select name="subscription"><option value="all">All</option>{% for value in ['none','trialing','active','past_due','cancelled'] %}<option value="{{ value }}" {% if selected_subscription==value %}selected{% endif %}>{{ value|replace('_',' ')|title }}</option>{% endfor %}</select></label>
+    <label>Sort<select name="sort">{% for value,label in [('newest','Newest'),('oldest','Oldest'),('name','Name'),('last_active','Last Active')] %}<option value="{{ value }}" {% if selected_sort==value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <button class="button button-primary" type="submit">Search</button>
+  </form>
+</section>
+<section class="admin-section">
+  <div class="section-heading"><div><span class="eyebrow">CUSTOMER ACCOUNTS</span><h2>Families</h2></div><strong>{{ families|length }} found</strong></div>
+  {% if families %}<div class="owner-family-table-wrap"><table class="owner-family-table"><thead><tr><th>Family</th><th>Primary Parent</th><th>Children</th><th>Subscription</th><th>Status</th><th>Last Activity</th><th>Created</th><th></th></tr></thead><tbody>
+  {% for family in families %}<tr><td><strong>{{ family.name }}</strong></td><td>{{ family.primary_parent or '—' }}<small>{{ family.primary_email or '' }}</small></td><td>{{ family.child_count }}</td><td><span class="status-pill">{{ family.subscription_status|replace('_',' ')|title }}</span></td><td><span class="status-pill status-{{ family.status }}">{{ family.status|title }}</span></td><td>{{ family.last_activity or '—' }}</td><td>{{ family.created_at }}</td><td><a class="button button-secondary" href="{{ url_for('developer.family_detail', family_id=family.id) }}">Manage</a></td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<p>No families match the selected filters.</p>{% endif %}
+</section>
+{% endblock %}

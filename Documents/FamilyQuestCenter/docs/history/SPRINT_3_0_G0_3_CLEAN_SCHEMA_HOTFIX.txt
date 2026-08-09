@@ -1,0 +1,24 @@
+FAMILY QUEST CENTER — SPRINT 3.0-G.0.3
+CLEAN DATABASE JOURNEY SCHEMA HOTFIX
+
+Issue fixed:
+OperationalError: no such column: xai.family_id
+
+Root cause:
+The Journey/Adventure Version 2 tables are created dynamically. The clean database
+initializer created those tables using an older definition without family_id, while
+the tenant-isolation query expected family_id to exist.
+
+Installation:
+1. Stop Family Quest Center.
+2. Copy the included models/journeys.py into your existing project.
+3. Allow Windows to replace the existing file.
+4. Restart Family Quest Center and open the Parent Dashboard.
+
+The first dashboard request automatically:
+- Adds family_id to journeys, adventures_v2, and adventure_instances_v2 when missing.
+- Backfills the existing clean-test records.
+- Adds tenant indexes.
+- Preserves all users, children, quests, journeys, adventures, and other test data.
+
+Do NOT delete chorce.db for this patch.

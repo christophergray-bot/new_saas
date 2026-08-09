@@ -1,0 +1,11 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/developer/configuration.html
+  Purpose: Renders the configuration user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Configuration{% endblock %}{% block content %}
+{% set eyebrow="RUNTIME SETTINGS" %}{% set title="Configuration Viewer" %}{% set subtitle="Read-only details about the active Family Quest Center installation." %}{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Developer Center' %}{% include "components/page_header.html" %}
+<section class="admin-section"><div class="configuration-list">{% for label,value in runtime.items() %}<div><strong>{{ label }}</strong><code>{{ value }}</code></div>{% endfor %}</div></section>
+{% endblock %}

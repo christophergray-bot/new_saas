@@ -1,0 +1,83 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/children/add.html
+  Purpose: Renders the add user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}
+Add Child | Family Quest Center
+{% endblock %}
+
+{% block content %}
+
+{% set page_eyebrow = "Family Member" %}
+{% set page_icon = "➕" %}
+{% set page_title = "Add Child" %}
+{% set page_description = "Create a new child profile." %}
+{% set page_action_url = url_for('children.list_children') %}
+{% set page_action_text = "Cancel" %}
+
+{% include "partials/page_header.html" %}
+
+<section class="section-block">
+
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">New Family Member</p>
+            <h2>Child Information</h2>
+        </div>
+    </div>
+
+    <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-group">
+
+            <label>Name</label>
+
+            <input
+                type="text"
+                name="name"
+                required
+             maxlength="100">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Initial</label>
+
+            <input
+                type="text"
+                name="initial"
+                maxlength="1"
+            >
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="button button-primary"
+                type="submit"
+            >
+                Create Child
+            </button>
+
+            <a
+                href="{{ url_for('children.list_children') }}"
+                class="button button-secondary"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

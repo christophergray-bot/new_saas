@@ -1,0 +1,12 @@
+Family Quest Center v1.4.4
+RC-0016 Empty Family Onboarding Hotfix
+
+Fixes:
+- Family Setup no longer assumes the Explorer Starter Pack was installed.
+- Starter Pack families retain the full Explorer, Mission, and Adventure checklist.
+- Empty families only need to add their first Explorer before setup can be completed.
+- Empty families receive optional links to create quests and adventures later.
+- Adventure tables are initialized before onboarding checks them.
+- Explorer Training remains available for every child.
+
+No database is included or replaced.

@@ -1,0 +1,17 @@
+Family Quest Center RC-0014 — Adventure Lifecycle Redesign
+
+Implemented:
+- Children complete Chapters directly without parent approval.
+- Completing a Chapter awards its Chapter XP immediately.
+- The next Chapter unlocks immediately.
+- Completing the final Chapter submits the entire Adventure for Quest Master celebration.
+- The Approval Center now shows Adventure Celebration items instead of Chapter approvals.
+- Celebrating an Adventure marks it complete and awards the Adventure bonus XP.
+- Returning an Adventure reopens its final Chapter.
+- Child dashboards show Adventures awaiting celebration and completed Adventures.
+
+Database upgrade:
+The application automatically adds pending_approval, submitted_at, and parent_message fields to adventure_instances_v2. Existing family data is preserved.
+
+Current reward behavior:
+This build awards the existing Chapter XP and Adventure bonus XP. Adventure-specific badges, trophies, Stars, and reward objects can be connected later once those reward fields are added to the Adventure model.

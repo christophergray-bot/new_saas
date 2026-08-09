@@ -1,0 +1,106 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/trophy_room.html
+  Purpose: Renders the trophy room user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}{{ child.name }}'s Trophy Room{% endblock %}
+
+{% block content %}
+
+<section class="page-header trophy-room-header">
+    <div>
+        <p class="eyebrow">Achievement Collection</p>
+        <h1>🏆 {{ child.name }}'s Trophy Room</h1>
+        <p>Every trophy marks a milestone in your adventure.</p>
+    </div>
+
+    <div class="trophy-count-badge">
+        <strong>{{ earned_count }}</strong>
+        <span>of {{ total_count }} earned</span>
+    </div>
+</section>
+
+
+{% if achievements %}
+    <section class="achievement-grid">
+        {% for achievement in achievements %}
+            <article class="achievement-card {% if achievement.earned %}earned{% else %}locked{% endif %}">
+                <div class="achievement-icon" aria-hidden="true">
+                    {% if achievement.earned %}
+                        {{ achievement.icon }}
+                    {% else %}
+                        🔒
+                    {% endif %}
+                </div>
+
+                <div class="achievement-card-content">
+                    <div class="achievement-title-row">
+                        <div>
+                            <p class="eyebrow">{{ achievement.category }}</p>
+                            <h2>{{ achievement.name }}</h2>
+                        </div>
+
+                        {% if achievement.earned %}
+                            <span class="achievement-status earned">Earned</span>
+                        {% else %}
+                            <span class="achievement-status locked">Locked</span>
+                        {% endif %}
+                    </div>
+
+                    <p>{{ achievement.description }}</p>
+
+                    {% if achievement.xp_reward or achievement.star_reward %}
+                        <p class="achievement-reward">
+                            Reward:
+                            {% if achievement.xp_reward %}
+                                ✨ {{ achievement.xp_reward }} XP
+                            {% endif %}
+                            {% if achievement.xp_reward and achievement.star_reward %} • {% endif %}
+                            {% if achievement.star_reward %}
+                                ⭐ {{ achievement.star_reward }} stars
+                            {% endif %}
+                        </p>
+                    {% endif %}
+
+                    {% if achievement.earned %}
+                        <p class="achievement-earned-date">
+                            Unlocked {{ achievement.earned_at[:10] }}
+                        </p>
+                    {% else %}
+                        <div class="achievement-progress">
+                            <div class="achievement-progress-labels">
+                                <span>Progress</span>
+                                <strong>
+                                    {{ achievement.current_value }} / {{ achievement.requirement_value }}
+                                </strong>
+                            </div>
+
+                            <div
+                                class="progress-track"
+                                role="progressbar"
+                                aria-valuenow="{{ achievement.current_value }}"
+                                aria-valuemin="0"
+                                aria-valuemax="{{ achievement.requirement_value }}"
+                            >
+                                <div
+                                    class="progress-fill achievement-progress-fill"
+                                    style="width: {{ achievement.progress_percent }}%;"
+                                ></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <div class="empty-state">
+        <h2>No achievements are available yet.</h2>
+    </div>
+{% endif %}
+
+{% endblock %}

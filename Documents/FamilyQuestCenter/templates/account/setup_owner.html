@@ -1,0 +1,22 @@
+{# Family Quest Center template: templates/account/setup_owner.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Set Up Application Owner · {{ application_name }}{% endblock %}
+{% block content %}
+<section class="auth-shell">
+  <div class="card auth-card">
+    <div class="section-heading">
+      <p class="eyebrow">First-time setup</p>
+      <h1>Set Up Application Owner</h1>
+      <p>Create the platform administrator account. This account manages Family Quest Center and does not belong to a family.</p>
+    </div>
+    <form method="post" class="form-stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label>Display name<input type="text" name="display_name" required autocomplete="name"></label>
+      <label>Email address<input type="email" name="email" required autocomplete="email"></label>
+      <label>Password<input type="password" name="password" required minlength="10" autocomplete="new-password"></label>
+      <label>Confirm password<input type="password" name="confirm_password" required minlength="10" autocomplete="new-password"></label>
+      <button class="button button-primary" type="submit">Create Application Owner</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

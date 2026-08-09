@@ -1,0 +1,8 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/family_challenges.html
+  Purpose: Renders the family challenges user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Family Challenges{% endblock %}{% block content %}<section class="page-header"><div><span class="section-eyebrow">TEAM QUESTS</span><h1>Family Challenges</h1><p>Every completed quest helps the whole family.</p></div></section><section class="adventure-grid">{% for c in challenges %}<article class="challenge-card"><span class="mission-type-badge mission-type-challenge">⭐ Challenge</span><div class="challenge-heading"><div><span class="status-pill status-{{ 'approved' if c.display_status=='completed' else 'assigned' }}">{{ c.display_status|title }}</span><h2>{{ c.name }}</h2></div><strong>{{ c.percent }}%</strong></div><p>{{ c.description }}</p><div class="progress-track"><span style="width:{{ c.percent }}%"></span></div><p><strong>{{ c.current_value }} / {{ c.target_value }}</strong> {{ c.goal_label|lower }}</p>{% if c.reward_text %}<p class="reward-callout">🎁 Family reward: {{ c.reward_text }}</p>{% endif %}<div class="contributor-list">{% for person in c.contributors %}<span>{{ person.name }} <strong>{{ person.contribution }}</strong></span>{% endfor %}</div></article>{% else %}<div class="polished-empty-state"><div class="empty-state-icon">🤝</div><h3>No active family challenges</h3></div>{% endfor %}</section>{% endblock %}

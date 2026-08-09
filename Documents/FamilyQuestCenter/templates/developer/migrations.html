@@ -1,0 +1,12 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/developer/migrations.html
+  Purpose: Renders the migrations user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Migration History{% endblock %}{% block content %}
+{% set eyebrow="VERSION CONTROL" %}{% set title="Migration History" %}{% set subtitle="Track the application and database upgrades installed on this system." %}{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Developer Center' %}{% include "components/page_header.html" %}
+<div class="diagnostic-stat-grid compact-stats">{% for key,value in application_info.items() %}<article class="diagnostic-stat"><strong>{{ value }}</strong><span>{{ key|replace('_',' ')|title }}</span></article>{% endfor %}</div>
+<section class="admin-section"><div class="table-scroll"><table class="admin-table"><thead><tr><th>Version</th><th>Description</th><th>Status</th><th>Applied</th></tr></thead><tbody>{% for row in migrations %}<tr><td><strong>{{ row.version }}</strong></td><td>{{ row.description }}</td><td><span class="status-chip status-approved">{{ row.status|title }}</span></td><td>{{ row.applied_at }}</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

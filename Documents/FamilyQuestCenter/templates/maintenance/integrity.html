@@ -1,0 +1,60 @@
+{# System Health dashboard for local reliability and maintenance. #}
+{% extends "base.html" %}
+{% block title %}System Health · {{ application_name }}{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Reliability Center</p>
+    <h1>System Health</h1>
+    <p>Review database integrity, security configuration, content, and recovery readiness.</p>
+  </div>
+  <a class="button" href="{{ url_for('maintenance.center') }}">Back to Reliability Center</a>
+</section>
+
+<section class="panel system-health-summary system-health-{{ report.overall_status }}">
+  <div>
+    <p class="eyebrow">Overall Status</p>
+    <h2>{% if report.overall_status == 'healthy' %}🟢{% elif report.overall_status == 'warning' %}🟡{% else %}🔴{% endif %} {{ report.overall_label }}</h2>
+    <p>Checked {{ report.checked_at }}</p>
+  </div>
+  <div class="health-counts" aria-label="System health totals">
+    <div><strong>{{ report.counts.pass }}</strong><span>Passed</span></div>
+    <div><strong>{{ report.counts.warning }}</strong><span>Warnings</span></div>
+    <div><strong>{{ report.counts.fail }}</strong><span>Errors</span></div>
+  </div>
+</section>
+
+<section class="health-version-grid">
+  <article class="panel"><span class="eyebrow">Application Version</span><strong>{{ report.application_version }}</strong></article>
+  <article class="panel"><span class="eyebrow">Database</span><strong>{{ report.database_schema }}</strong></article>
+  <article class="panel"><span class="eyebrow">Active Families</span><strong>{{ report.active_family_count }}</strong></article>
+</section>
+
+{% for group in report.groups %}
+<section class="panel health-group">
+  <div class="health-group-header"><h2>{{ group.icon }} {{ group.name }}</h2></div>
+  <div class="health-check-list">
+    {% for check in group.checks %}
+    <article class="health-check-row">
+      <div class="health-check-main">
+        <strong>{{ check.name }}</strong>
+        <span class="status-badge status-{{ 'success' if check.status == 'pass' else check.status }}">{{ check.status|upper }}</span>
+      </div>
+      <div class="health-check-detail">
+        <span>{{ check.detail }}</span>
+        {% if check.action_url %}
+          <a class="button button-small" href="{{ url_for(check.action_url) }}">{{ check.action_text }}</a>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<style>
+.system-health-summary{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;border-left:6px solid var(--accent-color,#6f42c1)}
+.system-health-summary h2{margin:.2rem 0}.health-counts{display:flex;gap:.75rem;flex-wrap:wrap}.health-counts>div{min-width:92px;padding:.8rem 1rem;border:1px solid rgba(111,66,193,.18);border-radius:14px;text-align:center;background:rgba(111,66,193,.05)}.health-counts strong{display:block;font-size:1.5rem}.health-counts span{font-size:.85rem}.health-version-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1rem 0}.health-version-grid article{display:flex;flex-direction:column;gap:.35rem}.health-group{margin-top:1rem}.health-group-header{padding-bottom:.65rem;border-bottom:1px solid rgba(111,66,193,.15)}.health-group-header h2{margin:0}.health-check-list{display:grid}.health-check-row{padding:1rem 0;border-bottom:1px solid rgba(111,66,193,.12)}.health-check-row:last-child{border-bottom:0}.health-check-main,.health-check-detail{display:flex;align-items:center;justify-content:space-between;gap:1rem}.health-check-detail{margin-top:.55rem;color:var(--muted-text,#5f6470)}
+@media(max-width:760px){.health-version-grid{grid-template-columns:1fr}.health-check-main,.health-check-detail{align-items:flex-start;flex-direction:column}.health-check-detail .button{width:100%;text-align:center}}
+</style>
+{% endblock %}

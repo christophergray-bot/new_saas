@@ -1,0 +1,17 @@
+RC1.6.4 Adventure Context and Form Focus Test Checklist
+
+Child Adventure Context
+[ ] Open a child dashboard and select Today's Adventure.
+[ ] Click Complete Chapter.
+[ ] Confirm the page reloads with Today's Adventure still selected.
+[ ] Confirm the newly unlocked Chapter is shown.
+[ ] Switch to Today's Missions and refresh; confirm Missions is selected.
+[ ] Open My Adventures and complete a Chapter; confirm it returns to My Adventures.
+
+Parent Adventure Builder
+[ ] Open Create Adventure.
+[ ] Confirm the page remains at the top of the form.
+[ ] Confirm Adventure Name receives focus without scrolling to Chapters.
+[ ] Confirm one blank Chapter is still created automatically.
+[ ] Click Add Next Chapter and confirm the new Chapter name field receives focus.
+[ ] Open Edit Adventure and confirm the page remains at the top while all existing Chapters load.

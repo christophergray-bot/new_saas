@@ -1,0 +1,13 @@
+SPRINT 3.0-G.0.1 — AUTHENTICATION STATE HOTFIX
+
+Resolved a critical navigation defect where public landing-page actions could bypass the visible login or registration screen when a valid browser session already existed.
+
+Changes:
+- /account/login now always renders the Sign In page on GET.
+- /account/register now always renders the registration page on GET.
+- Existing authenticated sessions are not silently redirected to the Parent Dashboard from those public account pages.
+- A clear notice appears when the browser is already signed in, explaining that submitting the form will switch accounts.
+- Successful login and registration continue to clear and replace the complete browser session.
+- Protected Parent Dashboard routes remain guarded by account membership and Parent PIN requirements.
+
+No database migration is required.

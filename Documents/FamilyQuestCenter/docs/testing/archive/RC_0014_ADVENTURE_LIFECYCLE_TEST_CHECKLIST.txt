@@ -1,0 +1,17 @@
+RC-0014 Adventure Lifecycle Test Checklist
+
+1. Create an Adventure with at least 3 Chapters.
+2. Assign it to a child.
+3. Open the child profile. Confirm only Chapter 1 is available.
+4. Click Complete Chapter.
+5. Confirm Chapter 1 completes immediately and Chapter 2 unlocks without parent approval.
+6. Repeat for Chapter 2. Confirm Chapter 3 unlocks immediately.
+7. Complete the final Chapter.
+8. Confirm the child sees Awaiting Celebration and no additional Chapter.
+9. Open Parent Approval Center.
+10. Confirm one Adventure Celebration item appears, not individual Chapter approvals.
+11. Click Celebrate Adventure.
+12. Confirm the Adventure becomes completed and the Adventure bonus XP is awarded.
+13. Confirm the child sees the Adventure as completed.
+14. Repeat with two different children and verify independent progress.
+15. Verify normal Mission approvals still require parent approval.

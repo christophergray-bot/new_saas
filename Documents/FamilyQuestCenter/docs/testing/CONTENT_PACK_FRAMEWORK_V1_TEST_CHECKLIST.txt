@@ -1,0 +1,14 @@
+RC1.7.0 CONTENT PACK FRAMEWORK TEST CHECKLIST
+
+1. Start the application with the existing test database and confirm normal startup.
+2. Open Parent > Content Packs and confirm Family Quest Starter Pack appears once.
+3. Confirm the pack detail shows it as a Core/Starter pack with version and author metadata.
+4. Confirm the built-in pack cannot be archived as a whole.
+5. Confirm its example Quest, Reward, and Adventure can still be edited or archived individually.
+6. Register a new family with the starter pack selected.
+7. Confirm exactly one Make Your Bed Quest, one Choose a Treat Reward, and one Outdoor Adventure are installed.
+8. Confirm the child character selector shows one Boy Adventurer, one Girl Adventurer, one Classic Gold frame, and one Classic Quest theme—no duplicates.
+9. Restart the application and confirm the starter content is not duplicated.
+10. Confirm progressive built-in achievements still work and remain parent read-only.
+11. Confirm content/packs/explorer_starter/pack.json is discovered as the canonical Default Family Pack manifest.
+12. Confirm malformed future pack manifests are rejected with a clear missing-field error.

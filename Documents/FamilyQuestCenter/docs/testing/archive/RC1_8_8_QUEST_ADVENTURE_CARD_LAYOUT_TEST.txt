@@ -1,0 +1,13 @@
+Family Quest Center RC1.8.8 — Quest/Adventure Card Layout Test
+
+1. Open Quest Library at a wide desktop width (greater than 1280px).
+2. Confirm Quest cards match Adventure cards:
+   - assignment table on the lower-left
+   - card action buttons on the lower-right
+   - no overlap
+3. Test quests assigned to 1, 2, 4, and 6 children.
+4. Reduce browser width below 1280px.
+5. Confirm Quest card actions move to a separate row below the assignment table.
+6. Confirm mobile controls remain usable and do not overflow.
+7. Confirm Edit Schedule, Pause/Resume, Unassign, Edit, Duplicate, Assign Mission,
+   and Archive/Restore still work.

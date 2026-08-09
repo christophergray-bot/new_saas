@@ -1,0 +1,9 @@
+RC-0015 — Preserve Child Adventure Context
+
+Changes:
+- Completing a Chapter from My Adventures returns the child to My Adventures.
+- Completing a Chapter from Today's Missions returns the child to the Child Dashboard.
+- Final Chapter completion also preserves the originating child view.
+- Redirect destinations are limited to known internal views.
+
+No database changes are required.

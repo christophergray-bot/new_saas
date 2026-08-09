@@ -1,0 +1,57 @@
+Family Quest Center - Regression Test Fixture Repair
+Date: 2026-08-07
+
+Purpose
+-------
+This pass changes regression-test setup only. It does not intentionally change
+Family Quest Center application behavior.
+
+Changes
+-------
+1. Added tests/fixture_utils.py.
+   - Ensures the temporary test database has a deterministic Family 1 / Account 1
+     owner membership, parent security row, and active child where older tests
+     expect those records.
+   - Provides a secondary active family/account fixture when isolation tests need
+     two tenants.
+
+2. Updated regression tests that previously copied chorce.db and then assumed
+   Account 1 belonged to Family 1.
+   - adventure assignment active-child test
+   - family settings isolation test
+   - active library filtering test
+   - Parent One / Parent Two role-control test
+   - security 11-15 tests
+   - security 16-20 tests
+
+3. Updated role-home routing test so it creates a child when the selected test
+   family has none instead of depending on live/development database contents.
+
+4. Updated the Explorer Starter Pack manifest test to the current canonical
+   directory:
+       content/packs/explorer_starter_pack/pack.json
+   and current pack name:
+       Explorer Starter Pack
+
+Validation performed here
+-------------------------
+- Python syntax compilation of the test suite completed successfully.
+- SQLite fixture helper was exercised against a temporary copy of chorce.db;
+  it produced a valid owner membership, family security row, child record, and
+  no foreign-key violations.
+- The full Flask test suite could not be executed in this sandbox because Flask
+  and the project dependencies are not installed here.
+
+Local validation command
+------------------------
+python -W error::ResourceWarning -m unittest discover tests -v
+
+Expected next step
+------------------
+Run the full 104-test suite locally. If failures remain, review only those
+remaining failures as possible application defects or additional stale fixtures.
+
+Final routing-test reconciliation (2026-08-07):
+- Updated tests/test_role_home_routing.py to request /child/<id>?trained=1.
+- Reason: the production child dashboard intentionally redirects untrained children to Explorer Training; this regression test only validates role-specific Home/logo destinations.
+- No application route or runtime behavior changed.

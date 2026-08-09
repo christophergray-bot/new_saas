@@ -1,0 +1,13 @@
+SPRINT 2 — ADVENTURE ASSIGNMENT FIX V3
+
+Root cause:
+- Existing Version 1.0 databases contain a unique index on chore_id, child_id, and due_date.
+- That index applied to both daily assignments and adventure assignments.
+- When an adventure reused a quest already assigned to the child that day, SQLite rejected the adventure step and rolled back the entire adventure instance.
+- The adventure template remained active, but no child-specific adventure instance existed, so it appeared on neither the child dashboard nor Parent Dashboard Active Adventures.
+
+Correction:
+- The application now automatically replaces the old index with a partial unique index that applies only to ordinary daily assignments.
+- Adventure steps may reuse the same quest and date without conflicting with daily missions.
+- The correction runs automatically the next time an adventure is assigned; no manual database migration is required.
+- New installations use the corrected index definition in schema.sql.

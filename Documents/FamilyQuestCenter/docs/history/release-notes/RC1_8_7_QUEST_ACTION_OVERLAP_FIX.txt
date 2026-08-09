@@ -1,0 +1,8 @@
+RC1.8.7 — Quest Action Overlap Fix
+
+Test:
+1. Open Quest Library with a quest assigned to two or more children.
+2. Confirm Edit, Duplicate, Assign Mission, and Archive appear below the assignment table.
+3. Confirm no buttons cover assignment rows or row-level actions.
+4. Test with 1, 2, 4, and 6 child assignments if available.
+5. Test a narrow browser width.

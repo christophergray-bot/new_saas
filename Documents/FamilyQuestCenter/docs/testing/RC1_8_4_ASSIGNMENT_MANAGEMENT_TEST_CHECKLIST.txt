@@ -1,0 +1,28 @@
+Family Quest Center RC1.8.4 - Assignment Management Test Checklist
+
+QUEST ASSIGNMENTS
+[ ] Assign a Quest to a child from Quest Library.
+[ ] Confirm the assignment row shows Active.
+[ ] Pause the assignment and confirm it shows Paused.
+[ ] Confirm paused schedules do not generate future Missions.
+[ ] Resume the assignment and confirm generation resumes.
+[ ] Edit the schedule successfully.
+[ ] Unassign the Quest and confirm it disappears from Currently Assigned.
+[ ] Confirm completed Mission history and earned rewards remain.
+[ ] Confirm the same Quest can be assigned again later.
+[ ] Confirm Family A cannot pause, edit, or unassign Family B schedules by changing IDs.
+
+ADVENTURE ASSIGNMENTS
+[ ] Assign an Adventure to a child.
+[ ] Confirm Cancel Adventure appears beside the child assignment.
+[ ] Cancel the Adventure and confirm it leaves the child active Adventure page.
+[ ] Confirm completed Chapter records remain in history.
+[ ] Confirm the Adventure template remains available.
+[ ] Confirm the Adventure can be assigned again later.
+[ ] Confirm Family A cannot cancel Family B Adventure instances by changing IDs.
+
+REGRESSION
+[ ] Existing active schedules appear as Active after upgrading.
+[ ] Existing inactive schedules appear as Paused after upgrading.
+[ ] Quest generation ignores paused and unassigned schedules.
+[ ] Active Adventure dashboard counts exclude cancelled Adventures.

@@ -1,0 +1,55 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/reports.html
+  Purpose: Renders the reports user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Parent Reports | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header"><div><p class="eyebrow">Parent Productivity</p><h1>📈 Family Reports</h1><p>A simple view of Quest, Adventure, and child progress.</p></div></section>
+<section class="section-block"><div class="stats-grid"><div class="stat-card"><span>📅</span><strong>{{ totals.weekly }}</strong><small>Quests approved in last 7 days</small></div><div class="stat-card"><span>🗓️</span><strong>{{ totals.monthly }}</strong><small>Quests approved this month</small></div><div class="stat-card"><span>🗺️</span><strong>{{ totals.weekly_adventures }}</strong><small>Adventures completed in last 7 days</small></div><div class="stat-card"><span>🏁</span><strong>{{ totals.monthly_adventures }}</strong><small>Adventures completed this month</small></div><div class="stat-card"><span>⏳</span><strong>{{ totals.pending }}</strong><small>Quests waiting for approval</small></div></div></section>
+<section class="dashboard-panel"><div class="panel-header"><div><p class="eyebrow">Children</p><h2>Progress Summary</h2></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>Child</th><th>Level</th><th>Total XP</th><th>Stars</th><th>7-Day Quests</th><th>Monthly Quests</th><th>Lifetime Quests</th><th>7-Day Adventures</th><th>Monthly Adventures</th><th>Lifetime Adventures</th></tr></thead><tbody>{% for child in children %}<tr><td>{{ child.name }}</td><td>{{ child.current_level }}</td><td>{{ child.total_xp }}</td><td>{{ child.total_points }}</td><td>{{ child.weekly_quests }}</td><td>{{ child.monthly_quests }}</td><td>{{ child.approved_quests }}</td><td>{{ child.weekly_adventures }}</td><td>{{ child.monthly_adventures }}</td><td>{{ child.approved_adventures }}</td></tr>{% endfor %}</tbody></table></div></section>
+<section class="dashboard-panel"><div class="panel-header"><div><p class="eyebrow">Quest Trends</p><h2>Most Completed Quests</h2></div></div>{% if popular %}<ol>{% for quest in popular %}<li><strong>{{ quest.title }}</strong> — {{ quest.completions }} completion{% if quest.completions != 1 %}s{% endif %}</li>{% endfor %}</ol>{% else %}<p class="muted-text">No approved quest history yet.</p>{% endif %}</section>
+
+<section class="section-block dashboard-recent-activity-section">
+    <article class="dashboard-panel dashboard-panel-full">
+        <div class="dashboard-panel-heading">
+            <div>
+                <p class="eyebrow">Family Updates</p>
+                <h2>Recent Activity</h2>
+            </div>
+        </div>
+        {% if recent_activity %}
+        <div class="dashboard-activity-list">
+            {% for activity in recent_activity %}
+            <article class="dashboard-activity-item">
+                <div class="dashboard-item-icon" aria-hidden="true">{{ activity.icon }}</div>
+                <div class="dashboard-item-content">
+                    <div class="dashboard-activity-heading">
+                        <p class="eyebrow">{{ activity.child_name }}</p>
+                        {% if activity.type_label %}<span class="dashboard-activity-badge">{{ activity.type_label }}</span>{% endif %}
+                    </div>
+                    <p class="dashboard-activity-action">{{ activity.action_label }}</p>
+                    <h3>{{ activity.title }}</h3>
+                    <div class="dashboard-activity-meta">
+                        {% if activity.reward_text %}<strong>{{ activity.reward_text }}</strong>{% endif %}
+                        <small>{{ activity.display_time }}</small>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="dashboard-empty-state">
+            <span aria-hidden="true">✨</span>
+            <div>
+                <strong>No recent family activity yet.</strong>
+                <p>Quest completions, approvals, adventures, and rewards will appear here.</p>
+            </div>
+        </div>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

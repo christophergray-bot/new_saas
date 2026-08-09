@@ -1,0 +1,18 @@
+{# Family Quest Center template: templates/public/terms.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Terms | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Service Information" %}
+{% set page_icon = "📜" %}
+{% set page_title = "Terms" %}
+{% set page_description = "Basic terms for using Family Quest Center." %}
+{% include "partials/page_header.html" %}
+<section class="dashboard-panel">
+  <h2>Family account responsibility</h2>
+  <p>Parents and account owners are responsible for account access, Parent PIN security, family content, reward decisions, and appropriate use by children.</p>
+  <h2>Subscription service</h2>
+  <p>Paid memberships renew according to the billing terms shown during checkout and may be canceled through the available billing controls.</p>
+  <h2>Acceptable use</h2>
+  <p>Do not misuse the service, attempt unauthorized access, or upload content that you do not have permission to use.</p>
+</section>
+{% endblock %}

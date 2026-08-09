@@ -1,0 +1,79 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/content_packs/manager.html
+  Purpose: Renders the manager user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Content Pack Manager | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow="Command Center" %}{% set page_icon="📦" %}{% set page_title="Content Pack Manager" %}
+{% set page_description="Install, review, archive, and restore curated content for your family." %}
+{% set page_action_url=url_for('developer.diagnostics') %}{% set page_action_text="🔎 View Diagnostics" %}
+{% include "partials/page_header.html" %}
+
+<section class="pack-summary-grid" aria-label="Content Pack summary">
+  <article class="pack-stat-card"><span>Installed</span><strong>{{ summary.installed }}</strong></article>
+  <article class="pack-stat-card"><span>Available</span><strong>{{ summary.available }}</strong></article>
+  <article class="pack-stat-card"><span>Archived</span><strong>{{ summary.archived }}</strong></article>
+  <article class="pack-stat-card"><span>Pack Quests</span><strong>{{ summary.quests }}</strong></article>
+  <article class="pack-stat-card"><span>Adventures</span><strong>{{ summary.adventures }}</strong></article>
+  <article class="pack-stat-card"><span>Rewards</span><strong>{{ summary.rewards }}</strong></article>
+</section>
+
+<nav class="pack-tabs" aria-label="Content Pack sections">
+  <a class="pack-tab {% if active_tab == 'installed' %}active{% endif %}" href="{{ url_for('content_packs.manager', tab='installed') }}">Installed</a>
+  <a class="pack-tab {% if active_tab == 'available' %}active{% endif %}" href="{{ url_for('content_packs.manager', tab='available') }}">Available</a>
+  <a class="pack-tab {% if active_tab == 'archived' %}active{% endif %}" href="{{ url_for('content_packs.manager', tab='archived') }}">Archived</a>
+</nav>
+
+<section class="pack-card-list">
+{% if active_tab == 'installed' %}
+  {% set visible_packs = installed_packs %}
+{% elif active_tab == 'archived' %}
+  {% set visible_packs = archived_packs %}
+{% else %}
+  {% set visible_packs = available_packs %}
+{% endif %}
+
+{% for pack in visible_packs %}
+<article class="pack-manager-card">
+  <div class="pack-cover-placeholder" aria-hidden="true">{{ pack.icon }}</div>
+  <div class="pack-manager-content">
+    <div class="pack-title-row"><div><p class="eyebrow">{{ 'Default Family' if pack.pack_type == 'core' else pack.category|title }} Pack · v{{ pack.version }}</p><h2>{{ pack.name }}</h2></div>
+      {% if pack.installation %}<span class="status-pill {{ 'status-archived' if pack.installation.status == 'archived' else 'status-approved' }}">{{ pack.installation.status|title }}</span>{% endif %}
+    </div>
+    <p>{{ pack.description }}</p>
+    <div class="pack-meta-row"><span>👨‍👩‍👧 Ages {{ pack.recommended_age or 'All' }}</span><span>🛠 Family Quest Center</span></div>
+    <div class="pack-count-grid">
+      <span><strong>{{ pack.counts.quests }}</strong> Quests</span><span><strong>{{ pack.counts.adventures }}</strong> Adventures</span>
+      <span><strong>{{ pack.counts.challenges }}</strong> Challenges</span><span><strong>{{ pack.counts.rewards }}</strong> Rewards</span>
+      <span><strong>{{ pack.counts.avatars + pack.counts.frames + pack.counts.themes }}</strong> Cosmetics</span>
+    </div>
+  </div>
+  <div class="pack-manager-actions">
+    <a class="button button-secondary" href="{{ url_for('content_packs.detail', pack_key=pack.id) }}">👁 View Contents</a>
+    {% if not pack.installation %}
+      <form method="post" action="{{ url_for('content_packs.install',pack_key=pack.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" type="submit">＋ Install Pack</button></form>
+    {% elif pack.installation.status == 'archived' %}
+      <form method="post" action="{{ url_for('content_packs.restore',pack_key=pack.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-secondary" type="submit">↩ Restore Pack</button></form>
+    {% else %}
+      {% if pack.manager_status == 'update_available' %}<button class="button button-primary" type="button" disabled>Update Available</button>{% else %}<button class="button button-secondary" type="button" disabled>✓ Up to Date</button>{% endif %}
+      {% if pack.archive_allowed %}
+      <form method="post" action="{{ url_for('content_packs.archive',pack_key=pack.id) }}" onsubmit="return confirm('Archive all currently active items from this pack? Individual archives and history will be preserved.');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-danger" type="submit">📦 Archive Pack</button></form>
+      {% else %}
+      <span class="status-pill status-approved">Built In</span>
+      {% endif %}
+    {% endif %}
+  </div>
+</article>
+{% else %}
+<div class="polished-empty-state"><div class="empty-state-icon">📦</div><h2>No packs in this section</h2><p>{% if active_tab == 'installed' %}Browse Available Packs to add your first collection.{% elif active_tab == 'archived' %}Archived packs will appear here.{% else %}More Content Packs are being prepared.{% endif %}</p></div>
+{% endfor %}
+
+</section>
+{% endblock %}

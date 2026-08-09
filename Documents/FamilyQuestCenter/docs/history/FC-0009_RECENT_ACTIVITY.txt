@@ -1,0 +1,12 @@
+FC-0009 — Improved Recent Activity Widget
+
+Implemented:
+- Clear child name, action, and activity title hierarchy.
+- Activity-type badges for Daily Mission, Adventure Mission, Adventure, Reward, Progress, and achievement category.
+- Reward summaries for Stars and XP when available.
+- Achievement-unlocked events.
+- Adventure-started and adventure-completed events.
+- Reward requested, approved, denied, and redeemed wording.
+- Responsive activity card layout for smaller screens.
+
+No database migration is required. Activity is assembled from existing tables.

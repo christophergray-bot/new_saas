@@ -1,0 +1,41 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/progress.html
+  Purpose: Renders the progress user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}{{ child.name }}'s Progress{% endblock %}
+{% block content %}
+<div class="character-theme {{ character.theme.class_name }}">
+<section class="page-header character-header">
+  <div><p class="eyebrow">Hero Record</p><h1>{{ child.name }}'s Progress</h1><p>See your quest history, streaks, achievements, and activity.</p></div>
+  <div class="page-actions"><a class="button button-secondary" href="{{ url_for('child.timeline', user_id=child.id) }}">View Timeline</a></div>
+</section>
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">At a Glance</p><h2>Adventure Statistics</h2></div></div>
+  <div class="stats-grid progress-stat-grid">
+    <div class="stat-card"><span class="stat-value">{{ statistics.completed_count }}</span><span class="stat-label">✅ Quests Completed</span></div>
+    <div class="stat-card"><span class="stat-value">{{ statistics.success_rate }}%</span><span class="stat-label">🎯 Completion Rate</span></div>
+    <div class="stat-card"><span class="stat-value">{{ statistics.streaks.current }}</span><span class="stat-label">🔥 Current Streak</span></div>
+    <div class="stat-card"><span class="stat-value">{{ statistics.streaks.longest }}</span><span class="stat-label">🏅 Longest Streak</span></div>
+    <div class="stat-card"><span class="stat-value">{{ statistics.lifetime_xp }}</span><span class="stat-label">✨ Lifetime XP</span></div>
+    <div class="stat-card"><span class="stat-value">{{ statistics.quest_stars }}</span><span class="stat-label">⭐ Quest Stars Earned</span></div>
+    <div class="stat-card"><span class="stat-value">{{ statistics.achievements_earned }}</span><span class="stat-label">🏆 Achievements</span></div>
+    <div class="stat-card"><span class="stat-value">{{ statistics.rewards_earned }}</span><span class="stat-label">🎁 Rewards Earned</span></div>
+  </div>
+</section>
+<section class="dashboard-panel">
+  <div class="panel-header"><div><p class="eyebrow">Quest Activity</p><h2>Last 12 Weeks</h2><p>Each square represents one day. Darker squares mean more completed quests.</p></div></div>
+  <div class="activity-heatmap" role="img" aria-label="Quest completion activity for the last 12 weeks">
+    {% for day in heatmap %}<span class="heatmap-day heatmap-level-{{ day.intensity }}" title="{{ day.date }}: {{ day.count }} quest{% if day.count != 1 %}s{% endif %}" aria-label="{{ day.date }}: {{ day.count }} completed quests"></span>{% endfor %}
+  </div>
+  <div class="heatmap-legend"><span>Less</span>{% for level in range(5) %}<span class="heatmap-day heatmap-level-{{ level }}"></span>{% endfor %}<span>More</span></div>
+</section>
+<section class="dashboard-panel feature-grid-two">
+  <article class="feature-card"><p class="eyebrow">Favorite Quest</p><h3>{{ statistics.favorite_quest }}</h3><p>{% if statistics.favorite_count %}Completed {{ statistics.favorite_count }} time{% if statistics.favorite_count != 1 %}s{% endif %}.{% else %}Complete quests to discover your favorite.{% endif %}</p></article>
+  <article class="feature-card"><p class="eyebrow">Current Rank</p><h3>Level {{ progression.level }} · {{ progression.rank_title }}</h3><p>{{ progression.xp_to_next_level }} XP until Level {{ progression.level + 1 }}.</p></article>
+</section>
+</div>
+{% endblock %}

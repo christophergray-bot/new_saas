@@ -1,0 +1,39 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/onboarding/explorer_training.html
+  Purpose: Renders the explorer training user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Explorer Training · {{ application_name }}{% endblock %}
+{% block content %}
+{% set lessons = {
+1: ('🏕️', 'Welcome, Explorer!', 'This is your Family Quest Center. I’m Ranger Oak, and I’ll show you how everything works.'),
+2: ('🧭', 'This is your Quest Board', 'Your Quest Board shows what you can do today, your Stars, your level, and your active Adventures.'),
+3: ('🗺️', 'Adventures are big goals', 'Each Adventure is made of Chapters. Finish the Chapters one at a time to complete the whole Adventure.'),
+4: ('✅', 'Complete a Quest', 'When you finish a Mission, click the “Complete Mission” button. Your Quest Master will review it.'),
+5: ('🛡️', 'Parent approval comes next', 'After you submit something, it waits for approval. Once approved, you receive your Stars and XP.'),
+6: ('🎁', 'Stars unlock Rewards', 'Visit Available Treasures to see what your Stars can earn. Achievements celebrate your biggest milestones.'),
+7: ('🏆', 'You are ready!', 'Explore your dashboard, choose a real Quest, and begin your first Adventure. Every completed Quest helps you grow.')
+} %}
+{% set lesson = lessons[step] %}
+<section class="training-shell">
+    <div class="training-progress"><span>Explorer Training</span><strong>{{ step }} of 7</strong></div>
+    <div class="progress-track"><span style="width: {{ (step / 7 * 100)|round }}%"></span></div>
+    <article class="training-card">
+        <div class="training-icon" aria-hidden="true">{{ lesson[0] }}</div>
+        <span class="eyebrow">Hello, {{ child.name }}</span>
+        <h1>{{ lesson[1] }}</h1>
+        <p>{{ lesson[2] }}</p>
+        {% if step < 7 %}
+        <a class="button button-primary button-large" href="{{ url_for('onboarding.explorer_training', user_id=child.id, step=step+1) }}">Continue →</a>
+        {% else %}
+        <form method="post" action="{{ url_for('onboarding.explorer_training_complete', user_id=child.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-primary button-large" type="submit">Start My First Real Mission</button>
+        </form>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

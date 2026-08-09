@@ -1,0 +1,28 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/maintenance/center.html
+  Purpose: Renders the center user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Backup & Restore · {{ application_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div><p class="eyebrow">Installation Management</p><h1>Database Backup & Restore</h1><p>Installation Owner tools for protecting the complete local application database.</p></div></section>
+<div class="feature-grid">
+  <article class="panel"><h2>Create Backup</h2><p>Create a verified SQLite backup in the local <code>backups</code> folder.</p><form method="post" action="{{ url_for('maintenance.backup') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" type="submit">Create Backup</button></form></article>
+  <article class="panel"><h2>System Health</h2><p>Review database integrity, security configuration, content, backups, and quick maintenance actions.</p><a class="button" href="{{ url_for('developer.health') }}">Open System Health</a></article>
+</div>
+<section class="panel"><h2>Available Backups</h2>
+{% if backups %}<div class="table-scroll"><table><thead><tr><th>Backup</th><th>Created</th><th>Size</th><th>Actions</th></tr></thead><tbody>
+{% for backup in backups %}<tr><td><code>{{ backup.name }}</code></td><td>{{ backup.created_at }}</td><td>{{ backup.size_text }}</td><td class="action-cell">
+<a class="button button-small" href="{{ url_for('maintenance.download_backup', name=backup.name) }}">Download</a>
+<form method="post" action="{{ url_for('maintenance.remove_backup', name=backup.name) }}" onsubmit="return confirm('Delete this backup?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-small" type="submit">Delete</button></form>
+<details class="fqc-collapsible"><summary>Restore</summary><form method="post" action="{{ url_for('maintenance.restore', name=backup.name) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Type RESTORE<input name="confirmation" required autocomplete="off"></label><button class="button button-danger button-small" type="submit">Restore Database</button></form></details>
+</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<p>No backups have been created yet.</p>{% endif %}
+</section>
+{% endblock %}

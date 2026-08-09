@@ -1,0 +1,30 @@
+FAMILY QUEST CENTER — RC1.6.4 ASSIGNMENT WORKFLOW TEST CHECKLIST
+Updated: 2026-08-01
+
+QUEST ASSIGNMENT
+[ ] Open Quest Library and confirm every active Quest has an Assign Mission button.
+[ ] Confirm archived Quests do not show Assign Mission.
+[ ] Select Assign Mission and confirm the selected Quest is prefilled in the scheduler.
+[ ] Select a child, frequency, and dates; save the Mission.
+[ ] Confirm the Mission is created and the user returns to the Quest Library.
+[ ] Confirm Cancel returns to the Quest Library when opened from a Quest card.
+[ ] Confirm the original Mission Builder add/edit workflow still works.
+
+ADVENTURE ASSIGNMENT
+[ ] Open Adventure Library and confirm every active Adventure has an Assign Adventure button.
+[ ] Confirm archived Adventures do not show Assign Adventure.
+[ ] Open Assign Adventure and confirm its layout matches the Mission Scheduler.
+[ ] Confirm the Adventure name and completion bonus are displayed.
+[ ] Confirm Chapter count and ordered Chapter list are displayed.
+[ ] Confirm no repeat-frequency controls appear for Adventures.
+[ ] Select one child and a start date; choose Begin Adventure.
+[ ] Confirm the Adventure instance is created and the user returns to Adventure Library.
+[ ] Confirm duplicate active Adventure assignment behavior remains correct.
+[ ] Confirm Cancel returns to Adventure Library.
+
+RESPONSIVE AND REGRESSION
+[ ] Test both assignment forms at desktop width.
+[ ] Test both assignment forms at mobile width.
+[ ] Confirm buttons, labels, spacing, and date controls remain aligned.
+[ ] Confirm Quest schedule editing and archiving still work.
+[ ] Confirm Adventure editing and archiving still work.

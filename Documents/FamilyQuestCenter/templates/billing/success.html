@@ -1,0 +1,225 @@
+{# Family Quest Center template: templates/billing/success.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Subscription Confirmed | {{ application_name }}{% endblock %}
+
+{% block head %}
+<style>
+  .subscription-welcome {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .subscription-hero {
+    text-align: center;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    margin-bottom: 1.25rem;
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(91, 53, 165, 0.12), rgba(255, 255, 255, 0.96));
+    border: 1px solid rgba(91, 53, 165, 0.18);
+  }
+
+  .subscription-hero-icon {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .subscription-hero h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .subscription-status-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0.5rem 0 1rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    font-weight: 700;
+    background: rgba(39, 145, 86, 0.12);
+    color: #176b3f;
+  }
+
+  .subscription-email {
+    overflow-wrap: anywhere;
+  }
+
+  .welcome-primary-action {
+    margin-top: 1.25rem;
+  }
+
+  .welcome-primary-action .button {
+    min-width: min(100%, 310px);
+  }
+
+  .welcome-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .welcome-card {
+    padding: 1.35rem;
+    border-radius: 18px;
+    border: 1px solid rgba(91, 53, 165, 0.14);
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .welcome-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.7rem;
+    font-size: 1.15rem;
+  }
+
+  .welcome-card p:last-child,
+  .welcome-card ul:last-child {
+    margin-bottom: 0;
+  }
+
+  .welcome-card ul {
+    margin: 0.65rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .welcome-card li + li {
+    margin-top: 0.38rem;
+  }
+
+  .welcome-wide {
+    grid-column: 1 / -1;
+  }
+
+  .welcome-final {
+    text-align: center;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    margin-top: 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(91, 53, 165, 0.18);
+    background: rgba(91, 53, 165, 0.07);
+  }
+
+  .welcome-final h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome-final .button {
+    margin-top: 1rem;
+    min-width: min(100%, 310px);
+  }
+
+  @media (max-width: 720px) {
+    .welcome-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .welcome-wide {
+      grid-column: auto;
+    }
+
+    .subscription-hero,
+    .welcome-card,
+    .welcome-final {
+      border-radius: 16px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if confirmed %}
+<div class="subscription-welcome">
+  <section class="subscription-hero">
+    <div class="subscription-hero-icon" aria-hidden="true">🎉</div>
+    <h1>Welcome to Family Quest Center!</h1>
+    <div class="subscription-status-line"><span aria-hidden="true">✓</span> Your Membership Is Active</div>
+    <p>Thank you for becoming a Family Quest Center member. Your subscription has been activated through Stripe, and you are ready to begin your family's adventure.</p>
+    {% if email %}
+      <p class="subscription-email"><strong>Membership email:</strong> {{ email }}</p>
+    {% endif %}
+    <p>The next step is to create your Family Quest Center account and complete the Guided Setup.</p>
+    <div class="welcome-primary-action">
+      <a class="button button-primary" href="{{ url_for('account.register') }}">Create My Family Account</a>
+    </div>
+  </section>
+
+  <div class="welcome-grid">
+    <section class="welcome-card">
+      <h2><span aria-hidden="true">🔐</span> Protect Your Family</h2>
+      <p>Your parent account manages your family's information and settings.</p>
+      <ul>
+        <li>Choose a strong, unique password.</li>
+        <li>Create a memorable 4-digit Parent PIN.</li>
+        <li>Keep your Parent PIN private, including from your children.</li>
+        <li>Your subscription email is already linked to your membership.</li>
+      </ul>
+    </section>
+
+    <section class="welcome-card">
+      <h2><span aria-hidden="true">👨‍👩‍👧‍👦</span> Family Privacy</h2>
+      <p>Family Quest Center is designed with family privacy in mind.</p>
+      <p>Use only your children's <strong>first names</strong> and avoid entering unnecessary personal information.</p>
+    </section>
+
+    <section class="welcome-card">
+      <h2><span aria-hidden="true">🖼️</span> Rewards &amp; Images</h2>
+      <p>You can personalize rewards with images. Good practices include:</p>
+      <ul>
+        <li>Using your own photos or artwork.</li>
+        <li>Using properly licensed or royalty-free images.</li>
+        <li>Avoiding copyrighted characters, logos, or artwork unless you have permission.</li>
+      </ul>
+    </section>
+
+    <section class="welcome-card">
+      <h2><span aria-hidden="true">📦</span> Default Family Pack</h2>
+      <p>To help you get started, Family Quest Center includes the <strong>Default Family Pack</strong>.</p>
+      <p>It provides a sample Quest and a sample Adventure so you can see how the system works. You can customize, archive, or replace the included content at any time.</p>
+    </section>
+
+    <section class="welcome-card">
+      <h2><span aria-hidden="true">⭐</span> Start Simple</h2>
+      <p>The best experience often begins with a manageable amount of content:</p>
+      <ul>
+        <li><strong>5–10 Quests</strong></li>
+        <li><strong>1 Adventure</strong></li>
+        
+      </ul>
+      <p>You can expand as your family becomes comfortable with the routine.</p>
+    </section>
+
+    <section class="welcome-card">
+      <h2><span aria-hidden="true">🚀</span> Guided Setup</h2>
+      <p>After creating your account, the Guided Setup will help personalize Family Quest Center for your family.</p>
+      <p>It includes guided sections for:</p>
+      <ul>
+        <li>Adding your children</li>
+        <li>Creating your first Quest</li>
+        <li>Creating your first Adventure</li>
+      </ul>
+      <p>Most families can complete Guided Setup in about <strong>5–10 minutes</strong>.</p>
+    </section>
+
+    <section class="welcome-card welcome-wide">
+      <h2><span aria-hidden="true">❤️</span> Our Mission</h2>
+      <p>Family Quest Center exists to strengthen families by turning everyday responsibilities into meaningful adventures.</p>
+      <p>Our goal is to help families encourage one another, celebrate accomplishments, and create lasting memories together. We are honored to be part of your family's journey.</p>
+    </section>
+  </div>
+
+  <section class="welcome-final">
+    <h2>🌟 You're Almost Ready!</h2>
+    <p>In just a few minutes, your family will be ready to begin earning rewards, completing adventures, and celebrating achievements together.</p>
+    <p><strong>Let's build your family's first adventure!</strong></p>
+    <a class="button button-primary" href="{{ url_for('account.register') }}">Create My Family Account</a>
+  </section>
+</div>
+{% else %}
+<section class="panel" style="max-width:720px;margin:auto;text-align:center">
+  <h1>Confirming Subscription</h1>
+  <p>Stripe has not confirmed this checkout yet. Refresh this page in a moment.</p>
+</section>
+{% endif %}
+{% endblock %}

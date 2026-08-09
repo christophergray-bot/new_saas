@@ -1,0 +1,39 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/setup_pin.html
+  Purpose: Renders the setup pin user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Create Parent PIN | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow = "First-Time Security" %}
+{% set page_icon = "🛡️" %}
+{% set page_title = "Create Parent PIN" %}
+{% set page_description = "Choose a four-digit PIN for quick protection of parent controls on shared devices." %}
+{% include "partials/page_header.html" %}
+
+<section class="auth-single-column">
+    <article class="auth-form-card auth-pin-card">
+        <div class="auth-card-heading">
+            <span class="auth-card-icon" aria-hidden="true">🔢</span>
+            <div>
+                <p class="eyebrow">Shared Device Lock</p>
+                <h2>Set Your Family PIN</h2>
+                <p>The PIN protects quest management, approvals, settings, and developer controls.</p>
+            </div>
+        </div>
+        <form method="post" class="form-stack auth-form-stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label for="pin">New PIN
+                <input class="pin-input" id="pin" name="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" placeholder="••••" required autofocus>
+            </label>
+            <label for="confirm_pin">Confirm PIN
+                <input class="pin-input" id="confirm_pin" name="confirm_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" placeholder="••••" required>
+            </label>
+            <button class="button button-primary auth-submit-button" type="submit">🛡️ Create Parent PIN</button>
+        </form>
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,75 @@
+{# Family Quest Center template: templates/billing/plans.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Membership | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Membership" %}
+{% set page_icon = "🛡️" %}
+{% set page_title = "Family Quest Center Membership" %}
+{% set page_description = "One simple membership for your entire family." %}
+{% include "partials/page_header.html" %}
+
+<section class="membership-checkout-shell" aria-labelledby="membership-summary-title">
+  <article class="membership-checkout-card">
+    <div class="membership-checkout-main">
+      <span class="membership-plan-badge">Monthly Family Membership</span>
+      <h2 id="membership-summary-title">Everything your family needs to turn responsibilities into adventures.</h2>
+      <p class="membership-checkout-intro">Create quests, guide multi-chapter adventures, celebrate progress, and manage rewards from one secure family account.</p>
+
+      <ul class="membership-feature-list" aria-label="Membership includes">
+        <li><span aria-hidden="true">✓</span> Parent and child profiles</li>
+        <li><span aria-hidden="true">✓</span> Quests and multi-chapter adventures</li>
+        <li><span aria-hidden="true">✓</span> Rewards, achievements, and progress tracking</li>
+        <li><span aria-hidden="true">✓</span> Secure billing and account management</li>
+        <li><span aria-hidden="true">✓</span> Future Family Quest Center updates</li>
+      </ul>
+
+      <div class="membership-trust-row" aria-label="Membership assurances">
+        <span>Cancel anytime</span>
+        <span>Secure checkout by Stripe</span>
+        <span>No long-term contract</span>
+      </div>
+    </div>
+
+    <aside class="membership-order-summary" aria-label="Order summary">
+      <p class="membership-summary-label">Order summary</p>
+      <div class="membership-price-row">
+        <div>
+          <strong>Family Quest Center Membership</strong>
+          <small>Billed monthly</small>
+        </div>
+        <div class="membership-price"><strong>$4.99</strong><small>/ month</small></div>
+      </div>
+
+      <div class="membership-divider"></div>
+
+      <div class="membership-total-row">
+        <span>Due today</span>
+        <strong>$4.99</strong>
+      </div>
+      <p class="membership-renewal-note">Renews monthly until canceled. Applicable taxes, if any, are calculated during checkout.</p>
+
+      {% if payments_mode == 'test' %}
+      <div class="notice notice-warning membership-test-notice"><strong>Stripe test mode:</strong> no real money will be charged.</div>
+      {% endif %}
+
+      <form method="post" action="{{ url_for('billing.create_checkout') }}" class="membership-checkout-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-primary membership-checkout-button" type="submit" {% if not stripe_configured %}disabled{% endif %}>
+          Continue to Secure Checkout
+        </button>
+      </form>
+
+      <p class="membership-secure-note"><span aria-hidden="true">🔒</span> Payment information is entered securely on Stripe and is not stored by Family Quest Center.</p>
+
+      {% if not stripe_configured %}
+      <p class="form-help">Add the Stripe test environment variables to enable checkout.</p>
+      {% endif %}
+    </aside>
+  </article>
+
+  <div class="membership-existing-account">
+    <span>Already have a Family Quest Center account?</span>
+    <a href="{{ url_for('account.login') }}">Sign in</a>
+  </div>
+</section>
+{% endblock %}

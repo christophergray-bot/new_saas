@@ -1,0 +1,15 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent_management/notifications.html
+  Purpose: Renders the notifications user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Parent Notifications | {{ application_name }}{% endblock %}{% block content %}
+{% set page_eyebrow="Parent Management" %}{% set page_icon="🔔" %}{% set page_title="Notifications" %}{% set page_description="Choose the updates Parent One and Parent Two receive." %}{% set page_action_url=url_for('parent_management.overview') %}{% set page_action_text="← Back to Parent Management" %}{% include "partials/page_header.html" %}
+<section class="section-block"><article class="dashboard-panel"><form method="post" class="auth-form settings-form notification-preferences-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+{% for key,label,description in [('notify_weekly_summary','Weekly Summary','A weekly overview of family progress.'),('notify_reward_approvals','Reward Approvals','Updates when reward requests need review.'),('notify_adventure_completion','Adventure Completion','Updates when an adventure is completed.'),('notify_system','System Notifications','Important account and service messages.')] %}
+<label class="settings-checkbox"><input type="checkbox" name="{{ key }}" {% if preferences[key] %}checked{% endif %}><span><strong>{{ label }}</strong><small>{{ description }}</small></span></label>
+{% endfor %}<button class="button button-primary" type="submit">Save Notification Preferences</button></form></article></section>
+{% endblock %}

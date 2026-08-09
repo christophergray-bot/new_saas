@@ -1,0 +1,53 @@
+{# Family Quest Center template: templates/developer/operations.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Operations{% endblock %}
+{% block content %}
+{% set eyebrow="PLATFORM OPERATIONS" %}{% set title="Operations" %}{% set subtitle="Maintain, diagnose, protect, and validate the Family Quest Center platform." %}{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Owner Dashboard' %}{% include "components/page_header.html" %}
+
+<div class="diagnostic-stat-grid operations-summary-grid">
+  <article class="diagnostic-stat"><strong>{{ unresolved_errors }}</strong><span>Unresolved Errors</span></article>
+  <article class="diagnostic-stat"><strong>{{ backup_count }}</strong><span>Available Backups</span></article>
+  <article class="diagnostic-stat"><strong>{{ audit_summary['Today'] }}</strong><span>Audit Events Today</span></article>
+  <article class="diagnostic-stat"><strong>{{ 'Ready' if email_status.configured else 'Not Configured' }}</strong><span>Email Service</span></article>
+</div>
+
+<section class="admin-section">
+  <div class="admin-section-header"><div><span class="section-eyebrow">HEALTH & DIAGNOSTICS</span><h2>Platform Status</h2></div><a href="{{ url_for('developer.health') }}">Run full health review →</a></div>
+  <div class="health-grid">{% for check in health_checks %}<article class="health-card health-{{ check.status }}"><span class="health-dot" aria-hidden="true"></span><div><strong>{{ check.name }}</strong><small>{{ check.detail }}</small></div></article>{% endfor %}</div>
+</section>
+
+<div class="admin-action-grid operations-tool-grid">
+  <a class="admin-tool-card" href="{{ url_for('developer.health') }}"><span>🩺</span><strong>System Health</strong><small>Runtime details, storage, and database statistics</small></a>
+  <a class="admin-tool-card" href="{{ url_for('developer.diagnostics') }}"><span>🔎</span><strong>Release Diagnostics</strong><small>Versions, packs, integrity, and record counts</small></a>
+  <a class="admin-tool-card" href="{{ url_for('developer.errors') }}"><span>🚨</span><strong>Error Log</strong><small>Review, resolve, and reopen application errors</small></a>
+  <a class="admin-tool-card" href="{{ url_for('developer.audit_log') }}"><span>📜</span><strong>Audit Center</strong><small>Search administrative and security activity</small></a>
+  <a class="admin-tool-card" href="{{ url_for('maintenance.center') }}"><span>💾</span><strong>Backup & Recovery</strong><small>Create, validate, download, restore, and delete backups</small></a>
+  <a class="admin-tool-card" href="{{ url_for('maintenance.integrity') }}"><span>🛡️</span><strong>Database Integrity</strong><small>SQLite integrity and foreign-key validation</small></a>
+  <a class="admin-tool-card" href="{{ url_for('developer.migrations') }}"><span>🧱</span><strong>Migration History</strong><small>Review application and database upgrades</small></a>
+  <a class="admin-tool-card" href="{{ url_for('developer.configuration') }}"><span>⚙️</span><strong>Configuration</strong><small>Read-only runtime paths and environment details</small></a>
+  <a class="admin-tool-card" href="{{ url_for('developer.content_validator') }}"><span>🧩</span><strong>Content Validator</strong><small>Validate installed content definitions</small></a>
+  <a class="admin-tool-card" href="{{ url_for('developer.email_test') }}"><span>✉️</span><strong>Email Test</strong><small>Verify SMTP delivery without exposing credentials</small></a>
+</div>
+
+<div class="operations-columns">
+  <section class="admin-section">
+    <div class="admin-section-header"><div><span class="section-eyebrow">RECENT ERRORS</span><h2>Application Log</h2></div><a href="{{ url_for('developer.errors') }}">Open log →</a></div>
+    <div class="compact-event-list">{% for row in recent_errors %}<article><span class="status-pill {{ 'status-active' if row.resolved else 'status-suspended' }}">{{ 'Resolved' if row.resolved else 'Open' }}</span><div><strong>{{ row.error_type }}</strong><small>{{ row.message }}</small></div><time>{{ row.created_at }}</time></article>{% else %}<div class="empty-state compact"><span>✅</span><p>No application errors recorded.</p></div>{% endfor %}</div>
+  </section>
+  <section class="admin-section">
+    <div class="admin-section-header"><div><span class="section-eyebrow">BACKUP & RECOVERY</span><h2>Recent Backups</h2></div><a href="{{ url_for('maintenance.center') }}">Manage backups →</a></div>
+    <div class="compact-event-list">{% for backup in backups %}<article><span>💾</span><div><strong>{{ backup.name }}</strong><small>{{ backup.size_text }}</small></div><time>{{ backup.created_at }}</time></article>{% else %}<div class="empty-state compact"><span>⚠️</span><p>No verified backups are available.</p></div>{% endfor %}</div>
+  </section>
+</div>
+
+<div class="operations-columns">
+  <section class="admin-section">
+    <div class="admin-section-header"><div><span class="section-eyebrow">AUDIT</span><h2>Recent Platform Activity</h2></div><a href="{{ url_for('developer.audit_log') }}">Open Audit Center →</a></div>
+    <div class="compact-event-list">{% for row in recent_audit %}<article><span>•</span><div><strong>{{ row.action|replace('_',' ')|title }}</strong><small>{{ row.actor_name or row.actor_type }}{% if row.details %} · {{ row.details }}{% endif %}</small></div><time>{{ row.created_at }}</time></article>{% else %}<div class="empty-state compact"><p>No audit activity recorded.</p></div>{% endfor %}</div>
+  </section>
+  <section class="admin-section">
+    <div class="admin-section-header"><div><span class="section-eyebrow">DATABASE</span><h2>Core Statistics</h2></div><a href="{{ url_for('developer.health') }}">View all →</a></div>
+    <div class="diagnostic-stat-grid compact-stat-grid">{% for label,value in statistics.items() %}{% if loop.index <= 8 %}<article class="diagnostic-stat"><strong>{{ value }}</strong><span>{{ label }}</span></article>{% endif %}{% endfor %}</div>
+  </section>
+</div>
+{% endblock %}

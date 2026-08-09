@@ -1,0 +1,8 @@
+RC1.6.4 APPROVAL CENTER LAYOUT TEST CHECKLIST
+
+1. Open Parent > Approval Center with at least one Mission and one completed Adventure pending.
+2. Confirm all activity text is left-aligned.
+3. Confirm action buttons are aligned on the right and along the bottom of each card.
+4. Confirm Adventure completion text reads “Completed all X chapters.” without repeating the child name.
+5. Resize to a narrow/mobile width and confirm buttons wrap below the text without overlap.
+6. Test Approve, Return, Celebrate Adventure, Reopen Final Chapter, and bulk selection.

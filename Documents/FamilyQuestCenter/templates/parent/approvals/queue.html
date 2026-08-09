@@ -1,0 +1,61 @@
+{# Family Quest Center unified Approval Center #}
+{% extends "base.html" %}
+{% block title %}Approval Center{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div><p class="eyebrow">Quest Master</p><h1>Approval Center</h1><p>Review completed Missions, celebrate Adventures, and approve requested Content Packs in one place.</p></div>
+  {% if assignments %}<span class="status-pill status-completed">{{ assignments|length }} Pending</span>{% endif %}
+</section>
+<nav class="filter-tabs" aria-label="Approval filters">
+  <a class="{% if selected_filter == 'all' %}active{% endif %}" href="{{ url_for('approvals.queue',type='all') }}">All</a>
+  <a class="{% if selected_filter == 'missions' %}active{% endif %}" href="{{ url_for('approvals.queue',type='missions') }}">Missions</a>
+  <a class="{% if selected_filter == 'journeys' %}active{% endif %}" href="{{ url_for('approvals.queue',type='journeys') }}">Adventures</a>
+  <a class="{% if selected_filter == 'packs' %}active{% endif %}" href="{{ url_for('approvals.queue',type='packs') }}">Pack Requests</a>
+</nav>
+<section class="panel">
+{% if assignments %}
+<form method="post" action="{{ url_for('approvals.bulk_action') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="bulk-toolbar">
+    <label><input id="select-all-approvals" type="checkbox"> Select all</label>
+    <div><button class="button button-primary" name="action" value="approve">Approve Selected</button><button class="button button-secondary" name="action" value="return" onclick="return confirm('Return or deny the selected items?')">Return / Deny Selected</button></div>
+  </div>
+  <div class="approval-list">
+  {% for assignment in assignments %}
+    <article class="approval-card" id="activity-{{ assignment.activity_kind }}-{{ assignment.id }}">
+      <div class="approval-select"><input class="approval-checkbox" type="checkbox" name="activity_keys" value="{{ assignment.activity_kind }}:{{ assignment.id }}" aria-label="Select {{ assignment.title }}"></div>
+      <div class="approval-content">
+        {% if assignment.activity_kind == 'pack_request' %}
+          <p class="eyebrow">📦 Family Pack Request</p>
+          <h3>{{ assignment.icon }} {{ assignment.title }}</h3>
+          <p>Your family requested this Content Pack.</p>
+          {% if assignment.description %}<p>{{ assignment.description }}</p>{% endif %}
+          <small>{{ assignment.price_label }} · Approval installs the pack for the whole family.</small>
+        {% else %}
+          <p class="eyebrow">{{ '🎉 Adventure Celebration' if assignment.activity_kind == 'adventure' else ('🧭 Journey' if assignment.activity_kind != 'mission' else '📝 Mission') }} · {{ assignment.child_name }}</p>
+          <h3>{{ assignment.title }}</h3>
+          {% if assignment.adventure_name and assignment.activity_kind != 'adventure' %}<p><strong>Adventure:</strong> {{ assignment.adventure_name }}{% if assignment.step_order %} · Chapter {{ assignment.step_order }} of {{ assignment.total_steps }}{% endif %}</p>{% elif assignment.activity_kind == 'adventure' %}<p>Completed all {{ assignment.total_steps }} chapters.</p>{% endif %}
+          {% if assignment.description %}<p>{{ assignment.description }}</p>{% endif %}
+          <small>Difficulty {{ assignment.difficulty }} · {% if assignment.activity_kind == 'mission' or assignment.activity_kind == 'legacy_journey' %}⭐ {{ assignment.stars }} · {% endif %}✨ {{ assignment.xp_reward }} XP</small>
+        {% endif %}
+      </div>
+      <div class="approval-actions">
+        {% if assignment.activity_kind == 'pack_request' %}
+          <a class="button button-secondary" href="{{ url_for('content_packs.detail', pack_key=assignment.pack_key) }}">View Pack</a>
+          <button class="button button-primary" formaction="{{ url_for('approvals.approve',activity_kind=assignment.activity_kind,activity_id=assignment.id) }}" formmethod="post">Approve & Install</button>
+          <button class="button button-secondary" formaction="{{ url_for('approvals.reject',activity_kind=assignment.activity_kind,activity_id=assignment.id) }}" formmethod="post" onclick="return confirm('Deny this pack request?')">Deny</button>
+        {% else %}
+          <button class="button button-primary" formaction="{{ url_for('approvals.approve',activity_kind=assignment.activity_kind,activity_id=assignment.id) }}" formmethod="post">{{ 'Celebrate Adventure' if assignment.activity_kind == 'adventure' else 'Approve' }}</button>
+          <button class="button button-secondary" formaction="{{ url_for('approvals.reject',activity_kind=assignment.activity_kind,activity_id=assignment.id) }}" formmethod="post" onclick="return confirm('Return this activity to the child?')">{{ 'Reopen Final Chapter' if assignment.activity_kind == 'adventure' else 'Return' }}</button>
+        {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+  </div>
+</form>
+{% else %}
+<div class="empty-state"><h3>No Pending Approvals</h3><p>Completed Missions, Adventures, and family Pack Store requests will appear here.</p></div>
+{% endif %}
+</section>
+{% endblock %}
+{% block scripts %}<script>document.addEventListener('DOMContentLoaded',()=>{const all=document.getElementById('select-all-approvals');if(all)all.addEventListener('change',()=>document.querySelectorAll('.approval-checkbox').forEach(box=>box.checked=all.checked));});</script>{% endblock %}

@@ -1,0 +1,15 @@
+FC-0015 — ARCHIVE CENTER
+Family Quest Center v1.0.0 RC1
+
+Implemented:
+- Added a dedicated Parent Archive Center.
+- Added archive cards for Family Members, Quests, Adventures, Challenges, Rewards, Achievements, and Schedules.
+- Added searchable category pages containing only archived records.
+- Added restore actions for every supported archived record type.
+- Combined quest and adventure schedules in the Schedules archive.
+- Included archived reward categories in the Rewards archive.
+- Simplified primary management pages so they display active records only.
+- Added Archive Center access to the Parent Command Center.
+- Preserved historical assignments, completions, achievement unlocks, reward requests, and activity records.
+
+Database migration: Not required. Existing active flags are reused.

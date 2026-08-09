@@ -1,0 +1,12 @@
+Family Quest Center — Sprint 3.0-G.0.5a
+
+Fixes
+- Rebuilt the Family Dashboard as a responsive explorer-card grid.
+- Added consistent page panels, spacing, typography, and parent-access presentation.
+- While the Parent Area is locked, navigation now shows only Family Dashboard and Parent Access.
+- My Account and Sign Out are hidden in locked Child Mode.
+- Parent identity is hidden in the footer while locked.
+- The account session remains active; the Parent PIN restores parent controls.
+
+Database
+- No database schema or data changes.

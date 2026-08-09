@@ -1,0 +1,2 @@
+{# Family Quest Center template: templates/billing/cancel.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}{% block title %}Checkout Canceled | {{ application_name }}{% endblock %}{% block content %}<section class="panel" style="max-width:720px;margin:auto;text-align:center"><h1>Checkout Canceled</h1><p>No charge was made. You can return whenever you are ready.</p><a class="button" href="{{ url_for('billing.plans') }}">Return to Membership</a></section>{% endblock %}

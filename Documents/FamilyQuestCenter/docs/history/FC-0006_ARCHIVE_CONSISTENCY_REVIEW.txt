@@ -1,0 +1,28 @@
+FC-0006 — GLOBAL ARCHIVE MANAGEMENT STANDARD
+
+Completed review scope:
+- Children
+- Quests
+- Adventures
+- Family Challenges
+- Rewards and Reward Categories
+- Achievements
+- Quest Schedules
+- Adventure Schedules
+
+Standard applied:
+1. New manageable content is active by default.
+2. Archive/Restore terminology is used consistently instead of delete, retire, disable, pause, or deactivate.
+3. Archived records remain visible to parents through All/Archived filters.
+4. Archived records are removed from active child gameplay and new assignment selections.
+5. Completed assignments, earned achievements, reward history, and audit history are preserved.
+6. Active records sort before archived records where supported.
+7. Archive actions use clear status badges and confirmations where history or gameplay may be affected.
+
+Engineering findings addressed:
+- Added search and Active/Archived filters to Family Members and Family Challenges.
+- Standardized child profile, reward, reward category, and quest schedule actions to Archive/Restore.
+- Standardized archived status labels across quests, adventures, challenges, rewards, achievements, schedules, and children.
+- Added explicit success messages for adventure, challenge, reward, reward category, child, and schedule archive/restore actions.
+
+No destructive database migration is required.

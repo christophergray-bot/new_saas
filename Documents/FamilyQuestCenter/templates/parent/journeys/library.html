@@ -1,0 +1,114 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/journeys/library.html
+  Purpose: Renders the library user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}
+Journey Library | Family Quest Center
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-heading">
+    <div>
+        <p class="eyebrow">Growth System</p>
+        <h1>Journey Library</h1>
+        <p>Create and manage reusable Journeys for your adventurers.</p>
+    </div>
+
+    <a class="primary-button" href="{{ url_for('journeys.new') }}">
+        + New Journey
+    </a>
+</section>
+
+<section class="dashboard-panel filter-panel">
+    <form class="filter-bar" method="get">
+        <input type="search" name="q" value="{{ search_query }}" placeholder="Search journeys" aria-label="Search journeys">
+
+        <select name="difficulty" aria-label="Difficulty">
+            <option value="all">All difficulties</option>
+            {% for level in range(1,6) %}
+            <option value="{{ level }}" {% if selected_difficulty == level|string %}selected{% endif %}>Difficulty {{ level }}</option>
+            {% endfor %}
+        </select>
+
+        <button class="button button-primary" type="submit">Filter</button>
+        <a class="button button-secondary" href="{{ url_for('journeys.library') }}">Clear</a>
+    </form>
+</section>
+
+<section class="dashboard-panel">
+    {% if journeys %}
+        <div class="quest-list">
+            {% for journey in journeys %}
+                <article class="quest-card">
+                    <div class="quest-card-main">
+                        <div class="quest-card-heading">
+                            <h2>{{ journey.name }}</h2>
+                            {% if journey.active %}
+                                <span class="status-pill">Active</span>
+                            {% else %}
+                                <span class="status-pill inactive">Archived</span>
+                            {% endif %}
+                        </div>
+
+                        {% if journey.description %}
+                            <p>{{ journey.description }}</p>
+                        {% else %}
+                            <p class="muted-text">No description provided.</p>
+                        {% endif %}
+
+                        <div class="quest-details">
+                            <span>Difficulty: {{ "⭐" * journey.difficulty }}</span>
+                            <span>Reward: {{ journey.xp_reward }} XP</span>
+                            <span>
+                                {% if journey.estimated_minutes %}
+                                    Estimated time: {{ journey.estimated_minutes }} minutes
+                                {% else %}
+                                    No estimated time
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="quest-actions">
+                        <a class="button button-secondary" href="{{ url_for('journeys.edit', journey_id=journey.id) }}">
+                            ✏ Edit
+                        </a>
+
+                        {% if journey.active %}
+                            <form method="post" action="{{ url_for('journeys.toggle', journey_id=journey.id) }}" onsubmit="return confirm('Archive this journey?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="active" value="0">
+                                <button class="button button-danger" type="submit">📦 Archive</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{{ url_for('journeys.toggle', journey_id=journey.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="active" value="1">
+                                <button class="button button-secondary" type="submit">↩ Restore</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">🧭</div>
+            <h2>No journeys found</h2>
+            <p>Create a reusable Journey or restore one from the Archive Center.</p>
+            <a class="primary-button" href="{{ url_for('journeys.new') }}">Create First Journey</a>
+        </div>
+    {% endif %}
+</section>
+
+<p>
+    <a href="{{ url_for('parent.dashboard') }}">← Return to Parent Dashboard</a>
+</p>
+
+{% endblock %}

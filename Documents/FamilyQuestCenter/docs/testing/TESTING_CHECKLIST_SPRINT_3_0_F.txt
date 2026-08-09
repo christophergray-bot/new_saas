@@ -1,0 +1,49 @@
+FAMILY QUEST CENTER
+Sprint 3.0-F — UI Polish & UX Completion
+Manual Testing Checklist
+
+APPLICATION SHELL
+[ ] Landing page opens at http://127.0.0.1:5000/
+[ ] Public navigation remains usable on desktop and mobile.
+[ ] Current navigation item is visibly highlighted where applicable.
+[ ] Mobile menu opens and closes.
+[ ] Escape closes the open mobile menu and returns focus to the menu button.
+[ ] Footer content wraps cleanly on small screens.
+
+PARENT EXPERIENCE
+[ ] Parent Dashboard opens without layout regressions.
+[ ] Command Center cards remain aligned.
+[ ] Parent Management back button returns to Command Center.
+[ ] Security, Notifications, and Parent Activity return to Parent Management.
+[ ] Change Password returns to Security when opened from Security.
+[ ] Family Settings returns to Command Center.
+[ ] Invite Parent Two button matches other primary buttons.
+[ ] Notification save button matches other primary buttons.
+
+FORMS AND FEEDBACK
+[ ] Inputs, selects, and text areas have consistent borders and spacing.
+[ ] Keyboard focus is clearly visible.
+[ ] Notification checkboxes are easy to select on desktop and mobile.
+[ ] Submit buttons show Working… after submission.
+[ ] Rapid double-clicking does not submit a form twice.
+[ ] Flash messages remain readable and dismiss correctly.
+
+RESPONSIVE REVIEW
+[ ] Review at approximately 375px width.
+[ ] Review at approximately 768px width.
+[ ] Review at approximately 1024px width.
+[ ] Page-header actions become full-width on small screens.
+[ ] Form action groups stack cleanly on small screens.
+[ ] Feature-card buttons become full-width on small screens.
+[ ] No horizontal scrolling occurs on standard pages.
+
+REGRESSION
+[ ] Quest Library works.
+[ ] Journey Library works.
+[ ] Adventure Library works.
+[ ] Children Management works.
+[ ] Reward Management works.
+[ ] Achievement Management works.
+[ ] Child dashboard and quest completion work.
+[ ] Parent PIN unlock and lock work.
+[ ] Sign in and sign out work.

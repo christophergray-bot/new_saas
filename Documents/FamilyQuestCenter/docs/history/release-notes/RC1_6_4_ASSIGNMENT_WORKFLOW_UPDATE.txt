@@ -1,0 +1,22 @@
+FAMILY QUEST CENTER — RC1.6.4 ASSIGNMENT WORKFLOW UPDATE
+Updated: 2026-08-01
+
+Changes included:
+1. Added an Assign Mission button to every active Quest card.
+2. Assign Mission opens the existing Mission Scheduler with the selected Quest prefilled.
+3. Saving or cancelling a Quest assignment opened from the library returns to the Quest Library.
+4. Replaced the Adventure Library's collapsed assignment form with an Assign Adventure button.
+5. Added a dedicated Adventure assignment page that follows the Mission Scheduler's visual layout.
+6. Adventure assignment includes a child selector, start date, Chapter count, completion XP, and ordered Chapter summary.
+7. Adventures remain one-time progressive journeys and do not include repeat-frequency controls.
+8. Added responsive styling and a focused regression test checklist.
+
+Files changed:
+- routes/missions.py
+- routes/adventures.py
+- templates/parent/quests/library.html
+- templates/parent/missions/schedule_form.html
+- templates/parent/adventures/chains.html
+- templates/parent/adventures/assign.html (new)
+- static/style.css
+- docs/testing/RC1_6_4_ASSIGNMENT_WORKFLOW_TEST_CHECKLIST.txt (new)

@@ -1,0 +1,30 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/archive/center.html
+  Purpose: Renders the center user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Archive Center | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Parent Tools" %}
+{% set page_icon = "📦" %}
+{% set page_title = "Archive Center" %}
+{% set page_description = "Restore archived family content without cluttering active management pages." %}
+{% include "partials/page_header.html" %}
+<section class="section-block">
+  <div class="feature-grid">
+    {% for card in cards %}
+    <article class="feature-card">
+      <div class="feature-icon">{{ card.icon }}</div>
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.description }}</p>
+      <p><strong>{{ card.count }}</strong> archived</p>
+      <div class="feature-actions"><a class="button button-primary" href="{{ url_for('archive.category', kind=card.kind) }}">Open Archive</a></div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+<p><a href="{{ url_for('parent.dashboard') }}">← Return to Parent Dashboard</a></p>
+{% endblock %}

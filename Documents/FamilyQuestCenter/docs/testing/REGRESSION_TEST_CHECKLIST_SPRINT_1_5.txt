@@ -1,0 +1,39 @@
+FAMILY QUEST CENTER - SPRINT 1.5 REGRESSION CHECKLIST
+
+STARTUP AND DATA
+[ ] Start the app with Start Family Quest Center.bat.
+[ ] Confirm existing children, quests, missions, journeys, rewards, and history remain.
+[ ] Open Achievement Manager and confirm 25 outdoor defaults are visible.
+[ ] Restart the app and confirm achievements are not duplicated.
+
+PARENT WORKFLOWS
+[ ] Parent PIN login and logout.
+[ ] Add, edit, duplicate, archive, and restore a Quest.
+[ ] Create and edit a one-time Mission.
+[ ] Create and edit a recurring Mission.
+[ ] Review Today's Missions.
+[ ] Approve and reject submitted work.
+[ ] Add, edit, archive, and restore a Journey.
+[ ] Create, order, assign, edit, archive, and restore an Adventure.
+[ ] Add, edit, archive, and restore a Reward.
+[ ] Approve and reject a Reward request.
+[ ] Add and edit a Child profile.
+[ ] Open Reports, Notifications, Archive Center, Settings, Maintenance, and Developer Tools.
+
+CHILD WORKFLOWS
+[ ] Open each child dashboard.
+[ ] Complete a regular Mission.
+[ ] Complete the current Journey step in an Adventure.
+[ ] Confirm sequential Journey progression.
+[ ] View Available Treasures.
+[ ] Request or redeem an affordable Reward.
+[ ] Confirm an unaffordable Reward is disabled.
+[ ] Change avatar, frame, and theme.
+[ ] View progress, trophy room, timeline, and reward history.
+
+VISUAL REVIEW
+[ ] Parent pages use consistent headers, buttons, icons, cards, and spacing.
+[ ] Child rewards use full-width stacked treasure cards.
+[ ] Outdoor avatar, frame, theme, and achievement names/icons display correctly.
+[ ] Developer Center page headers display text correctly.
+[ ] Check narrow browser/mobile-width wrapping.

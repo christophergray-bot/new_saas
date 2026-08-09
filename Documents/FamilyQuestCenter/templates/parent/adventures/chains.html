@@ -1,0 +1,79 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/adventures/chains.html
+  Purpose: Renders the Adventure Library and per-Adventure assignment management.
+  Maintenance: Each Adventure card owns its collapsible child assignment list.
+  Documentation updated: 2026-08-02
+#}
+{% extends "base.html" %}
+{% block title %}Adventure Library{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div><p class="eyebrow">Growth System</p><h1>Adventure Library</h1><p class="page-description">Create complete Adventures with ordered Chapters, then assign one Adventure to one or more children.</p></div>
+  <div class="page-header-actions"><a class="button button-primary" href="{{ url_for('parent_adventures.new_chain') }}">+ Create Adventure</a></div>
+</section>
+<section class="dashboard-panel filter-panel">
+  <form class="filter-bar" method="get"><input type="search" name="q" value="{{ search_query }}" placeholder="Search adventures" aria-label="Search adventures"><button class="button button-primary">Filter</button><a class="button button-secondary" href="{{ url_for('parent_adventures.chains') }}">Clear</a></form>
+</section>
+{% if adventures %}
+<section class="schedule-list library-card-list">
+{% for adventure in adventures %}
+<article class="schedule-card library-item-card adventure-library-card {% if not adventure.active %}inactive-card{% endif %}">
+  <div class="schedule-card-main">
+    <div class="schedule-icon">🗺️</div>
+    <div class="schedule-card-content">
+      <div class="schedule-heading-row"><h2>{{ adventure.name }}</h2>{% if pack_sources.get(adventure.id) %}<span class="pack-source-badge">{{ pack_sources[adventure.id].icon }} {{ pack_sources[adventure.id].name }}</span>{% endif %}<span class="status-badge {{ 'active' if adventure.active else 'inactive' }}">{{ 'Active' if adventure.active else 'Archived' }}</span></div>
+      {% if adventure.description %}<p class="schedule-description">{{ adventure.description }}</p>{% endif %}
+      <div class="schedule-details"><span><strong>Chapters:</strong> {{ adventure.journey_count }}</span><span><strong>Completion Bonus:</strong> {{ adventure.bonus_xp }} XP</span></div>
+      {% if adventure.journeys %}
+      <ol class="adventure-chapter-preview">{% for chapter in adventure.journeys %}<li><strong>Chapter {{ loop.index }}: {{ chapter.name }}</strong>{% if chapter.description %}<small>{{ chapter.description }}</small>{% endif %}</li>{% endfor %}</ol>
+      {% endif %}
+
+      {% set assigned = assignment_summaries.get(adventure.id, []) %}
+      <section class="assignment-accordion" aria-label="Current assignments for {{ adventure.name }}">
+        <div class="assignment-accordion-heading">
+          <strong>Currently Assigned</strong>
+          <span class="assignment-count">{{ assigned|length }} child{{ '' if assigned|length == 1 else 'ren' }}</span>
+        </div>
+        {% if assigned %}
+        <div class="assignment-child-list">
+        {% for assignment in assigned %}
+          <details class="assignment-child-panel">
+            <summary>
+              <span class="assignment-child-summary-main"><span class="assignment-chevron" aria-hidden="true"></span><span class="assignment-avatar" aria-hidden="true">👤</span><strong>{{ assignment.child_name }}</strong></span>
+              <span class="assignment-progress-label">Chapter {{ assignment.current_chapter }} of {{ assignment.total_chapters }}</span>
+            </summary>
+            <div class="assignment-child-body">
+              <div class="assignment-child-details">
+                <span><strong>Progress</strong>Chapter {{ assignment.current_chapter }} of {{ assignment.total_chapters }}</span>
+                <span><strong>Started</strong>{{ assignment.start_date }}</span>
+                <span><strong>Status</strong>Active</span>
+              </div>
+              <div class="assignment-child-actions">
+                <form method="post" action="{{ url_for('parent_adventures.cancel_assignment', instance_id=assignment.instance_id) }}" onsubmit="return confirm('Cancel this Adventure for {{ assignment.child_name }}? Completed Chapter history will be preserved.');">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="button button-small button-danger" type="submit">Cancel Adventure</button>
+                </form>
+              </div>
+            </div>
+          </details>
+        {% endfor %}
+        </div>
+        {% else %}<p class="assignment-summary-empty">Not currently assigned</p>{% endif %}
+      </section>
+
+      <div class="schedule-actions library-card-actions" aria-label="Actions for {{ adventure.name }}">
+        {% if adventure.active %}
+        <a class="button button-secondary" href="{{ url_for('parent_adventures.edit_chain', adventure_id=adventure.id) }}">✏ Edit</a>
+        <a class="button button-primary" href="{{ url_for('parent_adventures.assign', adventure_id=adventure.id) }}">🗺️ Assign</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>
+{% endfor %}
+</section>
+{% else %}
+<section class="polished-empty-state"><div class="empty-state-icon">🗺️</div><h2>No Adventures Yet</h2><p>Create an Adventure and add its Chapters in one guided flow.</p><a class="button button-primary" href="{{ url_for('parent_adventures.new_chain') }}">Create First Adventure</a></section>
+{% endif %}
+{% endblock %}

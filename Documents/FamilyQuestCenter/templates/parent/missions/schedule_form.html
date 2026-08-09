@@ -1,0 +1,295 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/missions/schedule_form.html
+  Purpose: Renders the schedule form user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div>
+        <p class="eyebrow">Mission Builder</p>
+        <h1>{{ page_title }}</h1>
+        <p class="page-description">
+            Choose a Quest, assign it to a child, and decide when the Mission repeats.
+        </p>
+    </div>
+</section>
+
+<section class="dashboard-panel schedule-form-panel">
+
+    <form
+        class="quest-form"
+        method="post"
+        action="{{ form_action }}"
+    >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {% if return_to %}<input type="hidden" name="return_to" value="{{ return_to }}">{% endif %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="chore_id">Quest</label>
+
+                <select id="chore_id" name="chore_id" required>
+                    <option value="">Select a quest</option>
+
+                    {% for chore in chores %}
+                        <option
+                            value="{{ chore.id }}"
+                            {% if (schedule and schedule.chore_id == chore.id)
+                                or (not schedule and selected_chore_id == chore.id)
+                            %}selected{% endif %}
+                        >
+                            {{ chore.title }}
+                            — {{ chore.stars }} Stars
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>{{ "Child" if schedule else "Children" }}</label>
+                {% if schedule %}
+                    <select id="child_id" name="child_id" required>
+                        <option value="">Select a child</option>
+                        {% for child in children %}
+                            <option value="{{ child.id }}" {% if schedule.child_id == child.id %}selected{% endif %}>{{ child.name }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <details class="child-multi-select">
+                        <summary><span class="child-selection-label">Select one or more children</span></summary>
+                        <div class="child-multi-select-options">
+                            {% for child in children %}
+                                <label><input type="checkbox" name="child_ids" value="{{ child.id }}"> <span>{{ child.name }}</span></label>
+                            {% endfor %}
+                        </div>
+                    </details>
+                {% endif %}
+            </div>
+        </div>
+
+        <fieldset class="schedule-type-fieldset">
+            <legend>Repeat</legend>
+
+            {% set selected_type =
+                schedule.schedule_type if schedule else "daily"
+            %}
+
+            <div class="schedule-type-grid">
+                {% for value, label, icon in [
+                    ("daily", "Daily", "☀️"),
+                    ("weekly", "Weekly", "📆"),
+                    ("monthly", "Monthly", "🗓️"),
+                    ("custom", "Custom", "⚙️")
+                ] %}
+                    <label class="schedule-type-option">
+                        <input
+                            type="radio"
+                            name="schedule_type"
+                            value="{{ value }}"
+                            {% if selected_type == value %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span class="schedule-type-content">
+                            <span class="schedule-type-icon">
+                                {{ icon }}
+                            </span>
+
+                            <strong>{{ label }}</strong>
+                        </span>
+                    </label>
+                {% endfor %}
+            </div>
+        </fieldset>
+
+        <div
+            id="weekly-options"
+            class="schedule-conditional"
+        >
+            <div class="form-group">
+                <label for="weekly_day">Every</label>
+
+                <select id="weekly_day" name="weekly_day">
+                    {% for value, label in weekdays %}
+                        <option
+                            value="{{ value }}"
+                            {% if selected_weekly_day == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div
+            id="monthly-options"
+            class="schedule-conditional"
+        >
+            <div class="form-group">
+                <label for="day_of_month">
+                    Day of the Month
+                </label>
+
+                <input
+                    id="day_of_month"
+                    name="day_of_month"
+                    type="number"
+                    min="1"
+                    max="28"
+                    value="{{
+                        schedule.day_of_month
+                        if schedule and schedule.day_of_month
+                        else 1
+                    }}"
+                >
+
+                <small class="form-help">
+                    Monthly schedules currently support days 1 through 28.
+                </small>
+            </div>
+        </div>
+
+        <div
+            id="custom-options"
+            class="schedule-conditional"
+        >
+            <div class="form-group">
+                <label>Choose Days</label>
+
+                <div class="weekday-grid">
+                    {% for value, label in weekdays %}
+                        <label class="weekday-option">
+                            <input
+                                type="checkbox"
+                                name="custom_days"
+                                value="{{ value }}"
+                                {% if value in selected_custom_days %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>{{ label }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+
+                <input
+                    id="start_date"
+                    name="start_date"
+                    type="date"
+                    value="{{
+                        schedule.start_date
+                        if schedule
+                        else today_date
+                    }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="end_date">
+                    End Date
+                    <span class="optional-label">(optional)</span>
+                </label>
+
+                <input
+                    id="end_date"
+                    name="end_date"
+                    type="date"
+                    value="{{
+                        schedule.end_date
+                        if schedule and schedule.end_date
+                        else ""
+                    }}"
+                >
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="button button-primary" type="submit">
+                {{ submit_label }}
+            </button>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for('quests.library') if return_to == 'quest_library' else url_for('missions.schedules') }}"
+            >
+                Cancel
+            </a>
+        </div>
+    </form>
+
+</section>
+
+<script>
+    const scheduleTypeInputs = document.querySelectorAll(
+        'input[name="schedule_type"]'
+    );
+
+    const conditionalSections = {
+        weekly: document.getElementById("weekly-options"),
+        monthly: document.getElementById("monthly-options"),
+        custom: document.getElementById("custom-options")
+    };
+
+    function updateScheduleFields() {
+        const selected = document.querySelector(
+            'input[name="schedule_type"]:checked'
+        );
+
+        Object.values(conditionalSections).forEach((section) => {
+            section.hidden = true;
+        });
+
+        if (
+            selected
+            && conditionalSections[selected.value]
+        ) {
+            conditionalSections[selected.value].hidden = false;
+        }
+    }
+
+    scheduleTypeInputs.forEach((input) => {
+        input.addEventListener("change", updateScheduleFields);
+    });
+
+    updateScheduleFields();
+
+    const childCheckboxes = document.querySelectorAll('input[name="child_ids"]');
+    const childSelectionLabel = document.querySelector('.child-selection-label');
+    function updateChildSelectionLabel() {
+        if (!childSelectionLabel) return;
+        const selected = Array.from(childCheckboxes).filter((item) => item.checked);
+        childSelectionLabel.textContent = selected.length
+            ? `${selected.length} child${selected.length === 1 ? '' : 'ren'} selected`
+            : 'Select one or more children';
+    }
+    childCheckboxes.forEach((item) => item.addEventListener('change', updateChildSelectionLabel));
+    const missionForm = document.querySelector('.quest-form');
+    if (missionForm && childCheckboxes.length) {
+        missionForm.addEventListener('submit', (event) => {
+            if (![...childCheckboxes].some((item) => item.checked)) {
+                event.preventDefault();
+                alert('Select at least one child.');
+            }
+        });
+    }
+</script>
+
+{% endblock %}

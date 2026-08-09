@@ -1,0 +1,21 @@
+FAMILY QUEST CENTER — RC1.6.6 DEFAULT CONTENT PACK TEST CHECKLIST
+
+Use a fresh database or register a brand-new family that has never installed the starter pack.
+
+1. Register a family with Family Quest Starter Pack selected.
+2. Confirm exactly one starter Quest is added: Make Your Bed.
+3. Confirm the Quest is active, awards 10 Stars, and requires parent approval.
+4. Confirm exactly one starter Reward is added: Choose a Treat (25 Stars).
+5. Confirm exactly one starter Adventure is added: Outdoor Adventure.
+6. Confirm Outdoor Adventure contains exactly three ordered Chapters:
+   1 — Find Something Cool
+   2 — Count the Trees
+   3 — Nature Explorer
+7. Confirm no starter Challenges or pack-specific Achievements are installed.
+8. Confirm built-in Achievement Engine v2 goals remain available.
+9. Confirm Character choices contain Boy Adventurer and Girl Adventurer.
+10. Confirm only Classic Gold frame and Classic Quest theme are available by default.
+11. Confirm the parent can edit/archive the example Quest, Reward, and Adventure.
+12. Restart the application and confirm no duplicate starter records are created.
+13. Attempt to install the starter pack again and confirm duplicate installation is prevented.
+14. Register an Empty Workspace family and confirm no example Quest, Reward, or Adventure is created, while built-in cosmetics and achievements remain available.

@@ -1,0 +1,29 @@
+{# Family Quest Center template: templates/developer/parent_account_detail.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}{{ parent_account.display_name }}{% endblock %}
+{% block content %}
+{% set page_action_url=url_for('developer.parent_accounts') %}{% set page_action_text='← Parent Accounts' %}
+{% include "components/page_header.html" %}
+<section class="owner-family-summary-grid">
+  <article class="admin-section"><span class="eyebrow">ACCOUNT</span><h2>{{ parent_account.display_name }}</h2><p>{{ parent_account.email }}</p><p><span class="status-pill {{ 'status-active' if parent_account.active and parent_account.membership_active else 'status-suspended' }}">{{ 'Active' if parent_account.active and parent_account.membership_active else 'Disabled' }}</span></p></article>
+  <article class="admin-section"><span class="eyebrow">FAMILY</span><h2>{{ parent_account.family_name }}</h2><p>{{ 'Parent One' if parent_account.role=='owner' else 'Parent Two' }}</p><a class="button button-secondary" href="{{ url_for('developer.family_detail', family_id=parent_account.family_id) }}">Manage Family</a></article>
+  <article class="admin-section"><span class="eyebrow">SECURITY</span><h2>{{ 'Verified Email' if parent_account.email_verified else 'Email Not Verified' }}</h2><p>Last login: {{ parent_account.last_login_at or 'Never' }}</p><p>Password details are never displayed.</p></article>
+</section>
+<section class="admin-section"><div class="section-heading"><h2>Account Summary</h2></div><div class="owner-overview-grid">
+  <article class="stat-card"><span>Date Created</span><strong>{{ parent_account.created_at }}</strong></article>
+  <article class="stat-card"><span>Last Updated</span><strong>{{ parent_account.updated_at }}</strong></article>
+  <article class="stat-card"><span>Last Login</span><strong>{{ parent_account.last_login_at or 'Never' }}</strong></article>
+  <article class="stat-card"><span>Email Status</span><strong>{{ 'Verified' if parent_account.email_verified else 'Not Verified' }}</strong></article>
+</div></section>
+<div class="admin-two-column owner-dashboard-columns">
+<section class="admin-section"><h2>Account Audit History</h2><div class="admin-list owner-activity-scroll" tabindex="0">{% for item in account_audit %}<article class="admin-list-item"><strong>{{ item.action|replace('_',' ')|title }}</strong><p>{{ item.details or 'No details recorded.' }}</p><small>{{ item.created_at }}</small></article>{% else %}<p>No account-specific audit events.</p>{% endfor %}</div><a class="button button-secondary" href="{{ url_for('developer.audit_log') }}">Open Full Audit Log</a></section>
+<section class="admin-section owner-danger-zone"><h2>Administrative Actions</h2><p>These actions support access and security. Passwords and the shared Family PIN are never visible.</p>
+<form method="post" action="{{ url_for('developer.parent_account_action', account_id=parent_account.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" name="action" value="password_reset">Send Password Reset Email</button></form>
+<form method="post" action="{{ url_for('developer.parent_account_action', account_id=parent_account.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Type CONFIRM<input name="confirm" autocomplete="off"></label><div class="owner-action-buttons">
+  <button class="button button-secondary" name="action" value="unlock">Unlock Account</button>
+  {% if parent_account.active %}<button class="button button-danger" name="action" value="disable">Disable Account</button>{% else %}<button class="button button-primary" name="action" value="reactivate">Reactivate Account</button>{% endif %}
+  {% if not parent_account.email_verified %}<button class="button button-secondary" name="action" value="verify_email">Verify Email</button>{% endif %}
+  <button class="button button-secondary" name="action" value="force_logout">Force Logout</button>
+</div></form></section>
+</div>
+{% endblock %}

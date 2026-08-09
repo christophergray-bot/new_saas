@@ -1,0 +1,23 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/notifications.html
+  Purpose: Renders the notifications user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Notifications | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header"><div><p class="eyebrow">Parent Productivity</p><h1>🔔 Notification Center</h1><p>Actionable items remain here until handled or dismissed.</p></div>{% if notifications %}<form method="post" action="{{ url_for('notifications.dismiss_all') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-secondary" type="submit">Dismiss All</button></form>{% endif %}</section>
+<section class="dashboard-panel">
+{% if notifications %}
+<div class="notification-list">
+{% for item in notifications %}
+<article class="approval-card"><div class="approval-content"><p class="eyebrow">{{ item.icon }} {{ item.title }}</p><h3>{{ item.message }}</h3><small>{{ item.created_at or '' }}</small></div><div class="approval-actions"><a class="button button-primary" href="{{ url_for(item.url_endpoint) }}">Open</a><form method="post" action="{{ url_for('notifications.dismiss') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="notification_key" value="{{ item.key }}"><button class="button button-secondary" type="submit">Dismiss</button></form></div></article>
+{% endfor %}
+</div>
+{% else %}<div class="empty-state"><h3>All caught up</h3><p>There are no current parent notifications.</p></div>{% endif %}
+</section>
+{% endblock %}

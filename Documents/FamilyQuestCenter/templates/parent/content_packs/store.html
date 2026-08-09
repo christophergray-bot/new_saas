@@ -1,0 +1,126 @@
+{# Family Quest Center Pack Store #}
+{% extends "base.html" %}
+{% block title %}Pack Store | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header pack-store-header">
+  <div>
+    <p class="eyebrow">Explore Together</p>
+    <h1>📦 Pack Store</h1>
+    <p>{% if request_mode %}Discover curated content for your family. Request a pack you like and a parent can approve and install it for everyone.{% elif store_child %}Discover new adventures, challenges, rewards, and ways to customize your explorer. Ask a parent when you find a pack you want.{% else %}Discover curated content for your family. Free packs can be installed now; premium packs are ready for future expansion.{% endif %}</p>
+  </div>
+  {% if request_mode %}
+  <div class="page-header-actions">
+    <a class="button button-secondary" href="{{ url_for('home.family_dashboard') }}">← Back to Family Profile</a>
+  </div>
+  {% endif %}
+</section>
+
+<section class="pack-store-summary" aria-label="Pack Store summary">
+  <span><strong>{{ store_summary.all }}</strong> Packs</span>
+  <span><strong>{{ store_summary.free }}</strong> Free</span>
+  <span><strong>{{ store_summary.premium }}</strong> Premium</span>
+  <span><strong>{{ store_summary.installed }}</strong> Installed</span>
+</section>
+
+<nav class="pack-tabs" aria-label="Pack Store filters">
+  {% if request_mode %}{% set endpoint = 'home.family_pack_store' %}{% set endpoint_args = {} %}{% elif store_child %}{% set endpoint = 'child.pack_store' %}{% set endpoint_args = {'user_id': store_child.id} %}{% else %}{% set endpoint = 'content_packs.store' %}{% set endpoint_args = {} %}{% endif %}
+  <a class="pack-tab {% if selected_filter == 'all' %}active{% endif %}" href="{{ url_for(endpoint, filter='all', **endpoint_args) }}">All Packs</a>
+  <a class="pack-tab {% if selected_filter == 'free' %}active{% endif %}" href="{{ url_for(endpoint, filter='free', **endpoint_args) }}">Free</a>
+  <a class="pack-tab {% if selected_filter == 'premium' %}active{% endif %}" href="{{ url_for(endpoint, filter='premium', **endpoint_args) }}">Premium</a>
+  <a class="pack-tab {% if selected_filter == 'installed' %}active{% endif %}" href="{{ url_for(endpoint, filter='installed', **endpoint_args) }}">Installed</a>
+</nav>
+
+<section class="pack-store-grid" aria-label="Content Packs">
+{% for pack in packs %}
+  <article class="pack-store-card">
+    <div class="pack-store-card-top">
+      <div class="pack-store-icon" aria-hidden="true">{{ pack.icon }}</div>
+      <div class="pack-store-heading">
+        <p class="eyebrow">{{ 'Starter' if pack.pack_type == 'core' else pack.category|title }} Pack</p>
+        <h2>{{ pack.name }}</h2>
+      </div>
+      <span class="pack-price-pill {% if pack.price_type == 'free' %}pack-price-free{% endif %}">{{ pack.price_label }}</span>
+    </div>
+    <p class="pack-store-description">{{ pack.description }}</p>
+
+    <div class="pack-store-counts" aria-label="Pack contents">
+      <span><strong>{{ pack.counts.quests }}</strong> Quests</span>
+      <span><strong>{{ pack.counts.adventures }}</strong> Adventures</span>
+      <span><strong>{{ pack.counts.challenges }}</strong> Challenges</span>
+      <span><strong>{{ pack.counts.rewards }}</strong> Rewards</span>
+      <span><strong>{{ pack.counts.books }}</strong> Quest Books</span>
+      <span><strong>{{ pack.counts.avatars + pack.counts.frames + pack.counts.themes }}</strong> Cosmetics</span>
+    </div>
+
+    <div class="pack-store-actions">
+      {% if request_mode %}
+        <a class="button button-secondary" href="{{ url_for('home.family_pack_store_detail', pack_key=pack.id) }}">View Pack</a>
+        {% if pack.installation and pack.installation.status == 'active' %}
+          <button class="button button-secondary" type="button" disabled>✓ Installed</button>
+        {% elif pack.family_request and pack.family_request.status == 'pending' %}
+          <button class="button button-secondary" type="button" disabled>⏳ Awaiting Parent Approval</button>
+        {% else %}
+          <form method="post" action="{{ url_for('home.family_pack_store_request', pack_key=pack.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-primary" type="submit">Request This Pack{% if pack.price_type == 'paid' %} · {{ pack.price_label }}{% endif %}</button>
+          </form>
+        {% endif %}
+      {% elif store_child %}
+        <a class="button button-secondary" href="{{ url_for('child.pack_store_detail', user_id=store_child.id, pack_key=pack.id) }}">View Pack</a>
+        {% if pack.installation and pack.installation.status == 'active' %}
+          <button class="button button-secondary" type="button" disabled>✓ Installed</button>
+        {% elif pack.family_request and pack.family_request.status == 'pending' %}
+          <button class="button button-secondary" type="button" disabled>⏳ Awaiting Parent Approval</button>
+        {% else %}
+          <form method="post" action="{{ url_for('child.request_content_pack', user_id=store_child.id, pack_key=pack.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-primary" type="submit">Request This Pack{% if pack.price_type == 'paid' %} · {{ pack.price_label }}{% endif %}</button>
+          </form>
+        {% endif %}
+      {% else %}
+        <a class="button button-secondary" href="{{ url_for('content_packs.detail', pack_key=pack.id) }}">View Pack</a>
+        {% if not pack.installation %}
+          {% if pack.price_type == 'paid' %}
+            <button class="button button-secondary" type="button" disabled>Premium Coming Later</button>
+          {% else %}
+            <form method="post" action="{{ url_for('content_packs.install', pack_key=pack.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="button button-primary" type="submit">Install Pack</button>
+            </form>
+          {% endif %}
+        {% elif pack.installation.status == 'archived' %}
+          <form method="post" action="{{ url_for('content_packs.restore', pack_key=pack.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-primary" type="submit">Restore Pack</button>
+          </form>
+        {% else %}
+          {% if pack.manager_status == 'update_available' %}
+            <form method="post" action="{{ url_for('content_packs.update', pack_key=pack.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="button button-primary" type="submit">↻ Update Pack</button>
+            </form>
+          {% endif %}
+          {% if pack.archive_allowed %}
+            <form method="post" action="{{ url_for('content_packs.archive', pack_key=pack.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="button button-danger" type="submit"
+                      onclick="return confirm('Archive this Content Pack? Installed pack content will be removed from active use while completed history is preserved.');">
+                📦 Archive Pack
+              </button>
+            </form>
+          {% else %}
+            <button class="button button-secondary" type="button" disabled>✓ Installed</button>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </div>
+  </article>
+{% else %}
+  <div class="polished-empty-state pack-store-empty">
+    <div class="empty-state-icon">📦</div>
+    <h2>No packs in this section</h2>
+    <p>{% if selected_filter == 'premium' %}Premium packs will appear here when paid Pack Store content is enabled.{% else %}More curated packs are on the way.{% endif %}</p>
+  </div>
+{% endfor %}
+</section>
+{% endblock %}

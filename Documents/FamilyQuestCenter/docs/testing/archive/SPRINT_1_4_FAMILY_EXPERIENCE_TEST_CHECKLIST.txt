@@ -1,0 +1,25 @@
+Family Setup Adventure
+[ ] Register a new family and create a Parent PIN.
+[ ] Confirm the Family Setup Adventure opens instead of the Parent Dashboard.
+[ ] Add a child and confirm Step 1 checks automatically.
+[ ] Assign a mission and confirm Step 2 checks automatically.
+[ ] Assign an adventure and confirm Step 3 checks automatically.
+[ ] Confirm at least one active reward and Step 4 checks.
+[ ] Click Got It under Parent Approvals and confirm Step 5 checks.
+[ ] Leave setup, sign out, sign back in, and confirm setup resumes.
+[ ] Finish setup and confirm the Parent Area becomes locked.
+[ ] Click Enter Family Quest Center and confirm the Family Dashboard opens.
+
+Explorer Training
+[ ] Select a child profile for the first time.
+[ ] Confirm Explorer Training opens.
+[ ] Complete all seven tutorial steps.
+[ ] Confirm the child's Quest Board opens afterward.
+[ ] Leave and reopen the child profile; confirm training does not repeat.
+[ ] Add a second child and confirm that child receives their own tutorial.
+
+Regression
+[ ] Unlock Parent Area using the PIN.
+[ ] Confirm Parent Dashboard and Command Center still work.
+[ ] Confirm existing families that complete setup are not sent back to onboarding.
+[ ] Confirm public landing, sign-in, registration, and sign-out still work.

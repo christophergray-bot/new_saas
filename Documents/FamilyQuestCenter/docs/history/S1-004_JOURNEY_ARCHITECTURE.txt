@@ -1,0 +1,28 @@
+Family Quest Center 2.0 — Sprint 1 / S1-004
+Journey Architecture Rebuild
+
+Implemented:
+- First-class Journey records independent from Quests.
+- Journey Builder with create, edit, archive, and restore.
+- Adventure Builder assembles Journeys only.
+- Adventure assignment selects an Adventure and child; it does not select Quests.
+- Assigned Adventures create ordered Journey instances and unlock one Journey at a time.
+- Child Today's Journey uses the same activity-card presentation as Today's Missions.
+- Journey completion awards XP only and unlocks the next Journey.
+- Completing the final Journey awards the Adventure completion XP bonus.
+- Parent dashboard contains one card each for Quest Library, Mission Builder,
+  Journey Builder, and Adventure Builder.
+
+Data safety:
+- New Version 2 Growth tables are created automatically when the feature is opened.
+- Existing Version 1 quest-chain tables and data are left untouched.
+- Legacy quest-based Adventures are not automatically converted into Journeys.
+
+Test flow:
+1. Open Parent Dashboard and verify there is only one Mission Builder card.
+2. Open Journey Builder and create at least two Journeys.
+3. Open Adventure Builder and build an Adventure using those Journeys.
+4. Assign the Adventure to a child.
+5. Open the child's dashboard and select Today's Journey.
+6. Complete the first Journey and verify the next Journey appears.
+7. Complete the final Journey and verify the Adventure completion message and XP bonus.

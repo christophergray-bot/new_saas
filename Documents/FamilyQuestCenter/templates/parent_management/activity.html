@@ -1,0 +1,11 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent_management/activity.html
+  Purpose: Renders the activity user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Parent Activity | {{ application_name }}{% endblock %}{% block content %}
+{% set page_eyebrow="Parent Management" %}{% set page_icon="📜" %}{% set page_title="Parent Activity" %}{% set page_description="Recent parent account, invitation, and security events." %}{% set page_action_url=url_for('parent_management.overview') %}{% set page_action_text="← Back to Parent Management" %}{% include "partials/page_header.html" %}
+<section class="section-block"><article class="dashboard-panel">{% if activity %}<div class="dashboard-activity-list">{% for item in activity %}<article class="dashboard-activity-item"><div class="dashboard-item-icon">👤</div><div class="dashboard-item-content"><p class="eyebrow">{{ item.actor_name or 'Parent' }}</p><h3>{{ item.action|replace('_',' ')|title }}</h3>{% if item.details %}<p>{{ item.details }}</p>{% endif %}<small>{{ item.created_at }}</small></div></article>{% endfor %}</div>{% else %}<div class="dashboard-empty-state"><span>📜</span><div><strong>No parent activity yet.</strong><p>Parent invitations, password changes, and PIN changes will appear here.</p></div></div>{% endif %}</article></section>
+{% endblock %}

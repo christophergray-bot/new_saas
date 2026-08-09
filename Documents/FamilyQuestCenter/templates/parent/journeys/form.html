@@ -1,0 +1,12 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/journeys/form.html
+  Purpose: Renders the form user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends 'base.html' %}{% block title %}{{ 'Edit' if journey else 'Create' }} Journey{% endblock %}{% block content %}
+<section class="page-header"><div><span class="section-eyebrow">JOURNEY LIBRARY</span><h1>{{ 'Edit Journey' if journey else 'Create a Journey' }}</h1><p>Define one reusable growth activity that can be included in an Adventure.</p></div></section>
+<form class="admin-section stacked-form" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Journey name<input name="name" required maxlength="80" value="{{ journey.name if journey else '' }}"></label><label>Description<textarea name="description" rows="4" maxlength="2000">{{ journey.description if journey else '' }}</textarea></label><div class="form-grid"><label>XP reward<input type="number" name="xp_reward" min="0" value="{{ journey.xp_reward if journey else 25 }}"></label><label>Difficulty<input type="number" name="difficulty" min="1" max="5" value="{{ journey.difficulty if journey else 1 }}"></label><label>Estimated minutes<input type="number" name="estimated_minutes" min="1" value="{{ journey.estimated_minutes if journey and journey.estimated_minutes else '' }}"></label></div><div class="page-actions"><a class="button button-secondary" href="{{ url_for('journeys.library') }}">Cancel</a><button class="button button-primary">Save Journey</button></div></form>
+{% endblock %}

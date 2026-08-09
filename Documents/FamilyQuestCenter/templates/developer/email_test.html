@@ -1,0 +1,36 @@
+{# Family Quest Center template: templates/developer/email_test.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Email Test{% endblock %}
+{% block content %}
+{% set eyebrow="HOSTED SERVICES" %}{% set title="Email Test" %}{% set subtitle="Verify that Family Quest Center can send mail through Google Workspace. Credentials are never displayed." %}{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Developer Center' %}{% include "components/page_header.html" %}
+
+<section class="admin-section">
+  <div class="admin-section-header">
+    <div><span class="section-eyebrow">CONFIGURATION</span><h2>Outbound Email</h2></div>
+    {% if email_status.configured %}<span class="status-badge status-active">Configured</span>{% else %}<span class="status-badge status-inactive">Incomplete</span>{% endif %}
+  </div>
+
+  <div class="diagnostic-stat-grid">
+    <article class="diagnostic-stat"><strong>{{ email_status.server }}</strong><span>SMTP Server</span></article>
+    <article class="diagnostic-stat"><strong>{{ email_status.port }}</strong><span>SMTP Port</span></article>
+    <article class="diagnostic-stat"><strong>{{ 'Enabled' if email_status.use_tls else 'Disabled' }}</strong><span>TLS</span></article>
+    <article class="diagnostic-stat"><strong>{{ email_status.username }}</strong><span>SMTP Account</span></article>
+  </div>
+
+  <dl class="configuration-list">
+    <div><dt>From Address</dt><dd>{{ email_status.sender }}</dd></div>
+    <div><dt>Application URL</dt><dd>{{ email_status.app_url }}</dd></div>
+    <div><dt>Test Recipient</dt><dd>{{ recipient or 'No owner email available' }}</dd></div>
+  </dl>
+
+  {% if email_status.missing %}
+  <div class="notice notice-warning"><strong>Missing Railway variables:</strong> {{ email_status.missing|join(', ') }}</div>
+  {% else %}
+  <form method="post" class="settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <p class="muted-copy">The test is sent only to the signed-in installation-owner account. This prevents the diagnostic tool from being used to send arbitrary mail.</p>
+    <div class="button-row"><button class="button button-primary" type="submit">Send Test Email</button></div>
+  </form>
+  {% endif %}
+</section>
+{% endblock %}

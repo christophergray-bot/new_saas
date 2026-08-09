@@ -1,0 +1,41 @@
+
+/* =========================================================
+	Explorer Starter Pack
+   ========================================================= */
+.character-theme.theme-explorer-trail {
+    --character-accent: #376b3f;
+    --character-soft: #e7f1e6;
+}
+
+.character-theme.theme-explorer-map {
+    --character-accent: #8b5e2b;
+    --character-soft: #f3e8d2;
+}
+
+.character-theme.theme-explorer-sky {
+    --character-accent: #4a90e2;
+    --character-soft: #e7f3ff;
+}
+
+.frame-explorer-bronze {
+    border-color: #b87333 !important;
+    box-shadow:
+        0 0 0 4px #f0c49a,
+        0 0 16px rgba(184, 115, 51, .55) !important;
+}
+
+.frame-explorer-silver {
+    border-color: #c0c0c0 !important;
+    box-shadow:
+        0 0 0 4px #f4f4f4,
+        0 0 16px rgba(192, 192, 192, .55) !important;
+}
+
+.frame-explorer-gold {
+    border-color: #d9a423 !important;
+    box-shadow:
+        0 0 0 4px #f5df91,
+        0 0 16px rgba(217, 164, 35, .55) !important;
+}
+
+

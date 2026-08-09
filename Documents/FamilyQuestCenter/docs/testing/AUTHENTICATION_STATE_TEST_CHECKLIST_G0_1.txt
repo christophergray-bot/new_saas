@@ -1,0 +1,19 @@
+FAMILY QUEST CENTER — SPRINT 3.0-G.0.1 AUTHENTICATION STATE TEST
+
+1. Start the application and open the public landing page (/).
+2. While signed out, click Sign In. Confirm the account login form appears.
+3. Return to the landing page and click Start Your Adventure. Confirm the registration form appears.
+4. Sign in to Family A and unlock the Parent Area.
+5. Open the landing page in the same browser.
+6. Click Sign In. Confirm the login form appears instead of the Parent Dashboard.
+7. Confirm a notice identifies the currently signed-in account and explains that signing in will switch accounts.
+8. Enter Family B credentials. Confirm the session switches to Family B and then follows the Parent PIN flow.
+9. While signed in, open the landing page and click Start Your Adventure. Confirm the registration form appears instead of the Parent Dashboard.
+10. Confirm the registration page explains that creating a new account will switch the browser to it.
+11. Submit a valid new-family registration. Confirm a new family/account is created and no prior-family data is visible.
+12. Sign out using the account Sign Out control. Confirm the account session and Parent PIN state are cleared.
+13. Directly browse to /parent/. Confirm signed-out users are redirected to /account/login.
+14. Sign in without unlocking the Parent PIN, then browse to /parent/. Confirm the Parent PIN page appears.
+15. Unlock the Parent PIN. Confirm the Parent Dashboard becomes available.
+
+RELEASE GATE: All 15 checks must pass before PostgreSQL or Railway work begins.

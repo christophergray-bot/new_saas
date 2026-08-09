@@ -1,0 +1,22 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/rewards/manager.html
+  Purpose: Renders the manager user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Reward Manager | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header"><div><p class="eyebrow">Phase 9 Economy</p><h1>🎁 Reward Manager</h1><p>Create treasures children can request with their stars.</p></div><div class="page-actions"><a class="button button-secondary" href="{{ url_for('rewards.requests_queue') }}">Reward Requests</a><a class="button button-primary" href="{{ url_for('rewards.edit') }}">Create Reward</a></div></section>
+<section class="dashboard-panel filter-panel"><form class="filter-bar" method="get"><input type="search" name="q" value="{{ search_query }}" placeholder="Search rewards" aria-label="Search rewards"><button class="button button-primary" type="submit">Filter</button><a class="button button-secondary" href="{{ url_for('rewards.manager') }}">Clear</a></form></section>
+
+<div class="reward-manager-layout">
+<section class="dashboard-panel reward-categories-panel"><div class="panel-header"><div><p class="eyebrow">Organization</p><h2>Reward Categories</h2></div></div><form class="inline-form" method="post" action="{{ url_for('rewards.add_category') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="icon" value="🎁" aria-label="Icon" maxlength="16"><input name="name" placeholder="Category name" required maxlength="100"><input name="display_order" type="number" value="0" aria-label="Display order"><button class="button button-primary" type="submit">Add Category</button></form><div class="category-list">{% for category in categories %}<div class="category-row {% if not category.active %}is-inactive{% endif %}"><span>{{ category.icon }} <strong>{{ category.name }}</strong> <span class="status-pill {% if not category.active %}inactive{% endif %}">{{ 'Active' if category.active else 'Archived' }}</span></span><form method="post" action="{{ url_for('rewards.toggle_category', category_id=category.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button {% if category.active %}button-danger{% else %}button-secondary{% endif %}" type="submit">{% if category.active %}📦 Archive{% else %}↩ Restore{% endif %}</button></form></div>{% endfor %}</div></section>
+
+<section class="dashboard-panel reward-treasures-panel"><div class="panel-header"><div><p class="eyebrow">Reward Library</p><h2>Available Treasures</h2></div></div>
+{% if rewards %}<div class="reward-admin-grid">{% for reward in rewards %}<article class="reward-admin-card {% if not reward.active %}is-inactive{% endif %}">{% if reward.image_filename %}<img class="reward-card-image" src="{{ url_for('static', filename='uploads/rewards/' ~ reward.image_filename) }}" alt="{{ reward.name }}">{% else %}<div class="reward-icon">{{ reward.icon }}</div>{% endif %}<div class="reward-admin-body"><span class="status-pill {% if not reward.active %}inactive{% endif %}">{{ 'Active' if reward.active else 'Archived' }}</span><small>{{ reward.category_icon or '🎁' }} {{ reward.category_name or 'Uncategorized' }}</small><h3>{{ reward.name }}</h3>{% if pack_sources.get(reward.id) %}<span class="pack-source-badge">{{ pack_sources[reward.id].icon }} {{ pack_sources[reward.id].name }}</span>{% endif %}<p>{{ reward.description or 'No description.' }}</p><strong>⭐ {{ reward.cost }}</strong><p class="muted">{% if reward.quantity is none %}Unlimited{% else %}{{ reward.quantity }} available{% endif %} • {% if reward.requires_approval %}Parent approval{% else %}Automatic{% endif %}</p></div><div class="reward-admin-actions"><a class="button button-secondary" href="{{ url_for('rewards.edit', reward_id=reward.id) }}">✏ Edit</a></div></article>{% endfor %}</div>{% else %}<div class="empty-state"><h3>No rewards yet</h3><p>Create the first treasure for your adventurers.</p></div>{% endif %}</section>
+</div>
+{% endblock %}

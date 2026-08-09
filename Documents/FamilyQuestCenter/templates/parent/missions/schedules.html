@@ -1,0 +1,209 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/missions/schedules.html
+  Purpose: Renders the schedules user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}Mission Builder{% endblock %}
+
+{% block header_actions %}
+<a
+    class="button button-primary"
+    href="{{ url_for('missions.add_schedule') }}"
+>
+    + Build Mission
+</a>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div>
+        <p class="eyebrow">Responsibility System</p>
+        <h1>Mission Builder</h1>
+        <p class="page-description">
+            Build recurring Missions by choosing a Quest, assigning it to a child, and setting when it repeats.
+        </p>
+    </div>
+
+    <div class="page-header-actions">
+        <a
+            class="button button-secondary"
+            href="{{ url_for('missions.today') }}"
+        >
+            View Assigned Quests
+        </a>
+
+        <a
+            class="button button-primary"
+            href="{{ url_for('missions.add_schedule') }}"
+        >
+            + Build Mission
+        </a>
+    </div>
+</section>
+
+{% if schedules %}
+
+    <section class="schedule-list">
+
+        {% for schedule in schedules %}
+
+            <article
+                class="schedule-card
+                {% if not schedule.active %}inactive-card{% endif %}"
+            >
+                <div class="schedule-card-main">
+                    <div class="schedule-icon">📅</div>
+
+                    <div>
+                        <div class="schedule-heading-row">
+                            <h2>{{ schedule.title }}</h2>
+
+                            {% if schedule.active %}
+                                <span class="status-badge active">
+                                    Active
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    Archived
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <p class="schedule-child">
+                            Assigned to
+                            <strong>{{ schedule.child_name }}</strong>
+                        </p>
+
+                        {% if schedule.description %}
+                            <p class="schedule-description">
+                                {{ schedule.description }}
+                            </p>
+                        {% endif %}
+
+                        <div class="schedule-details">
+
+                            <span>
+                                <strong>Repeat:</strong>
+
+                                {% if schedule.schedule_type == "daily" %}
+                                    Daily
+
+                                {% elif schedule.schedule_type == "weekly" %}
+                                    Weekly on
+                                    {{
+                                        weekday_names[
+                                            schedule.days_of_week|int
+                                        ]
+                                    }}
+
+                                {% elif schedule.schedule_type == "monthly" %}
+                                    Monthly on day
+                                    {{ schedule.day_of_month }}
+
+                                {% else %}
+                                    {% set day_values =
+                                        schedule.days_of_week.split(",")
+                                    %}
+
+                                    Custom:
+                                    {% for value in day_values %}
+                                        {{ weekday_names[value|int] }}
+                                        {% if not loop.last %} · {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </span>
+
+                            <span>
+                                <strong>Starts:</strong>
+                                {{ schedule.start_date }}
+                            </span>
+
+                            {% if schedule.end_date %}
+                                <span>
+                                    <strong>Ends:</strong>
+                                    {{ schedule.end_date }}
+                                </span>
+                            {% endif %}
+
+                            <span>
+                                <strong>Reward:</strong>
+                                {{ schedule.stars }} Stars
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-actions">
+                    <a
+                        class="button button-secondary"
+                        href="{{
+                            url_for(
+                                'missions.edit_schedule',
+                                schedule_id=schedule.id
+                            )
+                        }}"
+                    >
+                        ✏ Edit
+                    </a>
+
+                    <form
+                        method="post"
+                        action="{{
+                            url_for(
+                                'missions.toggle_schedule',
+                                schedule_id=schedule.id
+                            )
+                        }}"
+                    >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        {% if schedule.active %}
+                            <button
+                                class="button button-danger"
+                                type="submit"
+                                onclick="return confirm('Archive this mission schedule? Existing mission history will be preserved.');"
+                            >
+                                📦 Archive
+                            </button>
+                        {% else %}
+                            <button
+                                class="button button-secondary"
+                                type="submit"
+                            >
+                                ↩ Restore
+                            </button>
+                        {% endif %}
+                    </form>
+                </div>
+            </article>
+
+        {% endfor %}
+
+    </section>
+
+{% else %}
+
+    <section class="empty-state">
+        <div class="empty-icon">📅</div>
+        <h2>No quest schedules yet</h2>
+        <p>
+            Create a schedule to automatically assign daily, weekly,
+            monthly, or custom recurring quests.
+        </p>
+
+        <a
+            class="button button-primary"
+            href="{{ url_for('missions.add_schedule') }}"
+        >
+            Create First Schedule
+        </a>
+    </section>
+
+{% endif %}
+
+{% endblock %}

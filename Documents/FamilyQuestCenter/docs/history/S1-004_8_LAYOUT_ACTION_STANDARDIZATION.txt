@@ -1,0 +1,11 @@
+Family Quest Center v2.0 — Sprint 1 S1-004.8
+
+Layout and Action Standardization
+
+- Aligned Adventures and Mission Schedules card structure and spacing.
+- Removed Journey Order from the main Adventures page; ordering remains in the Adventure editor.
+- Standardized action buttons across parent management pages.
+- Edit, View, Archive, and Restore actions now use consistent icons.
+- Archive actions use the red destructive style; Restore uses the neutral white style.
+- Standardized status capitalization and mobile action wrapping.
+- No database changes.

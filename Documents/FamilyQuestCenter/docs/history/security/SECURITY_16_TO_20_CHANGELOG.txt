@@ -1,0 +1,12 @@
+Family Quest Center Local Security 16-20
+2026-08-02
+
+- Added cross-family URL and object-ID regression tests.
+- Corrected family export so it includes active-family data only.
+- Corrected reward activation and inventory updates to require family_id.
+- Added audit/error log redaction for common credentials and tokens.
+- Restricted maintenance operations to owner-role accounts.
+- Added isolated backup, restore, corruption, deletion, and traversal tests.
+- Added restrictive foreign-key deletion tests.
+- Added configurable backup directory for isolated testing.
+- Added one-command Windows security test runner.

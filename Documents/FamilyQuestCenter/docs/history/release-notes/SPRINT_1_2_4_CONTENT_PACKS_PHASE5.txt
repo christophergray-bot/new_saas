@@ -1,0 +1,10 @@
+Family Quest Center v1.2.4
+Content Packs Phase 5 — Registration Starter Experience
+
+Implemented:
+- Added an onboarding choice to family registration.
+- Explorer Starter Pack is selected by default and marked Recommended.
+- Empty Family creates a workspace with only universal core achievements.
+- Starter Pack installation runs after the family account is safely created.
+- If optional pack installation fails, the account remains usable and the parent can install it later from Content Packs.
+- No existing family or database data is replaced.

@@ -1,0 +1,69 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/login.html
+  Purpose: Renders the login user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Parent Access | Family Quest Center<script>
+(function () {
+    const pinInput = document.getElementById("pin");
+    if (!pinInput) return;
+
+    function prepareEmptyPin() {
+        pinInput.value = "";
+        pinInput.focus();
+        try {
+            pinInput.setSelectionRange(0, 0);
+        } catch (error) {
+            // Some browsers do not support selection ranges on password fields.
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", prepareEmptyPin);
+    window.addEventListener("pageshow", prepareEmptyPin);
+
+    pinInput.addEventListener("focus", function () {
+        if (pinInput.value) {
+            pinInput.select();
+        }
+    });
+})();
+</script>
+{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Protected Parent Area" %}
+{% set page_icon = "🛡️" %}
+{% set page_title = "Unlock Parent Access" %}
+{% set page_description = "Enter the four-digit family PIN to open Quest Master controls on this device." %}
+{% include "partials/page_header.html" %}
+
+<section class="auth-single-column">
+    <article class="auth-form-card auth-pin-card">
+        <div class="auth-card-heading">
+            <span class="auth-card-icon" aria-hidden="true">🔒</span>
+            <div>
+                <p class="eyebrow">Shared Device Protection</p>
+                <h2>Parent PIN</h2>
+                <p>This quick lock helps keep parent controls separate from child access.</p>
+            </div>
+        </div>
+        <form method="post" class="form-stack auth-form-stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="next" value="{{ next_url }}">
+            <label for="pin">Four-digit PIN
+                <input class="pin-input" id="pin" name="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="one-time-code" autocapitalize="off" spellcheck="false" value="" placeholder="••••" required autofocus>
+            </label>
+            <div class="form-actions auth-form-actions">
+                <button class="button button-primary" type="submit">🔓 Unlock Parent Area</button>
+                <a class="button button-secondary" href="{{ url_for('home.index') }}">🏠 Return Home</a>
+            </div>
+        </form>
+        <div class="auth-recovery-link">
+            <p><strong>Forgot your Parent PIN?</strong></p>
+            <a class="button button-secondary" href="{{ url_for('auth.reset_pin', next=next_url) }}">✉️ Reset PIN by Email</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

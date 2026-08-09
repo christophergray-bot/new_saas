@@ -1,0 +1,37 @@
+Family Quest Center — RC1.8.3 Adventure Workflow & Final UI Polish
+
+FC-0013 — Child Adventure Details
+[ ] Assign an Adventure with an Adventure description and Chapter instructions.
+[ ] Open Child > My Adventures.
+[ ] Confirm Adventure description, current Chapter title, Chapter instructions, completion reward, and chapter-numbered completion button are visible.
+
+FC-0014 — Adventure Simplification
+[ ] Create a new Adventure.
+[ ] Confirm the Adventure form contains only name, description, and completion bonus XP.
+[ ] Confirm each Chapter contains only name and instructions.
+[ ] Confirm no Chapter XP, Adventure difficulty, or estimated-minutes fields appear.
+[ ] Complete a non-final Chapter and confirm no XP is awarded.
+[ ] Complete and approve the Adventure and confirm the completion bonus is awarded once.
+[ ] Confirm Quest difficulty remains available and unchanged.
+
+FC-0015 — Parent Notification Isolation
+[ ] Create two family accounts with separate children.
+[ ] Generate a pending Quest approval and Reward request in Family A.
+[ ] Confirm Family B sees neither notification.
+[ ] Dismiss notifications in Family A and confirm Family B is unaffected.
+
+FC-0016 — Add Next Chapter Placement
+[ ] Open Create Adventure.
+[ ] Confirm Add Next Chapter appears after the final Chapter card.
+[ ] Fill Chapter 1 and add Chapter 2 without scrolling back to the top.
+[ ] Add several Chapters and confirm the button remains below the final Chapter.
+
+FC-0017 — Assigned Adventure Lock
+[ ] Create and assign an Adventure.
+[ ] Click Edit from Adventure Library.
+[ ] Confirm an Adventure Locked explanation appears.
+[ ] Confirm the page explains that assigned Adventures cannot be modified.
+[ ] Click Duplicate Adventure.
+[ ] Confirm a new editable copy is created and opens in Edit Adventure.
+[ ] Confirm the original assigned Adventure and child progress remain unchanged.
+[ ] Confirm unassigned Adventures remain editable.

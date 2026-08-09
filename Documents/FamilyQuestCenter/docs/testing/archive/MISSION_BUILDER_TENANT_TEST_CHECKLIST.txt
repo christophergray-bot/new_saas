@@ -1,0 +1,22 @@
+Mission Builder Family Isolation Test
+
+Family A
+[ ] Sign in to Family A.
+[ ] Create a quest and child.
+[ ] Build a daily mission schedule.
+[ ] Confirm it appears in Mission Builder.
+[ ] Generate today's missions and confirm it appears for Family A.
+
+Family B
+[ ] Sign out and sign in to Family B.
+[ ] Confirm Family A's schedule does not appear in Mission Builder.
+[ ] Confirm Family A's mission does not appear on Today's Missions.
+[ ] Create a Family B quest, child, and mission schedule.
+[ ] Confirm only Family B's schedule appears.
+[ ] Generate today's missions and confirm only Family B's mission is created.
+
+Return to Family A
+[ ] Confirm Family A's schedule remains available.
+[ ] Confirm Family B's schedule and missions are not visible.
+[ ] Archive and restore Family A's schedule successfully.
+[ ] Confirm Family B cannot access Family A's schedule by changing the URL ID.

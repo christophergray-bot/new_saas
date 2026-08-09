@@ -1,0 +1,10 @@
+{# Family Quest Center template: templates/developer/reports.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Platform Reports{% endblock %}
+{% block content %}
+{% set eyebrow = "PLATFORM INTELLIGENCE" %}{% set title = "Platform Reports" %}{% set subtitle = "Review growth, usage, subscriptions, security, and operational health." %}
+{% include "components/page_header.html" %}
+<section class="admin-section"><div class="reports-card-grid">
+{% for card in report_cards %}<a class="report-card" href="{{ url_for('developer.report_detail', report_key=card.key) }}"><span class="report-card-icon">{{ card.icon }}</span><div><strong>{{ card.title }}</strong><small>{{ card.description }}</small></div><b>{{ card.headline }}</b></a>{% endfor %}
+</div></section>
+{% endblock %}

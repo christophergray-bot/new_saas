@@ -1,0 +1,36 @@
+{# Family Quest Center template: templates/parent/complete_pin_reset.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Create New Parent PIN | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Parent Account Recovery" %}
+{% set page_icon = "🔑" %}
+{% set page_title = "Create a New Parent PIN" %}
+{% set page_description = "Choose a new four-digit PIN for protected Parent Area access." %}
+{% include "partials/page_header.html" %}
+
+<section class="auth-single-column">
+  <article class="auth-form-card auth-pin-card">
+    <div class="auth-card-heading">
+      <span class="auth-card-icon" aria-hidden="true">🛡️</span>
+      <div>
+        <p class="eyebrow">Verified Email Recovery</p>
+        <h2>Create a New Parent PIN</h2>
+        <p>Your recovery link has been verified. Enter the new PIN below.</p>
+      </div>
+    </div>
+    <form method="post" class="form-stack auth-form-stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <label for="new_pin">New Four-digit PIN
+        <input class="pin-input" id="new_pin" name="new_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" placeholder="••••" required autofocus>
+      </label>
+      <label for="confirm_pin">Confirm New PIN
+        <input class="pin-input" id="confirm_pin" name="confirm_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" placeholder="••••" required>
+      </label>
+      <div class="form-actions auth-form-actions">
+        <button class="button button-primary" type="submit">🔑 Reset and Unlock</button>
+      </div>
+    </form>
+  </article>
+</section>
+{% endblock %}

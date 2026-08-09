@@ -1,0 +1,31 @@
+FAMILY QUEST CENTER — FILE CLEANUP AUDIT
+Build: v2.0 Sprint 1 S1-004.9a
+
+SAFE CLEANUP COMPLETED
+- Removed all __pycache__ directories and compiled Python files (.pyc/.pyo).
+- Removed operating-system metadata files when present (Thumbs.db/.DS_Store).
+- Removed three unreferenced component templates:
+  * templates/components/empty_state.html
+  * templates/components/search_box.html
+  * templates/components/status_badge.html
+- Removed the redundant basic launcher START_FAMILY_QUEST_CENTER.bat.
+- Retained the enhanced launcher: Start Family Quest Center.bat.
+- Removed directories left empty by the cleanup.
+
+RETAINED FOR NOW — REQUIRES FUNCTIONAL REVIEW
+- Historical migration scripts and SQL files. Existing installations may still depend on them.
+- chorce.db. This is the current working/test database and should remain during validation.
+- Historical release notes, sprint notes, and issue records. These can later be moved into docs/history.
+- Developer, maintenance, reports, notifications, achievements, reward shop, and archive modules.
+  They are registered and/or linked by the application and were not treated as dead code.
+- Uploaded reward images. They may be referenced by current database records.
+- phase_7_security.css. It is referenced by templates/base.html.
+
+NEXT CLEANUP PHASES
+1. Route and model usage audit, including endpoint-to-navigation coverage.
+2. Migration consolidation plan for the clean Version 2 installer.
+3. Documentation organization into current docs and historical notes.
+4. CSS selector usage audit and duplicate-rule consolidation.
+5. Database asset/reference audit before removing uploaded images or legacy tables.
+
+No application behavior or database schema was intentionally changed in this cleanup.

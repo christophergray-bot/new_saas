@@ -1,0 +1,30 @@
+FAMILY QUEST CENTER
+Sprint 3.0-G.0 — Tenant Isolation Audit, Phase 1
+
+Issue addressed
+A newly created family could see pending approvals, active adventures, active
+challenges, activity, and dashboard totals belonging to the original family.
+
+Corrections included
+1. Pending assignment approvals are restricted by the current family across
+   assignments, quests, and children.
+2. Assignment rejection and dashboard approval counts are family-scoped.
+3. Active legacy adventure dashboard cards and counts are family-scoped.
+4. Weekly dashboard XP, completed quest, completed adventure, and streak totals
+   are family-scoped.
+5. Recent dashboard activity is family-scoped across missions, XP,
+   achievements, adventures, and reward requests.
+6. Family challenge listing, creation, activation, progress, and contributor
+   calculations are family-scoped.
+7. Version 2 Journey approval queues and active-adventure counts are
+   family-scoped.
+
+Validation performed
+- Python compilation passed for the complete project.
+- Static SQL review completed for the affected dashboard and workflow paths.
+- ZIP integrity verified.
+
+Runtime limitation
+A complete Flask browser regression test could not be run in this build
+container because Flask is not installed and package installation is offline.
+Use the included checklist locally before continuing to PostgreSQL work.

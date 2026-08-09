@@ -1,0 +1,15 @@
+SPRINT 3.0-B TENANT ISOLATION CHECKLIST
+
+[ ] Existing family can still view children, quests, missions, and rewards.
+[ ] Creating a child writes the current family_id.
+[ ] Creating or duplicating a quest writes the current family_id.
+[ ] Creating a mission writes the current family_id.
+[ ] Creating a reward or reward request writes the current family_id.
+[ ] Switching session family_id does not show the first family's children.
+[ ] Switching session family_id does not show the first family's quests.
+[ ] Switching session family_id does not show the first family's rewards.
+[ ] Cross-family record IDs return not found once ownership decorators are applied.
+[ ] Parent pending counts include only the current family.
+
+Public-hosting gate: DO NOT PASS until Sprint 3.0-C authentication and the
+remaining route/model isolation audit are complete.

@@ -1,0 +1,25 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/timeline.html
+  Purpose: Renders the timeline user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}{{ child.name }}'s Timeline{% endblock %}
+{% block content %}
+<div class="character-theme {{ character.theme.class_name }}">
+<section class="page-header character-header"><div><p class="eyebrow">Adventure Journal</p><h1>{{ child.name }}'s Timeline</h1><p>A history of completed quests, achievements, and rewards.</p></div><div class="page-actions"><a class="button button-secondary" href="{{ url_for('child.progress', user_id=child.id) }}">Progress</a></div></section>
+<section class="dashboard-panel">
+{% if timeline_groups %}
+  <div class="timeline-list">
+  {% for group in timeline_groups %}
+    <section class="timeline-day"><h2>{{ group.label }}</h2>
+      {% for event in group.events %}<article class="timeline-event timeline-{{ event.type }}"><span class="timeline-icon">{{ event.icon }}</span><div><h3>{{ event.title }}</h3><p>{{ event.detail }}</p></div><time>{{ event.time_label }}</time></article>{% endfor %}
+    </section>
+  {% endfor %}
+  </div>
+{% else %}<div class="empty-state"><h3>Your adventure is just beginning</h3><p>Completed quests, unlocked achievements, and rewards will appear here.</p></div>{% endif %}
+</section>
+</div>
+{% endblock %}

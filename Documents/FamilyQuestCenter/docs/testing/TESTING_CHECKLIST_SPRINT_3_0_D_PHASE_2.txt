@@ -1,0 +1,37 @@
+Sprint 3.0-D Phase 2 Manual Testing Checklist
+
+Command Center
+[ ] Open Parent Dashboard and expand Command Center.
+[ ] Confirm Children Management, Parent Management, Reward Management,
+    Achievement Management, Adventure Library, and Family Settings names.
+[ ] Confirm every renamed card opens the correct existing or new page.
+
+Parent Management
+[ ] Open Parent Management from Command Center.
+[ ] Confirm Parent One displays owner name and email.
+[ ] Confirm Parent Two displays an invitation form when unassigned.
+[ ] Submit an invalid email and confirm validation message.
+[ ] Submit a valid Parent Two email and confirm pending invitation status.
+[ ] Cancel the invitation and confirm the unassigned state returns.
+[ ] When a Parent Two membership exists, confirm it is displayed.
+[ ] Confirm only Parent One can remove Parent Two.
+
+Security and Notifications
+[ ] Open Security and verify Change Password and Parent PIN links.
+[ ] Open Notifications, change preferences, save, and reload.
+[ ] Confirm saved preferences remain selected.
+
+Parent Activity
+[ ] Invite or cancel Parent Two, then open Parent Activity.
+[ ] Confirm the parent action is listed.
+
+Family Settings
+[ ] Change family name, time zone, country, and date format.
+[ ] Save and reload the page.
+[ ] Confirm saved values remain and the family name updates in the shell.
+
+Regression
+[ ] Sign in and unlock Parent Area.
+[ ] Verify Quest, Journey, Adventure, Mission, Reward, Achievement,
+    Children, Approvals, Reports, and Developer routes still open.
+[ ] Verify authentication pages retain the Phase 1 design.

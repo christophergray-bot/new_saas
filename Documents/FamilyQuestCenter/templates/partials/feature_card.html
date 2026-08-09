@@ -1,0 +1,29 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/partials/feature_card.html
+  Purpose: Renders the feature card user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+<article class="feature-card">
+
+    <div class="feature-card-icon" aria-hidden="true">
+        {{ feature_icon }}
+    </div>
+
+    <div class="feature-card-content">
+        <h2>{{ feature_title }}</h2>
+        <p>{{ feature_description }}</p>
+    </div>
+
+    {% if feature_available|default(true) %}
+        <a class="button button-secondary" href="{{ feature_url }}">
+            Open →
+        </a>
+    {% else %}
+        <span class="coming-soon">
+            Coming Soon
+        </span>
+    {% endif %}
+
+</article>

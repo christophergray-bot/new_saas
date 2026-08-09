@@ -1,0 +1,37 @@
+SPRINT 3.0-D PHASE 1 TESTING CHECKLIST
+
+ACCOUNT ACCESS
+[ ] Open /login and confirm the page matches the main site look and feel.
+[ ] Sign in with a valid account.
+[ ] Attempt an invalid sign-in and confirm the error message remains visible and styled correctly.
+[ ] Confirm Remember Me still works.
+[ ] Confirm Forgot Password opens the aligned information page.
+
+REGISTRATION
+[ ] Open the family registration page.
+[ ] Confirm all five fields display properly.
+[ ] Confirm validation and account creation behavior are unchanged.
+[ ] Confirm the page states the first account becomes Parent One.
+
+MY ACCOUNT
+[ ] Open My Account while signed in.
+[ ] Confirm name, email, family, role, and last sign-in display correctly.
+[ ] Confirm Change Password opens.
+[ ] Confirm Parent Dashboard opens.
+
+PASSWORD CHANGE
+[ ] Change the password using valid information.
+[ ] Confirm incorrect current-password handling still works.
+[ ] Confirm password-policy messages remain readable.
+
+PARENT PIN
+[ ] Lock the Parent Area.
+[ ] Confirm the Parent PIN page uses the aligned design.
+[ ] Unlock with the valid PIN.
+[ ] Confirm first-time PIN setup still works on a fresh database.
+
+RESPONSIVE REVIEW
+[ ] Review login, registration, account, password, and PIN pages at desktop width.
+[ ] Review the same pages at tablet width.
+[ ] Review the same pages at mobile width.
+[ ] Confirm buttons, cards, fields, and links do not overflow.

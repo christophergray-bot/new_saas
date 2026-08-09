@@ -1,0 +1,71 @@
+{# Signed-in parent's account and security settings. #}
+{% extends "base.html" %}
+{% block title %}My Profile | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Application Owner" if not membership else "Parent Management" %}
+{% set page_icon = "👤" %}
+{% set page_title = "My Account" if not membership else "My Profile" %}
+{% set page_description = "Review the platform owner account and manage its password." if not membership else "Review your parent account and manage your password and Parent PIN." %}
+{% set page_action_url=url_for('developer.dashboard') if not membership else url_for('parent_management.overview') %}
+{% set page_action_text="← Back to Owner Dashboard" if not membership else "← Back to Parent Management" %}
+{% include "partials/page_header.html" %}
+
+<section class="account-profile-grid">
+  <article class="dashboard-panel account-profile-card" id="account">
+    <div class="account-profile-heading"><span class="account-profile-avatar" aria-hidden="true">🧭</span><div>
+      <p class="eyebrow">Account</p><h2>{{ account['display_name'] }}</h2><p>{{ account['email'] }}</p>
+    </div></div>
+    <dl class="account-details-list">
+      {% if membership %}
+      <div><dt>Family</dt><dd>{{ membership['family_name'] }}</dd></div>
+      <div><dt>Role</dt><dd>{{ membership['role']|replace('_', ' ')|title }}</dd></div>
+      {% else %}
+      <div><dt>Account type</dt><dd>Application Owner</dd></div>
+      <div><dt>Family access</dt><dd>None</dd></div>
+      {% endif %}
+      <div><dt>Last sign in</dt><dd>{{ account['last_login_at'] or 'First session' }}</dd></div>
+    </dl>
+  </article>
+
+  <article class="dashboard-panel account-security-card" id="security">
+    <div class="dashboard-panel-heading"><div><p class="eyebrow">Security</p><h2>Account Protection</h2></div><span class="account-security-icon" aria-hidden="true">🛡️</span></div>
+    <p>{% if membership %}Manage the password for your account and the four-digit PIN used to unlock parent tools.{% else %}Manage the password for the platform owner account.{% endif %}</p>
+    <div class="form-actions"><a class="button button-primary" href="{{ url_for('account.change_password', return_to='account.profile') }}">🔑 Change Password</a></div>
+    {% if membership and membership['role'] == 'owner' %}
+    <hr>
+    <h3>Change Parent PIN</h3>
+    <p>The Parent PIN protects parent tools on shared devices and applies to the family workspace.</p>
+    <form method="post" class="auth-form settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="form_action" value="change_pin">
+      <label for="current_pin">Current PIN</label>
+      <input id="current_pin" name="current_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="current-password" required>
+      <label for="new_pin">New PIN</label>
+      <input id="new_pin" name="new_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" required>
+      <label for="confirm_pin">Confirm New PIN</label>
+      <input id="confirm_pin" name="confirm_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" required>
+      <button class="button button-primary" type="submit">Change Parent PIN</button>
+    </form>
+
+    <hr>
+    <details class="account-recovery-panel">
+      <summary><strong>Forgot the Parent PIN?</strong></summary>
+      <p>Reset it by confirming the signed-in account password. This works locally and does not require email.</p>
+      <form method="post" class="auth-form settings-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="form_action" value="reset_pin">
+        <label for="account_password">Account Password</label>
+        <input id="account_password" name="account_password" type="password" autocomplete="current-password" required>
+        <label for="reset_new_pin">New PIN</label>
+        <input id="reset_new_pin" name="reset_new_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" required>
+        <label for="reset_confirm_pin">Confirm New PIN</label>
+        <input id="reset_confirm_pin" name="reset_confirm_pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" required>
+        <button class="button button-secondary" type="submit">Reset Parent PIN</button>
+      </form>
+    </details>
+    {% elif membership %}
+    <p class="toast toast-warning">Only Parent One can change or reset the shared family Parent PIN.</p>
+    {% endif %}
+  </article>
+</section>
+{% endblock %}

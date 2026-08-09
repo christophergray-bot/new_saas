@@ -1,0 +1,201 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/base.html
+  Purpose: Renders the base user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5b35a5">
+    <title>{% block title %}{{ application_name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='character-customization.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='phase_7_security.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="app-body {% block body_class %}{% endblock %}">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="app-header">
+        <div class="app-header-inner">
+            <a class="app-brand" href="{{ role_home_url }}">
+                <span class="app-brand-mark" aria-hidden="true">🛡️</span>
+                <span class="app-brand-copy">
+                    <strong>{{ application_name }}</strong>
+                    <small>Adventure Begins at Home</small>
+                </span>
+            </a>
+
+            <button class="mobile-menu-button" type="button" aria-controls="app-navigation" aria-expanded="false">
+                <span aria-hidden="true">☰</span><span class="sr-only">Open navigation</span>
+            </button>
+
+            <nav id="app-navigation" class="app-navigation" aria-label="Main navigation">
+                {% if current_membership and not developer_access and not session.get('active_child_id') %}
+                    <a class="nav-item" href="{{ url_for('home.family_dashboard') }}">🏠 <span>Family Dashboard</span></a>
+                {% else %}
+                    <a class="nav-item" href="{{ role_home_url }}">{{ role_home_icon }} <span>{{ role_home_label }}</span></a>
+                {% endif %}
+
+                {% if current_account and developer_access and not current_membership %}
+                    <a class="nav-item" href="{{ url_for('developer.families') }}">👨‍👩‍👧‍👦 <span>Families</span></a>
+                    <a class="nav-item" href="{{ url_for('developer.parent_accounts') }}">👤 <span>Parent Accounts</span></a>
+                    <a class="nav-item" href="{{ url_for('developer.subscriptions') }}">💳 <span>Subscriptions</span></a>
+                    <a class="nav-item" href="{{ url_for('developer.packs') }}">📦 <span>Packs</span></a>
+                    <a class="nav-item" href="{{ url_for('developer.reports') }}">📈 <span>Reports</span></a>
+                    <a class="nav-item" href="{{ url_for('developer.settings') }}">⚙️ <span>System</span></a>
+                    <a class="nav-item" href="{{ url_for('maintenance.center') }}">💾 <span>Backup & Restore</span></a>
+                    <a class="nav-item" href="{{ url_for('developer.audit_log') }}">📜 <span>Audit</span></a>
+                    <a class="nav-item" href="{{ url_for('developer.operations') }}">🛠️ <span>Operations</span></a>
+                    <a class="nav-item" href="{{ url_for('account.profile') }}">👤 <span>My Account</span></a>
+                    <form class="nav-lock-form" method="post" action="{{ url_for('account.logout') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="nav-item nav-button" type="submit">🚪 <span>Sign Out</span></button>
+                    </form>
+                {% elif child is defined and child %}
+                    <a class="nav-item" href="{{ url_for('child.dashboard', user_id=child.id) }}">📋 <span>Quest Board</span></a>
+                    <a class="nav-item" href="{{ url_for('child.character', user_id=child.id) }}">🧙 <span>Character</span></a>
+                    <a class="nav-item" href="{{ url_for('child.trophy_room', user_id=child.id) }}">🏆 <span>Trophies</span></a>
+                    <a class="nav-item" href="{{ url_for('child.progress', user_id=child.id) }}">📊 <span>Progress</span></a>
+                    <a class="nav-item" href="{{ url_for('child.timeline', user_id=child.id) }}">📖 <span>Timeline</span></a>
+                    <a class="nav-item" href="{{ url_for('child_adventures.child_chains', user_id=child.id) }}">🗺️ <span>Adventures</span></a>
+                    <a class="nav-item" href="{{ url_for('child_adventures.child_challenges', user_id=child.id) }}">🤝 <span>Challenges</span></a>
+                    <a class="nav-item" href="{{ url_for('reward_shop.shop', user_id=child.id) }}">🎁 <span>Reward Shop</span></a>
+                    <a class="nav-item" href="{{ url_for('reward_shop.history', user_id=child.id) }}">📜 <span>History</span></a>
+
+                    <a class="nav-item" href="{{ url_for('child.quest_books', user_id=child.id) }}">📖 <span>Quest Books</span></a>
+
+                    <a class="nav-item" href="{{ url_for('child.pack_store', user_id=child.id) }}">📦 <span>Pack Store</span></a>
+                {% else %}
+                    {% if session.get('parent_authenticated') %}
+                        {% if setup_pending %}
+                        <a class="nav-item" href="{{ url_for('onboarding.family_setup') }}">🏕️ <span>Back to Family Setup</span></a>
+                        {% else %}
+                        <a class="nav-item" href="{{ url_for('parent.dashboard') }}">🛡️ <span>Dashboard</span></a>
+                        {% endif %}
+                        <a class="nav-item nav-item-badged" href="{{ url_for('notifications.center') }}">🔔 <span>Notifications</span>{% if parent_notification_count %}<span class="nav-badge">{{ parent_notification_count }}</span>{% endif %}</a>
+                        <a class="nav-item nav-item-badged" href="{{ url_for('approvals.queue') }}">
+                            ⏳ <span>Approvals</span>
+                            {% if pending_quest_count %}<span class="nav-badge">{{ pending_quest_count }}</span>{% endif %}
+                        </a>
+                        <a class="nav-item nav-item-badged" href="{{ url_for('rewards.requests_queue') }}">
+                            🛍️ <span>Reward Requests</span>
+                            {% if pending_reward_count %}<span class="nav-badge">{{ pending_reward_count }}</span>{% endif %}
+                        </a>
+                        <a class="nav-item" href="{{ url_for('reports.overview') }}">📈 <span>Reports</span></a>
+                        <a class="nav-item" href="{{ url_for('parent_management.family_settings') }}">⚙️ <span>Family Settings</span></a>
+                        {% if config.PAYMENTS_MODE != 'disabled' %}<a class="nav-item" href="{{ url_for('billing.status') }}">💳 <span>Billing</span></a>{% endif %}
+                        {% if developer_access %}
+                        <a class="nav-item" href="{{ url_for('maintenance.center') }}">💾 <span>Backup & Restore</span></a>
+                        {% else %}
+                        <a class="nav-item" href="{{ url_for('maintenance.family_export') }}">📤 <span>Export Family Data</span></a>
+                        {% endif %}
+                        {% if developer_access %}<a class="nav-item" href="{{ url_for('developer.dashboard') }}">🛠️ <span>Developer</span></a>{% endif %}
+                        <a class="nav-item" href="{{ url_for('account.profile') }}">👤 <span>My Account</span></a>
+                        <form class="nav-lock-form" method="post" action="{{ url_for('auth.logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="nav-item nav-button" type="submit">🔒 <span>Lock Parent Area</span></button>
+                        </form>
+                        <form class="nav-lock-form" method="post" action="{{ url_for('account.logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="nav-item nav-button" type="submit">🚪 <span>Sign Out</span></button>
+                        </form>
+                    {% elif current_account %}
+                        {# The account session remains active while the Parent Area is locked,
+                           but account-management controls are intentionally hidden in Child Mode. #}
+                        <a class="nav-item" href="{{ url_for('auth.login', next=url_for('parent.dashboard')) }}">🛡️ <span>Parent Access</span></a>
+                    {% else %}
+                        <a class="nav-item public-nav-link" href="{{ url_for('home.index') }}#features"><span>Features</span></a>
+                        <a class="nav-item public-nav-link" href="{{ url_for('home.index') }}#how-it-works"><span>How It Works</span></a>
+                        <a class="nav-item public-nav-link" href="{{ url_for('home.index') }}#pricing"><span>Pricing</span></a>
+                        <a class="nav-item public-nav-link" href="{{ url_for('home.index') }}#about"><span>About</span></a>
+                        <a class="nav-item public-nav-signin" href="{{ url_for('account.login') }}">🔐 <span>Sign In</span></a>
+                        <a class="nav-item public-nav-cta" href="{{ url_for('billing.plans') if billing_checkout_enabled else url_for('account.register') }}">Start Your Adventure</a>
+                    {% endif %}
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="page-container app-main" tabindex="-1">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="toast-region" aria-live="polite" aria-label="Notifications">
+                    {% for category, message in messages %}
+                        <div class="toast toast-{{ category }}" role="status">
+                            <span class="toast-icon" aria-hidden="true">
+                                {% if category == 'success' %}✅{% elif category == 'error' %}⚠️{% elif category == 'warning' %}💡{% elif category == 'achievement' %}🏆{% else %}ℹ️{% endif %}
+                            </span>
+                            <span class="toast-message">{{ message }}</span>
+                            <button class="toast-close" type="button" aria-label="Dismiss notification">×</button>
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+
+        {% if child is defined and child %}
+            <nav class="child-context-navigation" aria-label="Child shortcuts">
+                <a class="button button-secondary" href="{{ url_for('home.family_dashboard') }}">🏠 Family Dashboard</a>
+                <a class="button button-primary" href="{{ url_for('child.dashboard', user_id=child.id) }}">📋 Quest Board</a>
+            </nav>
+        {% endif %}
+
+        {% if current_membership and session.get('parent_authenticated') and not (child is defined and child) and request.endpoint != 'home.index' %}
+            <nav class="parent-context-navigation" aria-label="Parent shortcuts">
+                {% if setup_pending %}
+                <a class="button button-primary" href="{{ url_for('onboarding.family_setup') }}">🏕️ Back to Family Setup</a>
+                {% else %}
+                <a class="button button-primary" href="{{ url_for('parent.dashboard') }}">🛡️ Dashboard</a>
+                {% endif %}
+                <form method="post" action="{{ url_for('auth.logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="button button-secondary" type="submit">🔒 Lock Parent Area</button>
+                </form>
+            </nav>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+        <div>
+            <strong>{{ application_name }}</strong>
+            {% if developer_access %}
+                <span>Version {{ app_version }}</span>
+            {% elif current_membership or session.get('active_child_id') %}
+                <a href="{{ url_for('home.privacy') }}">Privacy</a>
+                <a href="{{ url_for('home.terms') }}">Terms</a>
+                <span>Version {{ app_version }}</span>
+            {% else %}
+                <a href="{{ url_for('home.privacy') }}">Privacy</a>
+                <a href="{{ url_for('home.terms') }}">Terms</a>
+                <a href="{{ url_for('home.contact') }}">Contact</a>
+                <span>Version {{ app_version }}</span>
+            {% endif %}
+            <span>© 2026</span>
+        </div>
+    </footer>
+
+    <script>
+        window.FAMILY_QUEST_CSRF_TOKEN = {{ csrf_token_value|tojson }};
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("form").forEach(function (form) {
+                const method = (form.getAttribute("method") || "get").toLowerCase();
+                if (method !== "post" || form.querySelector('input[name="csrf_token"]')) return;
+                const token = document.createElement("input");
+                token.type = "hidden";
+                token.name = "csrf_token";
+                token.value = window.FAMILY_QUEST_CSRF_TOKEN;
+                form.appendChild(token);
+            });
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/app-shell.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

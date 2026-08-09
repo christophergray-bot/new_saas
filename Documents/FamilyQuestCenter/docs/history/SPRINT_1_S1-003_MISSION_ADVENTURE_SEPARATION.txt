@@ -1,0 +1,35 @@
+FAMILY QUEST CENTER VERSION 2
+SPRINT 1 — S1-003 MISSION / ADVENTURE SEPARATION
+
+STATUS: READY FOR USER TESTING
+
+PURPOSE
+Separate Responsibility Mission workflows from the legacy Adventure-step
+workflow without changing the database or removing existing Adventure behavior.
+
+CHANGES
+- Mission Service now returns and modifies only assignments that are not linked
+  to an Adventure chain.
+- Added a temporary Adventure Service for legacy Adventure/Journey assignments.
+- Child completion dispatches Missions and Journeys to separate services.
+- Parent approvals support both systems while keeping their workflow boundaries
+  separate.
+- Parent dashboard counts and displays both Mission and Journey approvals.
+- Today's Mission lists no longer include Adventure-linked assignments.
+
+DATABASE
+No schema or migration changes.
+
+TESTING FOCUS
+1. Assign a regular Quest/Mission and confirm it appears under Today's Missions.
+2. Assign an Adventure and confirm its current step appears under Today's Journey.
+3. Complete a regular Mission and verify stars/XP and approval behavior.
+4. Complete a Journey step and verify ordered-step and approval behavior.
+5. Verify the parent approval queue displays both kinds when approval is required.
+6. Verify an Adventure step does not appear on the parent Today's Missions page.
+
+VALIDATION
+- Python AST validation passed.
+- Python compileall passed.
+- Live Flask startup was not available in the isolated build environment because
+  Flask is not installed there.

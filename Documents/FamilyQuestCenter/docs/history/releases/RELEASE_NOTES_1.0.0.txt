@@ -1,0 +1,15 @@
+FAMILY QUEST CENTER v1.0.0 — CLEAN TEST RELEASE
+===============================================
+
+This release promotes the accepted RC1.6.4 application to Version 1.0.0 for
+clean-install testing.
+
+Included:
+- All accepted functionality through RC1.6.4
+- Clean database with no family or test data
+- Built-in achievements and reward categories
+- Default settings with no parent PIN
+- Complete schema.sql for database recreation
+- Clean installation and testing instructions
+
+No feature changes were introduced after RC1.6.4.

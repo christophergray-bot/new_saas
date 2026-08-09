@@ -1,0 +1,14 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent_management/security.html
+  Purpose: Renders the security user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}Parent Security | {{ application_name }}{% endblock %}{% block content %}
+{% set page_eyebrow="Parent Management" %}{% set page_icon="🔐" %}{% set page_title="Security" %}{% set page_description="Control password and Parent PIN access." %}{% set page_action_url=url_for('parent_management.overview') %}{% set page_action_text="← Back to Parent Management" %}{% include "partials/page_header.html" %}
+<section class="section-block"><div class="feature-grid">
+{% set feature_icon="🔑" %}{% set feature_title="Change Password" %}{% set feature_description="Update the password for your signed-in account." %}{% set feature_url=url_for('account.change_password', return_to='parent_management.security') %}{% set feature_available=true %}{% include "partials/feature_card.html" %}
+{% set feature_icon="🔢" %}{% set feature_title="Parent PIN" %}{% set feature_description="Change the four-digit PIN used to unlock the parent area." %}{% set feature_url=url_for('account.profile') + '#security' %}{% include "partials/feature_card.html" %}
+</div><article class="dashboard-panel"><p class="eyebrow">Future Security</p><h2>Sessions and Trusted Devices</h2><p>Active-session management and trusted-device controls will be enabled during production hardening.</p></article></section>
+{% endblock %}

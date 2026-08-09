@@ -1,0 +1,22 @@
+Family Quest Center RC1.8.2 Test Checklist
+
+FC-0013 - Child Adventure Instructions
+[ ] Assign an Adventure with an Adventure description and Chapter descriptions.
+[ ] Confirm My Adventures shows the Adventure description.
+[ ] Confirm the current Chapter shows its number, title, and instructions.
+[ ] Confirm the completion button identifies the current Chapter.
+
+FC-0014 - Adventure Reward Simplification
+[ ] Create a new Adventure.
+[ ] Confirm Chapters contain only Chapter Name and Chapter Instructions.
+[ ] Confirm there are no Chapter XP, Difficulty, or Estimated Minutes fields.
+[ ] Complete Chapters and confirm no XP is added per Chapter.
+[ ] Approve the completed Adventure and confirm the Adventure Completion Bonus is awarded once.
+[ ] Confirm Quest Difficulty remains unchanged in the Quest Library and Quest forms.
+
+FC-0015 - Parent Notification Tenant Isolation
+[ ] Create two family accounts with children in each.
+[ ] Generate a pending Quest approval and Reward request in Family A.
+[ ] Confirm Family B sees neither notification.
+[ ] Generate notifications in Family B and confirm Family A sees neither notification.
+[ ] Dismiss a notification in one family and confirm it does not affect the other family.

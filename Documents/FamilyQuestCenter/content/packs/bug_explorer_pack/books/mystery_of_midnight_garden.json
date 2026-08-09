@@ -1,0 +1,247 @@
+{
+  "start_node": "start",
+  "nodes": {
+    "start": {
+      "title": "The Light Beyond the Window",
+      "text": "Just after sunset, you notice a tiny green flash near the backyard garden. Then another answers from beside the fence. You have seen fireflies before, but tonight the flashes seem to form a trail. On the porch step sits your field notebook, and beside it is a leaf with three perfect round holes. No one in the family put it there. With permission to investigate the yard, you become the night’s bug detective. The mystery is simple: why are so many different bugs gathering in the garden tonight?",
+      "choices": [
+        {
+          "next": "leaf_clue",
+          "label": "Examine the hole-punched leaf"
+        },
+        {
+          "next": "follow_flash",
+          "label": "Follow the firefly flashes"
+        }
+      ]
+    },
+    "leaf_clue": {
+      "title": "Clue One: The Chewed Leaf",
+      "text": "Under the porch light, the leaf looks like a map covered with tiny craters. The edges are untouched, but the middle has been eaten in neat circles. You remember that insects leave clues even when they are hiding: bites, tunnels, eggs, shed skins, and droppings can all tell part of a story. You do not know what made these holes, but the leaf smells fresh and probably came from nearby. In the garden you can inspect the vegetable bed or the flowering plants.",
+      "choices": [
+        {
+          "next": "vegetable_bed",
+          "label": "Check the vegetable bed"
+        },
+        {
+          "next": "flower_patch",
+          "label": "Inspect the flowers"
+        }
+      ]
+    },
+    "follow_flash": {
+      "title": "Lanterns in the Grass",
+      "text": "You walk slowly toward the green flashes, keeping to the family-approved part of the yard. A firefly rises from the grass, blinks, and disappears into the darkness. Another flashes from a shrub. Their lights are not tiny flashlights meant for humans; they are signals used by fireflies. The pattern leads you toward two possible investigation zones: a damp corner near the hose and a dry patch beside the fence.",
+      "choices": [
+        {
+          "next": "damp_corner",
+          "label": "Investigate the damp corner"
+        },
+        {
+          "next": "fence_line",
+          "label": "Search along the fence"
+        }
+      ]
+    },
+    "vegetable_bed": {
+      "title": "The Beetle Under the Leaf",
+      "text": "You crouch beside the vegetable bed without stepping into it. One plant has holes like the mystery leaf. Beneath another leaf you spot a shiny beetle gripping the surface with six legs. You keep your hands back and sketch its shape instead. Nearby are several leaves with different bite marks. That means the garden may have more than one leaf-eating visitor. Then you notice a line of ants traveling along the wooden border, each following almost the same route.",
+      "choices": [
+        {
+          "next": "ant_trail",
+          "label": "Follow the ant trail with your eyes"
+        },
+        {
+          "next": "beetle_watch",
+          "label": "Stay and observe the beetle"
+        }
+      ]
+    },
+    "flower_patch": {
+      "title": "The Busy Flower Patch",
+      "text": "The flowers seem quiet at first, but patience changes everything. A small moth hovers near a blossom. A beetle crawls down a stem. Tiny insects disappear between petals. You realize the garden is like a restaurant with different customers arriving at different hours. One pale moth keeps returning to the same group of flowers, while a trail of ants disappears beneath a stone border.",
+      "choices": [
+        {
+          "next": "moth_route",
+          "label": "Watch the moth’s route"
+        },
+        {
+          "next": "ant_trail",
+          "label": "Study the ants"
+        }
+      ]
+    },
+    "damp_corner": {
+      "title": "Where the Yard Stays Cool",
+      "text": "The ground near the hose is darker and cooler than the open lawn. You find pill bugs moving through bits of old leaves. They are not insects—they are crustaceans—but bug explorers often discover many kinds of small animals living together. A spiderweb stretches between two low branches nearby. You stay well away from the spider and study only the web. A tiny flying insect is caught in one strand.",
+      "choices": [
+        {
+          "next": "web_clue",
+          "label": "Study the web from a distance"
+        },
+        {
+          "next": "soil_search",
+          "label": "Look for more ground-dwellers"
+        }
+      ]
+    },
+    "fence_line": {
+      "title": "The Fence-Line Highway",
+      "text": "Along the fence, the grass is taller and fallen leaves collect in sheltered pockets. You spot a cricket that vanishes before you can draw it. Then a dark beetle crosses the dirt and disappears beneath a leaf. The fence line seems busier than the open lawn because it offers shade and hiding places. Farther ahead, ants travel through a crack while a moth circles above a flowering shrub.",
+      "choices": [
+        {
+          "next": "ant_trail",
+          "label": "Investigate the ant highway"
+        },
+        {
+          "next": "moth_route",
+          "label": "Follow the moth"
+        }
+      ]
+    },
+    "beetle_watch": {
+      "title": "Armor and Antennae",
+      "text": "The beetle hardly moves for a full minute. Then its antennae sweep forward and it begins walking along the leaf. Instead of guessing that it caused every hole, you write what you actually know: beetle present; damaged leaves present; cause not yet proven. That is an important explorer habit. Evidence is stronger than a guess. A sudden flutter near the flowers gives you another clue to investigate.",
+      "choices": [
+        {
+          "next": "moth_route",
+          "label": "Investigate the flutter"
+        },
+        {
+          "next": "compare_clues",
+          "label": "Compare your evidence so far"
+        }
+      ]
+    },
+    "ant_trail": {
+      "title": "The Ant Highway",
+      "text": "The ants move in both directions. Some travel toward the garden; others head away. You resist the urge to place anything in their path. After watching quietly, you notice several ants disappear beneath mulch near a plant where tiny insects cluster on a stem. The ants seem interested in that spot. You cannot tell exactly why, but you have discovered a connection: one small creature’s activity can attract another.",
+      "choices": [
+        {
+          "next": "compare_clues",
+          "label": "Add the connection to your notebook"
+        },
+        {
+          "next": "soil_search",
+          "label": "Explore the nearby ground habitat"
+        }
+      ]
+    },
+    "moth_route": {
+      "title": "The Night Pollinator",
+      "text": "The pale moth lands on one flower, unrolls a thin feeding tube, and moves to another. In daylight you might notice bees and butterflies doing similar work. Tonight the moth shows that the garden has a night shift. As it travels, powdery pollen can move between flowers. The mystery is becoming bigger than chewed leaves. Some bugs eat plants, some visit flowers, and some may hunt other bugs.",
+      "choices": [
+        {
+          "next": "web_clue",
+          "label": "Look for a hunter’s clue"
+        },
+        {
+          "next": "compare_clues",
+          "label": "Compare the garden visitors"
+        }
+      ]
+    },
+    "web_clue": {
+      "title": "The Web Between Worlds",
+      "text": "The web is stretched exactly where flying insects pass between the damp corner and the flowers. You do not touch it. Its location tells you something: a spider benefits from building where prey travels. The caught insect, the nearby moths, and the beetles on leaves are parts of the same neighborhood. Then a firefly flashes directly beyond the web, as if pointing toward the darkest section of the garden.",
+      "choices": [
+        {
+          "next": "firefly_clearing",
+          "label": "Follow the flash"
+        },
+        {
+          "next": "compare_clues",
+          "label": "Stop and organize the evidence"
+        }
+      ]
+    },
+    "soil_search": {
+      "title": "The World at Ground Level",
+      "text": "Without digging or disturbing shelters, you scan the soil and leaf litter. Tiny creatures appear where your eyes first saw only dirt. An ant crosses a twig. A pill bug curls briefly and continues under a leaf. A small beetle moves through the mulch. Dead leaves are not empty trash; they create shelter and eventually become part of the soil. The ground layer is another habitat connected to the plants above it.",
+      "choices": [
+        {
+          "next": "compare_clues",
+          "label": "Record the ground habitat"
+        },
+        {
+          "next": "firefly_clearing",
+          "label": "Follow a new green flash"
+        }
+      ]
+    },
+    "compare_clues": {
+      "title": "A Pattern Appears",
+      "text": "You sit on the porch step and review your notes. The evidence no longer looks random. Leaves provide food. Flowers provide nectar and pollen. Damp soil and leaf litter provide shelter. Flying insects become food for spiders. Ants travel between resources. Fireflies use the darker parts of the yard. Instead of one mysterious bug causing everything, the garden seems to be a network of living things. But one question remains: why did the fireflies seem to lead you through it?",
+      "choices": [
+        {
+          "next": "firefly_clearing",
+          "label": "Follow the final flashes"
+        },
+        {
+          "next": "morning_check",
+          "label": "Plan to compare the yard in daylight"
+        }
+      ]
+    },
+    "firefly_clearing": {
+      "title": "The Firefly Clearing",
+      "text": "At the edge of the garden, several fireflies blink above taller grass. You stand back and watch. Their lights appear, vanish, and answer from different places. You realize they were never leading you on purpose. You created the trail by following where their habitat was best: darker, slightly damp, sheltered areas with plants nearby. The fireflies were a clue because their needs brought them here. The same is true for every creature you observed.",
+      "choices": [
+        {
+          "next": "ecosystem_answer",
+          "label": "Solve the mystery"
+        },
+        {
+          "next": "quiet_watch",
+          "label": "Watch for five more minutes"
+        }
+      ]
+    },
+    "quiet_watch": {
+      "title": "Five Minutes of Stillness",
+      "text": "When you stop moving, the yard becomes busier. A moth visits another flower. Something chirps near the fence. Ants continue their route. A beetle vanishes under a leaf. The fireflies keep signaling. None of these creatures needs you to interfere. The best thing you can do is observe and let the tiny world continue. Your notebook now holds more discoveries than you expected from one ordinary yard.",
+      "choices": [
+        {
+          "next": "ecosystem_answer",
+          "label": "Write your conclusion"
+        }
+      ]
+    },
+    "morning_check": {
+      "title": "The Day Shift",
+      "text": "The next morning, with permission, you return to the same spots. The yard looks completely different. The fireflies are gone from view, but bees visit flowers and ants still follow familiar routes. Sunlight warms the fence and leaves. You compare your night notes with the morning scene and realize habitats can change by the hour. Different creatures use the same space at different times.",
+      "choices": [
+        {
+          "next": "ecosystem_answer",
+          "label": "Complete the mystery report"
+        }
+      ]
+    },
+    "ecosystem_answer": {
+      "title": "The Real Mystery",
+      "text": "You write the answer across the top of a clean notebook page: THE GARDEN IS A NEIGHBORHOOD. The chewed leaf was only the first clue. Beetles and other plant-eaters use the leaves. Moths and other pollinators visit flowers. Ants search for resources. Spiders build where prey passes. Ground-dwellers use cool shelter. Fireflies gather where conditions fit their needs. Every discovery points to relationships between living things and their habitat. You did not need to capture a single creature to uncover the story.",
+      "choices": [
+        {
+          "next": "ending_field_guide",
+          "label": "Create a mini field guide"
+        },
+        {
+          "next": "ending_family",
+          "label": "Share the mystery with your family"
+        }
+      ]
+    },
+    "ending_field_guide": {
+      "title": "Your Backyard Field Guide",
+      "text": "You make one page for each kind of creature you observed, drawing its shape and recording where and when you saw it. When you are unsure of a species, you label it honestly—small beetle, pale moth, web-building spider—instead of pretending to know. Your final page lists the explorer rules that protected the habitat: watch closely, touch nothing unknown, keep distance from stinging or biting creatures, return safe objects to their places, and leave living things where they belong. The mystery ends with a new beginning: tomorrow, the same yard may tell a completely different story.",
+      "ending": true,
+      "ending_title": "Bug Field Detective"
+    },
+    "ending_family": {
+      "title": "The Garden After Dark",
+      "text": "You gather your family and explain the clues in order: the leaf, the beetle, the ants, the moth, the web, the ground habitat, and finally the fireflies. What seemed like a strange gathering was really an ecosystem at work. You invite everyone to watch quietly from the porch. Soon another green light blinks above the grass. This time you do not chase it. You know the best discoveries sometimes happen when an explorer simply pays attention and lets nature come into view.",
+      "ending": true,
+      "ending_title": "Mystery Solved"
+    }
+  }
+}

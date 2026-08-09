@@ -1,0 +1,22 @@
+/* =========================================================
+   Backyard Bug Explorer Pack
+   ========================================================= */
+.character-theme.theme-bug-backyard-lab {
+    --character-accent: #4f6f3a;
+    --character-soft: #eef4df;
+}
+
+.character-theme.theme-bug-firefly-night {
+    --character-accent: #596b2d;
+    --character-soft: #edf1d3;
+}
+
+.frame-bug-beetle-leaves {
+    border-color: #527a3b !important;
+    box-shadow: 0 0 0 4px #dce8c8, 0 0 16px rgba(82, 122, 59, .55) !important;
+}
+
+.frame-bug-butterfly-garden {
+    border-color: #8b5fa8 !important;
+    box-shadow: 0 0 0 4px #eadcf2, 0 0 16px rgba(139, 95, 168, .50) !important;
+}

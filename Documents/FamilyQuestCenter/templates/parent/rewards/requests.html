@@ -1,0 +1,17 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/rewards/requests.html
+  Purpose: Renders the requests user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Reward Requests | Family Quest Center{% endblock %}
+{% block content %}
+<section class="page-header"><div><p class="eyebrow">Parent Approval</p><h1>🎁 Reward Requests</h1><p>Approve, deny, and record redeemed rewards.</p></div><a class="button button-secondary" href="{{ url_for('rewards.manager') }}">Reward Manager</a></section>
+<nav class="filter-tabs">{% for value, label in [('pending','Pending'),('approved','Approved'),('denied','Denied'),('redeemed','Redeemed'),('all','All')] %}<a class="{% if selected_status == value %}active{% endif %}" href="{{ url_for('rewards.requests_queue', status=value) }}">{{ label }}</a>{% endfor %}</nav>
+<section class="dashboard-panel">{% if reward_requests %}<div class="reward-request-list">{% for item in reward_requests %}<article class="reward-request-card"><div class="reward-request-visual">{% if item.image_filename %}<img src="{{ url_for('static', filename='uploads/rewards/' ~ item.image_filename) }}" alt="{{ item.reward_name }}">{% else %}<span>{{ item.reward_icon }}</span>{% endif %}</div><div class="reward-request-copy"><p class="eyebrow">{{ item.child_name }}</p><h3>{{ item.reward_name }}</h3><strong>⭐ {{ item.cost }}</strong><p class="muted">Requested {{ item.requested_at[:16].replace('T', ' ') }}</p>{% if item.notes %}<p><strong>Note:</strong> {{ item.notes }}</p>{% endif %}<span class="status-pill status-{{ item.status }}">{{ item.status|title }}</span></div><div class="reward-request-actions">{% if item.status == 'pending' %}<form method="post" action="{{ url_for('rewards.approve', request_id=item.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="notes" placeholder="Optional note" maxlength="2000"><button class="button button-primary" type="submit">Approve</button></form><form method="post" action="{{ url_for('rewards.deny', request_id=item.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input name="notes" placeholder="Reason (optional)" maxlength="2000"><button class="button button-secondary" type="submit">Deny</button></form>{% elif item.status == 'approved' %}<form method="post" action="{{ url_for('rewards.redeem', request_id=item.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" type="submit">Mark Redeemed</button></form>{% endif %}</div></article>{% endfor %}</div>{% else %}<div class="empty-state"><h3>No {{ selected_status if selected_status != 'all' else '' }} requests</h3><p>Reward requests will appear here.</p></div>{% endif %}</section>
+{% endblock %}

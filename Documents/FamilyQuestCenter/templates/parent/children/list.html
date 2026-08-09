@@ -1,0 +1,49 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/children/list.html
+  Purpose: Renders the list user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Family Members | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Family" %}
+{% set page_icon = "👨‍👩‍👧" %}
+{% set page_title = "Family Members" %}
+{% set page_description = "Manage the adventurers in your family." %}
+{% set page_action_url = url_for('children.add_child') %}
+{% set page_action_text = "Add Child" %}
+{% include "partials/page_header.html" %}
+
+<section class="dashboard-panel filter-panel">
+  <form class="filter-bar" method="get">
+    <input type="search" name="q" value="{{ search_query }}" placeholder="Search children" aria-label="Search children">
+    
+    <button class="button button-primary" type="submit">Filter</button>
+    <a class="button button-secondary" href="{{ url_for('children.list_children') }}">Clear</a>
+  </form>
+</section>
+
+<section class="section-block">
+  <div class="section-heading"><div><p class="eyebrow">Children</p><h2>Family Adventurers</h2></div></div>
+  {% if children %}
+  <div class="feature-grid">
+    {% for child in children %}
+    <article class="feature-card {% if not child.active %}inactive-card{% endif %}">
+      <div class="feature-icon">🧒</div>
+      <h3>{{ child.name }}</h3>
+      <div class="status-badge {{ 'active' if child.active else 'inactive' }}">{{ 'Active' if child.active else 'Archived' }}</div>
+      <p>Level {{ child.current_level }}<br>⭐ {{ child.total_points }}<br>🔥 {{ child.current_streak }} Day Streak</p>
+      <div class="feature-actions">
+        <a href="{{ url_for('children.view_child', child_id=child.id) }}" class="button button-secondary">👁 View</a>
+        <a href="{{ url_for('children.edit_child', child_id=child.id) }}" class="button button-secondary">✏ Edit</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state"><div class="empty-icon">🧒</div><h2>No children found</h2><p>Add a child to begin the next family adventure.</p></div>
+  {% endif %}
+</section>
+{% endblock %}

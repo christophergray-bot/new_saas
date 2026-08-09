@@ -1,0 +1,13 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/developer/health.html
+  Purpose: Renders the health user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}{% block title %}System Health{% endblock %}{% block content %}
+{% set eyebrow="DIAGNOSTICS" %}{% set title="System Health" %}{% set subtitle="Live runtime, storage, and database information." %}{% set page_action_url=url_for('developer.dashboard') %}{% set page_action_text='← Developer Center' %}{% include "components/page_header.html" %}
+<div class="health-grid">{% for check in health_checks %}<article class="health-card health-{{ check.status }}"><span class="health-dot"></span><div><strong>{{ check.name }}</strong><small>{{ check.detail }}</small></div></article>{% endfor %}</div>
+<section class="admin-section"><h2>Runtime Information</h2><div class="configuration-list">{% for label,value in runtime.items() %}<div><strong>{{ label }}</strong><code>{{ value }}</code></div>{% endfor %}</div></section>
+<section class="admin-section"><h2>Database Statistics</h2><div class="diagnostic-stat-grid">{% for label,value in statistics.items() %}<article class="diagnostic-stat"><strong>{{ value }}</strong><span>{{ label }}</span></article>{% endfor %}</div></section>
+{% endblock %}

@@ -1,0 +1,56 @@
+FAMILY QUEST CENTER
+SPRINT 1.5 - CODEBASE AUDIT AND CLEANUP REPORT
+Build: 2.0.0-s1.5-codebase-audit
+
+SUMMARY
+This build performs a conservative production cleanup without intentionally
+changing established parent or child workflows.
+
+COMPLETED CLEANUP
+1. Removed all Python bytecode and __pycache__ directories.
+2. Removed common operating-system metadata artifacts.
+3. Moved historical sprint and issue notes from the application root into
+   docs/history so the executable project folder is easier to understand.
+4. Consolidated outdoor achievement defaults into one reusable service:
+   services/default_achievements.py.
+5. Refactored the manual achievement migration to use the shared service.
+6. Added safe automatic installation/refresh of the 25 outdoor achievement
+   defaults during application startup. Existing unlock records are preserved.
+7. Repaired the developer-tool page header compatibility issue. Developer
+   templates using eyebrow/title/subtitle now render correctly while the newer
+   page_* variables remain supported.
+8. Updated the internal application version identifier for Sprint 1.5.
+
+AUDIT RESULTS
+- Python source compilation: PASSED
+- SQLite integrity check: PASSED
+- Outdoor achievement defaults in bundled database: 25
+- Duplicate literal route review: no confirmed endpoint conflicts. Repeated '/'
+  and '/new' route paths belong to separate blueprints and URL prefixes.
+- Blueprint registration review: all current route modules used by the app are
+  registered in app.py.
+- Template inventory: retained because each remaining template is associated
+  with a current route, shared partial, or error page.
+- Static assets: retained because the CSS, JavaScript shell, and uploaded reward
+  images may be referenced at runtime or from database records.
+
+INTENTIONALLY RETAINED
+- Historical migration scripts: retained for upgrades from older installations.
+- chorce.db: retained because this is the user's tested working database.
+- Uploaded reward images: retained to avoid breaking database image references.
+- Both page-header partials: retained because they support different existing
+  page layouts; the developer header was made compatible rather than removed.
+
+DEFERRED TO REGRESSION TESTING
+The following changes were not automated because removal without full runtime
+coverage could create hidden breakage:
+- Removing route functions based only on static analysis.
+- Deleting model helpers that may be imported dynamically.
+- Aggressive unused-CSS removal.
+- Combining templates with different context requirements.
+- Removing historical migrations before a clean Version 2 upgrade baseline is
+  formally established.
+
+NEXT STEP
+Run the Regression Test Checklist against this build. Any confirmed defect
+should be logged and fixed before creating the clean Version 2.0.0 release.

@@ -1,0 +1,253 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/character.html
+  Purpose: Child Character Workshop.
+  Design: Profile Character -> Skin Tone -> Frame -> Theme.
+  Image-backed tone variants use the naming convention:
+      <style>_<girl|boy>_<tone>
+  Legacy avatars remain available as individual character styles.
+  Documentation updated: 2026-08-08
+#}
+{% extends "base.html" %}
+{% block title %}Customize {{ child.name }}{% endblock %}
+{% block content %}
+<div class="character-theme {{ character.theme.class_name }}">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">Character Workshop</p>
+            <h1>Customize {{ child.name }}</h1>
+            <p>Choose your profile character, skin tone, frame, and theme.</p>
+        </div>
+    </section>
+
+    <section class="dashboard-panel character-preview-panel">
+        <div id="character-live-preview"
+             class="character-avatar cosmetic-avatar preview-avatar {{ character.frame.class_name }}">
+            {% if character.avatar.image %}
+                <img id="character-live-image" class="cosmetic-avatar-image" src="{{ character.avatar.image }}" alt="{{ character.avatar.name }}">
+                <span id="character-live-icon" hidden>{{ character.avatar.icon }}</span>
+            {% else %}
+                <img id="character-live-image" class="cosmetic-avatar-image" src="" alt="" hidden>
+                <span id="character-live-icon">{{ character.avatar.icon }}</span>
+            {% endif %}
+        </div>
+        <div>
+            <p class="eyebrow">My Explorer</p>
+            <h2>{{ child.name }}</h2>
+            <p id="character-live-name" class="display-title">{{ character.avatar.name }}</p>
+            <p>Level {{ progression.level }} — {{ progression.rank_title }}</p>
+        </div>
+    </section>
+
+    <form method="post" class="character-customization-form" id="character-customization-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <section class="dashboard-panel cosmetic-section" id="character-gender-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Step 1</p>
+                    <h2>Pick Your Profile Character</h2>
+                </div>
+            </div>
+            <div id="character-gender-options" class="character-gender-options" role="radiogroup" aria-label="Pick your profile character"></div>
+        </section>
+
+        <section class="dashboard-panel cosmetic-section" id="character-tone-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Step 2</p>
+                    <h2>Choose Your Skin Tone</h2>
+                    <p class="character-step-help">Choose the look you like best.</p>
+                </div>
+            </div>
+            <div id="character-tone-options" class="skin-tone-options" role="radiogroup" aria-label="Choose your skin tone"></div>
+        </section>
+
+        {# Actual avatar radios remain the source of truth submitted to Flask. #}
+        <div id="avatar-source-options" hidden>
+        {% for item in cosmetics.avatars %}
+            <label>
+                <input class="avatar-source-radio"
+                       type="radio"
+                       name="avatar_key"
+                       value="{{ item.key }}"
+                       data-name="{{ item.name|e }}"
+                       data-image="{{ (item.image or '')|e }}"
+                       data-icon="{{ (item.icon or '')|e }}"
+                       data-unlocked="{{ 'true' if item.unlocked else 'false' }}"
+                       data-unlock-text="{{ item.unlock_text|e }}"
+                       {% if item.key == child.avatar_key %}checked{% endif %}
+                       {% if not item.unlocked %}disabled{% endif %}>
+            </label>
+        {% endfor %}
+        </div>
+
+        {% set remaining_sections = [
+            ('frame_key', 'Step 3', 'Choose Your Frame', cosmetics.frames, child.frame_key, 'frame'),
+            ('theme_key', 'Step 4', 'Choose Your Theme', cosmetics.themes, child.theme_key, 'theme')
+        ] %}
+        {% for field, step, heading, items, selected, kind in remaining_sections %}
+        <section class="dashboard-panel cosmetic-section">
+            <div class="section-heading">
+                <div><p class="eyebrow">{{ step }}</p><h2>{{ heading }}</h2></div>
+            </div>
+            <div class="cosmetic-grid-scroll" role="region" aria-label="{{ heading }} options" tabindex="0">
+                <div class="cosmetic-grid cosmetic-grid-{{ kind }}">
+                {% for item in items %}
+                    <label class="cosmetic-option {% if not item.unlocked %}locked{% endif %}">
+                        <input type="radio" name="{{ field }}" value="{{ item.key }}"
+                               {% if item.key == selected %}checked{% endif %}
+                               {% if not item.unlocked %}disabled{% endif %}>
+                        <span class="cosmetic-option-card {% if item.class_name %}{{ item.class_name }}{% endif %}">
+                            {% if item.image %}<img class="cosmetic-option-image" src="{{ item.image }}" alt="">
+                            {% elif item.icon %}<span class="cosmetic-option-icon">{{ item.icon }}</span>{% endif %}
+                            <strong>{{ item.name }}</strong>
+                            <small>{% if item.unlocked %}Unlocked{% else %}🔒 {{ item.unlock_text }}{% endif %}</small>
+                        </span>
+                    </label>
+                {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+
+        <div class="form-actions character-save-actions">
+            <button class="button button-primary" type="submit">Save My Explorer</button>
+        </div>
+    </form>
+</div>
+
+<script>
+(() => {
+    const toneOrder = ["light", "medium_light", "medium", "medium_dark", "dark", "deep_dark"];
+    const toneColors = {
+        light: "#F1C7A5",
+        medium_light: "#DDA77B",
+        medium: "#C4875F",
+        medium_dark: "#A86645",
+        dark: "#75462F",
+        deep_dark: "#4B2D20"
+    };
+
+    const radios = [...document.querySelectorAll(".avatar-source-radio")];
+
+    function parseAvatar(radio) {
+        const key = radio.value;
+        const match = key.match(/^(.*)_(girl|boy)_(light|medium_light|medium|medium_dark|dark|deep_dark)$/);
+        if (!match) return null;
+        return { radio, key, style: match[1], gender: match[2], tone: match[3] };
+    }
+
+    const parsed = radios.map(parseAvatar).filter(Boolean);
+    if (!parsed.length) return;
+
+    /* Prefer the Explorer family of variants and do not present legacy/default
+       Adventurer avatars in the child-facing profile-character picker. */
+    const explorerStyle = parsed.some(a => a.style === "explorer")
+        ? "explorer"
+        : parsed[0].style;
+    const avatars = parsed.filter(a => a.style === explorerStyle && !a.radio.disabled);
+    if (!avatars.length) return;
+
+    const genderBox = document.getElementById("character-gender-options");
+    const toneBox = document.getElementById("character-tone-options");
+    const previewImage = document.getElementById("character-live-image");
+    const previewIcon = document.getElementById("character-live-icon");
+    const previewName = document.getElementById("character-live-name");
+
+    let selected = avatars.find(a => a.radio.checked) || avatars[0];
+    let selectedGender = selected.gender || "girl";
+    let selectedTone = selected.tone || "medium";
+
+    function publicCharacterName(a) {
+        return a.gender === "girl" ? "Girl Explorer" : "Boy Explorer";
+    }
+
+    function updatePreview(a) {
+        selected = a;
+        a.radio.checked = true;
+        const image = a.radio.dataset.image;
+        const publicName = publicCharacterName(a);
+        if (image) {
+            previewImage.src = image;
+            previewImage.alt = publicName;
+            previewImage.hidden = false;
+            previewIcon.hidden = true;
+        } else {
+            previewImage.hidden = true;
+            previewIcon.textContent = a.radio.dataset.icon || "⭐";
+            previewIcon.hidden = false;
+        }
+        /* Never expose internal tone/asset labels such as
+           "Girl Explorer - Deep-Dark" in the child-facing UI. */
+        previewName.textContent = publicName;
+    }
+
+    function chooseBestVariant() {
+        let choice = avatars.find(a => a.gender === selectedGender && a.tone === selectedTone);
+        if (!choice) choice = avatars.find(a => a.gender === selectedGender);
+        if (!choice) choice = avatars[0];
+        selectedGender = choice.gender;
+        selectedTone = choice.tone;
+        updatePreview(choice);
+    }
+
+    function renderCharacters() {
+        genderBox.innerHTML = "";
+        ["boy", "girl"].forEach(gender => {
+            const choices = avatars.filter(a => a.gender === gender);
+            if (!choices.length) return;
+            const rep = choices.find(a => a.tone === selectedTone) || choices[0];
+            const label = gender === "girl" ? "Girl Explorer" : "Boy Explorer";
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "character-gender-option" + (gender === selectedGender ? " selected" : "");
+            button.setAttribute("role", "radio");
+            button.setAttribute("aria-checked", gender === selectedGender ? "true" : "false");
+            button.innerHTML = rep.radio.dataset.image
+                ? `<img src="${rep.radio.dataset.image}" alt=""><strong>${label}</strong>`
+                : `<strong>${label}</strong>`;
+            button.addEventListener("click", () => {
+                selectedGender = gender;
+                chooseBestVariant();
+                renderAll();
+            });
+            genderBox.appendChild(button);
+        });
+    }
+
+    function renderTones() {
+        const items = avatars.filter(a => a.gender === selectedGender);
+        toneBox.innerHTML = "";
+        toneOrder.forEach((tone, index) => {
+            const avatar = items.find(a => a.tone === tone);
+            if (!avatar) return;
+            const label = `Skin tone option ${index + 1}`;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "skin-tone-swatch" + (tone === selectedTone ? " selected" : "");
+            button.style.setProperty("--tone-color", toneColors[tone]);
+            button.setAttribute("role", "radio");
+            button.setAttribute("aria-checked", tone === selectedTone ? "true" : "false");
+            button.setAttribute("aria-label", label);
+            button.title = label;
+            button.innerHTML = `<span aria-hidden="true"></span>`;
+            button.addEventListener("click", () => {
+                selectedTone = tone;
+                updatePreview(avatar);
+                renderAll();
+            });
+            toneBox.appendChild(button);
+        });
+    }
+
+    function renderAll() {
+        renderCharacters();
+        renderTones();
+    }
+
+    chooseBestVariant();
+    renderAll();
+})();
+</script>
+{% endblock %}

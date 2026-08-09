@@ -1,0 +1,8 @@
+Family Quest Center - Sprint 1.1.1 Adventure Builder UI Polish
+
+Changes:
+- Chapter cards now use a very light gray background to distinguish them from Adventure details.
+- Chapter borders, spacing, padding, and shadows were softened for clearer visual hierarchy.
+- Chapter headers now include a book icon.
+- Add Chapter is now a primary action labeled Add Next Chapter.
+- No database, route, or business-logic changes.

@@ -1,0 +1,134 @@
+{
+  "id": "bug_explorer_pack",
+  "name": "Backyard Bug Explorer Pack",
+  "version": "1.0.0",
+  "category": "exploration",
+  "description": "A bug-themed exploration pack for ages 8–10 featuring a 10-chapter backyard field adventure, a choose-your-path bug mystery, two profile frames, and two visual themes.",
+  "icon": "🐞",
+  "recommended_age": "8-10",
+  "quests": [],
+  "adventures": [
+    {
+      "name": "The Backyard Bug Expedition",
+      "description": "Explore a parent-approved front yard, backyard, or similar outdoor space like a real field scientist while observing insects and other tiny creatures without harming them.",
+      "bonus_xp": 10,
+      "chapters": [
+        {
+          "name": "Chapter 1 — Build Your Bug Explorer Kit",
+          "description": "With an adult, gather a notebook, pencil, water, and a magnifying glass if you have one. Review the rules: observe instead of touching, never taste plants or insects, avoid unknown spiders or stinging insects, and stay inside your approved exploration area."
+        },
+        {
+          "name": "Chapter 2 — Map the Expedition Zone",
+          "description": "Walk the approved front or backyard and sketch a simple map. Mark grass, flowers, shrubs, trees, fences, rocks, garden beds, and other places where tiny creatures might live."
+        },
+        {
+          "name": "Chapter 3 — Grassland Safari",
+          "description": "Study a patch of grass for several minutes. Look for ants, beetles, grasshoppers, flies, or other tiny movement. Record what you see and how each creature moves."
+        },
+        {
+          "name": "Chapter 4 — Leaf and Flower Patrol",
+          "description": "Observe leaves and flowers without picking them. Look above and underneath leaves for insects, holes, eggs, webs, or other signs that bugs have visited."
+        },
+        {
+          "name": "Chapter 5 — The Ground Crew",
+          "description": "Search the soil, pavement edges, and other safe ground-level areas. If an adult says it is safe to lift a loose object, look underneath without touching any creature and carefully return the object exactly where it was."
+        },
+        {
+          "name": "Chapter 6 — Wings in the Air",
+          "description": "Watch for flying visitors such as butterflies, moths, bees, flies, or dragonflies. Observe from a safe distance and record where they land and what they seem to be doing."
+        },
+        {
+          "name": "Chapter 7 — Ant Highway Investigation",
+          "description": "Find ants from a safe distance and watch their route. Do not block or disturb them. Sketch their path and see whether they are traveling alone or working together."
+        },
+        {
+          "name": "Chapter 8 — Web Watch",
+          "description": "Search for spiderwebs without touching them or approaching spiders. Notice the web shape, location, and anything caught in it. Compare the web habitat with places where you found insects."
+        },
+        {
+          "name": "Chapter 9 — Habitat Detective",
+          "description": "Choose two different areas from your map and compare them. Which had more bug activity? Consider shade, sunlight, plants, moisture, shelter, and food as possible reasons."
+        },
+        {
+          "name": "Chapter 10 — Backyard Bug Field Report",
+          "description": "Finish your expedition by recording your three most interesting discoveries. Draw or describe one creature, identify its habitat, and share one new thing you learned with your family."
+        }
+      ]
+    }
+  ],
+  "challenges": [],
+  "rewards": [],
+  "achievements": [],
+  "avatars": [],
+  "frames": [
+    {
+      "key": "bug_beetle_leaves",
+      "name": "Beetle & Leaves",
+      "icon": "🪲",
+      "class_name": "frame-bug-beetle-leaves",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "bug_butterfly_garden",
+      "name": "Butterfly Garden",
+      "icon": "🦋",
+      "class_name": "frame-bug-butterfly-garden",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ],
+  "themes": [
+    {
+      "key": "bug_backyard_lab",
+      "name": "Backyard Bug Lab",
+      "icon": "🔎",
+      "class_name": "theme-bug-backyard-lab",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "bug_firefly_night",
+      "name": "Firefly Night",
+      "icon": "✨",
+      "class_name": "theme-bug-firefly-night",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ],
+  "pack_type": "content",
+  "author": "Family Quest Center",
+  "auto_install": false,
+  "discoverable": true,
+  "archive_allowed": true,
+  "difficulty": "Intermediate",
+  "estimated_duration": "20–45 minute activities",
+  "skills": [
+    "Observation",
+    "Curiosity",
+    "Nature Study",
+    "Patience",
+    "Scientific Thinking"
+  ],
+  "price_type": "free",
+  "price_cents": 0,
+  "books": [
+    {
+      "id": "mystery_of_midnight_garden",
+      "title": "The Mystery of the Midnight Garden",
+      "description": "Strange clues appear in the garden after sunset. Follow beetles, moths, ants, and glowing fireflies through a choose-your-path mystery about the tiny ecosystem just outside the door.",
+      "icon": "🐞",
+      "file": "books/mystery_of_midnight_garden.json",
+      "estimated_minutes": 20,
+      "xp_reward": 8
+    }
+  ]
+}

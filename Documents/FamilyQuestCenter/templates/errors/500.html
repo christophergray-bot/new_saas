@@ -1,0 +1,10 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/errors/500.html
+  Purpose: Renders the 500 user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}Something Went Wrong · {{ application_name }}{% endblock %}
+{% block content %}<section class="empty-state panel"><div class="empty-state-icon">🛠️</div><h1>Something went wrong</h1><p>The error was recorded in the Developer Error Log. Your family data was not intentionally changed.</p><div class="button-row"><a class="button button-primary" href="{{ url_for('home.index') }}">Return Home</a>{% if session.get('parent_authenticated') %}<a class="button" href="{{ url_for('developer.errors') }}">View Error Log</a>{% endif %}</div></section>{% endblock %}

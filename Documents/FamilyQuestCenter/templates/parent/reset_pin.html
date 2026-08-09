@@ -1,0 +1,31 @@
+{# Family Quest Center template: templates/parent/reset_pin.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Reset Parent PIN | Family Quest Center{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Parent Account Recovery" %}
+{% set page_icon = "🔑" %}
+{% set page_title = "Reset Parent PIN" %}
+{% set page_description = "Use your account email to securely recover a forgotten four-digit Parent PIN." %}
+{% include "partials/page_header.html" %}
+
+<section class="auth-single-column">
+  <article class="auth-form-card auth-pin-card">
+    <div class="auth-card-heading">
+      <span class="auth-card-icon" aria-hidden="true">🛡️</span>
+      <div>
+        <p class="eyebrow">Secure Email Recovery</p>
+        <h2>Request a Parent PIN Reset</h2>
+        <p>We will send a one-time reset link to <strong>{{ account['email'] }}</strong>. The link expires in 30 minutes.</p>
+      </div>
+    </div>
+    <form method="post" class="form-stack auth-form-stack">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <div class="form-actions auth-form-actions">
+        <button class="button button-primary" type="submit">✉️ Email PIN Reset Link</button>
+        <a class="button button-secondary" href="{{ url_for('auth.login', next=next_url) }}">← Back to PIN Entry</a>
+      </div>
+    </form>
+  </article>
+</section>
+{% endblock %}

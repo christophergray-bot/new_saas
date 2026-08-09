@@ -1,0 +1,11 @@
+{# Family Quest Center template: templates/errors/400.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Request Could Not Be Completed · {{ application_name }}{% endblock %}
+{% block content %}
+<section class="card empty-state-card">
+    <div class="empty-state-icon" aria-hidden="true">🛡️</div>
+    <h1>Request Could Not Be Completed</h1>
+    <p>The page security token was missing or expired. Refresh the page and try the action again.</p>
+    <a class="button button-primary" href="{{ request.referrer or url_for('home.family_dashboard') }}">Return</a>
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{# Family Quest Center template: templates/account/registration_closed.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Registration Closed | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Account Access" %}
+{% set page_icon = "🔒" %}
+{% set page_title = "New Registration Is Closed" %}
+{% set page_description = "Family Quest Center is not accepting new public accounts yet." %}
+{% include "partials/page_header.html" %}
+<section class="auth-single-column">
+  <article class="auth-form-card auth-message-card">
+    <span class="auth-message-icon" aria-hidden="true">🏕️</span>
+    <p class="eyebrow">Milestone 1 Local Release</p>
+    <h2>Existing families can continue to sign in.</h2>
+    <p>Public registration will open only after hosted subscriptions or a managed trial process is ready. This prevents unpaid or unsupported accounts from being created accidentally.</p>
+    <div class="form-actions auth-form-actions">
+      <a class="button button-primary" href="{{ url_for('account.login') }}">🔐 Sign In</a>
+      <a class="button button-secondary" href="{{ url_for('home.index') }}">Return Home</a>
+    </div>
+  </article>
+</section>
+{% endblock %}

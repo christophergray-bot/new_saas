@@ -1,0 +1,8 @@
+Family Quest Center v1.0.0 — Sprint 2 Gameplay Fixes
+
+Resolved in this build:
+- FC-0001: Daily missions, adventure missions, and family challenges now use distinct badges.
+- FC-0007: Archiving a quest or adventure removes unfinished work from active gameplay, disables related schedules, and preserves approved history.
+- FC-0008: Parents can reorder adventure quests with Move Up/Move Down controls. Children see completed, current, waiting, and locked progression states. Completing a step immediately unlocks the next; approval remains responsible for rewards.
+
+Database migration: None required.

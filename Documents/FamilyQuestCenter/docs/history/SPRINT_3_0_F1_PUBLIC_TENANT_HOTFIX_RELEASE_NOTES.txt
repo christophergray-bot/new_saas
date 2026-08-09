@@ -1,0 +1,17 @@
+FAMILY QUEST CENTER — SPRINT 3.0-F.1 PUBLIC/TENANT HOTFIX
+
+Purpose
+- Prevent the public landing page and error pages from requiring family tenant context.
+- Correct the HTTP 500 error: "The signed-in account has no active membership for this family."
+
+Changes
+1. The root route (/) now renders the public landing page without loading family members.
+2. The landing template is now always a public marketing page, even when a stale account session exists.
+3. The shared template context processor resolves account and membership safely before any tenant-scoped query.
+4. Stale parent-unlocked state is cleared when no active membership is available.
+5. Tenant-scoped badge counts run only when a valid membership exists and the parent area is unlocked.
+6. Successful account sign-in now continues to the Parent Dashboard flow instead of returning to the public landing page.
+7. Registration redirect logic now requires both an account and an active membership.
+
+Database migration
+- None required.

@@ -1,0 +1,14 @@
+CONTENT PACK MANAGER TEST CHECKLIST
+
+1. Open Parent Dashboard > Content Packs.
+2. Confirm Installed, Available, and Archived tabs work.
+3. Confirm summary counts appear.
+4. View Explorer Starter Pack contents.
+5. Confirm metadata and all content sections render.
+6. Install pack from Available tab on an empty family.
+7. Confirm it moves to Installed.
+8. Confirm source badges appear in Quest, Adventure, Reward, and Achievement libraries.
+9. Archive the pack and confirm it appears under Archived.
+10. Restore the pack and confirm individually archived items remain archived.
+11. Confirm Coming Soon preview packs cannot be installed.
+12. Test on a narrow browser/mobile width.

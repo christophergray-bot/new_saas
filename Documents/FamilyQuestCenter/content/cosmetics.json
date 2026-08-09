@@ -1,0 +1,46 @@
+{
+  "avatars": [
+    {
+      "key": "adventurer",
+      "name": "Boy Adventurer",
+      "icon": "👦",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    },
+    {
+      "key": "adventurer_girl",
+      "name": "Girl Adventurer",
+      "icon": "👧",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ],
+  "frames": [
+    {
+      "key": "bronze",
+      "name": "Classic Gold",
+      "icon": "🏅",
+      "class_name": "frame-summit-gold",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ],
+  "themes": [
+    {
+      "key": "quest",
+      "name": "Classic Quest",
+      "icon": "🗺️",
+      "class_name": "theme-forest-trail",
+      "unlock": {
+        "type": "ALWAYS",
+        "value": 0
+      }
+    }
+  ]
+}

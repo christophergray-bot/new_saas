@@ -1,0 +1,22 @@
+{# Family Quest Center template: templates/developer/family_detail.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}{{ family.name }}{% endblock %}
+{% block content %}
+{% set page_action_url=url_for('developer.families') %}{% set page_action_text='← Families' %}
+{% include "components/page_header.html" %}
+<section class="owner-family-summary-grid">
+  <article class="admin-section"><span class="eyebrow">FAMILY STATUS</span><h2>{{ family.name }}</h2><p><span class="status-pill status-{{ family.status }}">{{ family.status|title }}</span></p><p>Registered {{ family.created_at }}</p></article>
+  <article class="admin-section"><span class="eyebrow">SUBSCRIPTION</span><h2>{{ subscription.status|replace('_',' ')|title if subscription else 'Not Configured' }}</h2><p>{{ subscription.customer_email if subscription else 'No subscription record' }}</p></article>
+  <article class="admin-section"><span class="eyebrow">INSTALLED PACKS</span><h2>{{ installed_packs|length }}</h2><p>Family content installations</p></article>
+</section>
+<section class="admin-section"><div class="section-heading"><h2>Parents</h2></div><div class="owner-support-grid">{% for parent in parents %}<article class="admin-tool-card"><h3>{{ parent.display_name }}</h3><p>{{ parent.email }}</p><p><strong>{{ parent.role|title }}</strong> · {{ 'Active' if parent.active and parent.membership_active else 'Disabled' }}</p><small>Last login: {{ parent.last_login_at or 'Never' }}</small></article>{% else %}<p>No parent accounts.</p>{% endfor %}</div></section>
+<section class="admin-section"><div class="section-heading"><h2>Children</h2></div><div class="owner-support-grid">{% for child in children %}<article class="admin-tool-card"><h3>{{ child.name }}</h3><p>Level {{ child.current_level }} · {{ child.total_xp }} XP · {{ child.total_points }} stars</p><p>{{ 'Active' if child.active else 'Archived' }}</p></article>{% else %}<p>No children.</p>{% endfor %}</div></section>
+<section class="admin-section"><div class="section-heading"><h2>Installed Packs</h2></div><div class="owner-support-grid">{% for pack in installed_packs %}<article class="admin-tool-card"><h3>{{ pack.name }}</h3><p><strong>Version {{ pack.installed_version }}</strong> · {{ pack.status|title }}</p><small>Installed {{ pack.installed_at or 'Unknown' }}</small></article>{% else %}<p>No content packs installed.</p>{% endfor %}</div></section>
+<section class="admin-section"><div class="section-heading"><h2>Family Statistics</h2></div><div class="owner-overview-grid">{% for label,value in statistics.items() %}<article class="stat-card"><span>{{ label }}</span><strong>{{ value }}</strong></article>{% endfor %}</div></section>
+<div class="admin-two-column owner-dashboard-columns">
+<section class="admin-section"><h2>Recent Family Activity</h2><div class="admin-list owner-activity-scroll" tabindex="0">{% for item in activity %}<article class="admin-list-item"><strong>{{ item.action|replace('_',' ')|title }}</strong><p>{{ item.details or 'No details recorded.' }}</p><small>{{ item.created_at }}</small></article>{% else %}<p>No recent activity.</p>{% endfor %}</div></section>
+<section class="admin-section owner-danger-zone"><h2>Administrative Actions</h2><p>Actions are confirmed, audited, and do not allow the Application Owner to edit family content.</p>
+<form method="post" action="{{ url_for('developer.family_action', family_id=family.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Type CONFIRM<input name="confirm" autocomplete="off"></label><div class="owner-action-buttons">{% if family.status!='suspended' %}<button class="button button-secondary" name="action" value="suspend">Suspend Family</button>{% endif %}{% if family.status!='active' %}<button class="button button-primary" name="action" value="reactivate">Reactivate Family</button>{% endif %}<button class="button button-secondary" name="action" value="force_logout">Force Logout</button>{% if family.status!='archived' %}<button class="button button-danger" name="action" value="archive">Archive Family</button>{% endif %}</div></form>
+<a class="button button-secondary" href="{{ url_for('developer.audit_log') }}?action=family_">View Audit History</a></section>
+</div>
+{% endblock %}

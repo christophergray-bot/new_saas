@@ -1,0 +1,12 @@
+FC-0003 — Expanded Achievement Configuration
+
+Implemented:
+- Parent Achievement Manager under All Tools / Command Center.
+- Create and edit achievement name, description, icon, category, requirement type and amount.
+- Configure bonus XP and stars.
+- Configure hidden-until-earned behavior.
+- Filter by status, requirement, or search text.
+- Archive and restore achievements while preserving earned history.
+- Display how many children have earned each achievement.
+
+No database migration is required because the existing achievement schema already supports these fields.

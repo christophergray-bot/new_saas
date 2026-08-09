@@ -1,0 +1,90 @@
+{# Parent Management hub: parent-specific preferences, activity, profiles, and invitations.
+   Live Parent Management cards use direct links and must never render Coming Soon. #}
+{% extends "base.html" %}
+{% block title %}Parent Management | {{ application_name }}{% endblock %}
+{% block content %}
+{% set page_eyebrow = "Command Center" %}
+{% set page_icon = "👨" %}
+{% set page_title = "Parent Management" %}
+{% set page_description = "Manage parent notifications, activity, account details, security, and Parent Two access." %}
+{% set page_action_url=url_for('parent.dashboard') %}
+{% set page_action_text="← Back to Command Center" %}
+{% include "partials/page_header.html" %}
+
+<section class="section-block">
+  <div class="feature-grid">
+    <article class="feature-card">
+      <div class="feature-card-icon" aria-hidden="true">🔔</div>
+      <div class="feature-card-content">
+        <h2>Notifications</h2>
+        <p>Choose which parent updates and summaries you receive.</p>
+      </div>
+      <a class="button button-secondary" href="{{ url_for('parent_management.notifications') }}">Open →</a>
+    </article>
+
+    <article class="feature-card">
+      <div class="feature-card-icon" aria-hidden="true">📜</div>
+      <div class="feature-card-content">
+        <h2>Parent Activity</h2>
+        <p>Review recent parent account and security activity.</p>
+      </div>
+      <a class="button button-secondary" href="{{ url_for('parent_management.activity') }}">Open →</a>
+    </article>
+  </div>
+</section>
+
+<section class="section-block"><div class="settings-grid">
+{% for parent in parents %}
+<article class="dashboard-panel">
+  <p class="eyebrow">{{ 'Parent One' if parent.role == 'owner' else 'Parent Two' }}</p>
+  <h2>{{ parent.display_name }}</h2>
+  <p>{{ parent.email }}</p>
+  <p><strong>{{ 'Owner' if parent.role == 'owner' else 'Parent' }}</strong></p>
+  <div class="form-actions">
+    {% if parent.id == current_account.id %}
+      <a class="button button-primary" href="{{ url_for('account.profile') }}">Edit My Profile</a>
+    {% else %}
+      <span class="button button-secondary" aria-disabled="true">Profile Managed by {{ 'Parent One' if parent.role == 'owner' else 'Parent Two' }}</span>
+    {% endif %}
+    {% if membership.role == 'owner' and parent.role == 'parent' %}
+      <form method="post" action="{{ url_for('parent_management.remove_parent_two', account_id=parent.id) }}" onsubmit="return confirm('Remove Parent Two from this family? They will immediately lose access, but their account and prior activity will not be deleted.');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-danger" type="submit">Remove From Family</button>
+      </form>
+    {% endif %}
+  </div>
+</article>
+{% endfor %}
+
+{% if parents|length < 2 %}
+<article class="dashboard-panel">
+  <p class="eyebrow">Parent Two</p><h2>Not Assigned</h2>
+  {% if invitation %}
+    <p>Invitation pending for <strong>{{ invitation.email }}</strong>.</p>
+    <p class="muted-text">Sent {{ invitation.created_at }}{% if invitation.expires_at %} · Expires {{ invitation.expires_at }}{% endif %}</p>
+    {% if membership.role == 'owner' %}
+    <div class="form-actions">
+      <form method="post" action="{{ url_for('parent_management.resend_invitation') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-primary" type="submit">Resend Invitation</button>
+      </form>
+      <form method="post" action="{{ url_for('parent_management.cancel_invitation') }}" onsubmit="return confirm('Cancel this Parent Two invitation?');">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-secondary" type="submit">Cancel Invitation</button>
+      </form>
+    </div>
+    {% endif %}
+  {% elif membership.role == 'owner' %}
+    <p>Invite a second parent to help manage the family.</p>
+    <form method="post" action="{{ url_for('parent_management.invite_parent_two') }}" class="auth-form settings-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="email">Parent Two Email</label><input id="email" name="email" type="email" required maxlength="254">
+      <button class="button button-primary" type="submit">Invite Parent Two</button>
+    </form>
+  {% else %}
+    <p>Only Parent One can invite Parent Two.</p>
+  {% endif %}
+</article>
+{% endif %}
+</div></section>
+{% endblock %}

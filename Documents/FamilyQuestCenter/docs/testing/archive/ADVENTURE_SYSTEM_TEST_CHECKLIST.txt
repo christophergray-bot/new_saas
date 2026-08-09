@@ -1,0 +1,15 @@
+Adventure-First System Manual Test
+
+1. Start with a clean database and create a family and two children.
+2. Open Adventure Library. Confirm there is no separate Journey Library card.
+3. Create Adventure: Become a Student Cook.
+4. Add at least three Chapters, reorder them, and save.
+5. Confirm no child was assigned during creation.
+6. From Adventure Library, select both children and assign the Adventure.
+7. Open each child profile. Confirm the Adventure name appears before the current Chapter.
+8. Confirm each child shows Chapter 1 of 3 independently.
+9. Complete/approve Chapter 1 for only one child. Confirm only that child advances.
+10. Confirm the other child remains on Chapter 1.
+11. Try editing an Adventure with an active assignment; confirm the system blocks Chapter changes.
+12. Complete all Chapters and confirm Adventure completion bonus is awarded.
+13. Verify a second family cannot see or assign the first family's Adventure.

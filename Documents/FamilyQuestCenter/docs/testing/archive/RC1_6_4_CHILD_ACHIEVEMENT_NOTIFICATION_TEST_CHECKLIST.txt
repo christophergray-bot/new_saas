@@ -1,0 +1,15 @@
+Family Quest Center RC1.6.4 - Child Achievement Notification Test
+
+1. Complete and submit a quest that will unlock an achievement.
+2. Approve it as the parent.
+   Expected: parent sees a normal approval confirmation, not the child achievement popup.
+3. Open the child's dashboard.
+   Expected: the child sees the achievement popup.
+4. Refresh the dashboard.
+   Expected: the popup does not repeat.
+5. Test a no-approval quest that unlocks an achievement.
+   Expected: the child sees it immediately and it does not repeat.
+6. Approve an Adventure whose bonus XP crosses an achievement threshold.
+   Expected: the achievement waits for the child dashboard.
+7. Existing database upgrade:
+   Expected: old achievements do not all replay.

@@ -1,0 +1,24 @@
+SPRINT 3.0-F.1 MANUAL TESTING CHECKLIST
+
+PUBLIC ACCESS
+[ ] Start the application and confirm http://127.0.0.1:5000/ opens the landing page.
+[ ] Confirm the landing page opens in a private/incognito browser.
+[ ] Confirm Features, How It Works, Pricing, and About navigation anchors work.
+[ ] Confirm Sign In opens /account/login.
+[ ] Confirm Start Your Adventure opens /account/register.
+
+STALE SESSION REGRESSION
+[ ] With an old browser session, open /. Confirm no HTTP 500 occurs.
+[ ] Confirm the 404 page renders without a tenant-context exception.
+[ ] Confirm the 500 error handler can render without a second tenant-context exception.
+
+ACCOUNT FLOW
+[ ] Sign in with a valid family account.
+[ ] Confirm successful sign-in continues into the Parent Dashboard/PIN flow.
+[ ] Confirm an account without an active membership is not permitted into family pages.
+[ ] Sign out and confirm public landing page remains available.
+
+AUTHENTICATED APPLICATION
+[ ] Unlock the Parent area and verify notification/approval badges render.
+[ ] Open Parent Dashboard, Command Center, Parent Management, and Family Settings.
+[ ] Confirm child profiles and family-scoped records remain isolated to the active family.

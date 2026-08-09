@@ -1,0 +1,26 @@
+FAMILY QUEST CENTER — FINAL LOCAL RELEASE CHECKLIST
+===================================================
+
+DEVELOPER WORKING PACKAGE
+[ ] Extract to a new folder.
+[ ] Run: python -m pip install -r requirements.txt
+[ ] Run: python -W error::ResourceWarning -m unittest discover tests -v
+[ ] Confirm: Ran 19 tests / OK
+[ ] Start the application and complete a brief smoke test.
+
+CLEAN-INSTALL PACKAGE
+[ ] Extract to a separate new folder.
+[ ] Run: python -m pip install -r requirements.txt
+[ ] Start with: Start Family Quest Center.bat
+[ ] Confirm account registration opens.
+[ ] Confirm no prior family, child, quest, reward, or activity data appears.
+[ ] Create a test account and complete onboarding.
+[ ] Confirm Parent PIN lock and unlock work.
+[ ] Create one child, quest, reward, and adventure.
+[ ] Create a backup and confirm it appears in Maintenance.
+
+RELEASE FREEZE
+[ ] Keep the working-data package private.
+[ ] Publish or distribute only the clean-install package.
+[ ] Do not commit chorce.db, backups, logs, or .env to Git.
+[ ] Archive the final passing test output with the release record.

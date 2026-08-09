@@ -1,0 +1,11 @@
+RC1.8.3 Adventure Workflow & Final UI Polish
+
+Resolved / implemented:
+- FC-0013: Child My Adventures shows Adventure description, Chapter title, Chapter instructions, and completion reward.
+- FC-0014: Adventure Chapters no longer use XP, difficulty, or estimated minutes; only the Adventure completion bonus awards XP. Quest difficulty is unchanged.
+- FC-0015: Parent notifications and dismissals remain explicitly family scoped.
+- FC-0016: Add Next Chapter moved below the final Chapter card.
+- FC-0017: Once an Adventure has ever been assigned, Edit shows a clear lock explanation and offers Duplicate Adventure. The duplicate opens as an editable copy for future assignments.
+
+Deferred:
+- FC-0012 Command Center bottom spacing remains deferred as low-priority visual polish.

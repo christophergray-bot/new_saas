@@ -1,0 +1,14 @@
+RC1.6.4 COMMAND CENTER + PARENT NOTIFICATION ALIGNMENT TEST
+
+1. Open the Parent Dashboard.
+   - Confirm All Tools / Command Center is expanded by default.
+   - Confirm it can still be collapsed and expanded manually.
+
+2. Open Parent Management > Notifications.
+   - Confirm every checkbox appears at the left edge of its row.
+   - Confirm each title and description appear immediately to the right.
+   - Confirm rows have consistent spacing and no large blank middle column.
+   - Confirm Save Notification Preferences spans the available form width.
+
+3. Resize to a narrow/mobile width.
+   - Confirm checkbox and text remain aligned without overlap.

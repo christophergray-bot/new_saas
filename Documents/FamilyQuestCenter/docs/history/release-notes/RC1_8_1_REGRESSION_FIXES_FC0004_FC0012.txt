@@ -1,0 +1,7 @@
+Family Quest Center RC1.8.1 Regression Fixes
+
+Fixed:
+FC-0004 through FC-0012.
+
+Critical retest:
+Use two families and verify Family Reports never displays cross-family children, assignments, popular quests, or totals.

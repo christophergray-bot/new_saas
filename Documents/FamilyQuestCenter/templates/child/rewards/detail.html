@@ -1,0 +1,11 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/child/rewards/detail.html
+  Purpose: Renders the detail user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+{% block title %}{{ reward.name }} | Reward Shop{% endblock %}
+{% block content %}<section class="page-header"><div><p class="eyebrow">Reward Details</p><h1>{{ reward.icon }} {{ reward.name }}</h1><p>{{ reward.description or 'A special family reward.' }}</p></div><div class="shop-balance">⭐ {{ balance }} Stars</div></section><section class="dashboard-panel reward-detail-card">{% if reward.image_filename %}<img src="{{ url_for('static', filename='uploads/rewards/' ~ reward.image_filename) }}" alt="{{ reward.name }}">{% else %}<div class="reward-detail-icon">{{ reward.icon }}</div>{% endif %}<div><p><strong>Cost:</strong> ⭐ {{ reward.cost }}</p><p><strong>Availability:</strong> {% if reward.quantity is none %}Unlimited{% else %}{{ reward.quantity }} remaining{% endif %}</p><p><strong>Approval:</strong> {% if reward.requires_approval %}Parent approval required{% else %}Purchased immediately{% endif %}</p>{% if pending %}<span class="status-pill status-pending">Request Pending</span>{% elif stars_needed %}<p class="need-stars">Earn {{ stars_needed }} more stars to request this reward.</p>{% else %}<form method="post" action="{{ url_for('reward_shop.request_reward', user_id=child.id, reward_id=reward.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-primary" type="submit">{% if reward.requires_approval %}Request Reward{% else %}Buy Reward{% endif %}</button></form>{% endif %}</div></section><a class="button button-secondary" href="{{ url_for('reward_shop.shop', user_id=child.id) }}">Back to Reward Shop</a>{% endblock %}

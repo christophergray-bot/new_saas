@@ -1,0 +1,17 @@
+Sprint 3.0-D Phase 2.1 Manual Testing Checklist
+
+[ ] Open Parent Dashboard / Command Center.
+[ ] Open Parent Management and verify Back to Command Center.
+[ ] Open Security and verify Back to Parent Management.
+[ ] Open Change Password from Security and verify both back controls return to Security.
+[ ] Successfully change a password and verify redirect returns to Security.
+[ ] Open Change Password from My Account and verify return goes to My Account.
+[ ] Open Notifications and verify Back to Parent Management.
+[ ] Verify Save Notification Preferences matches standard primary buttons.
+[ ] Verify Invite Parent Two matches standard primary buttons.
+[ ] Verify Cancel Invitation matches standard secondary buttons.
+[ ] Verify Remove Parent Two uses the danger button treatment.
+[ ] Open Parent Activity and verify Back to Parent Management.
+[ ] Open Family Settings and verify Back to Command Center.
+[ ] Verify Save Family Settings matches standard primary buttons.
+[ ] Check desktop and mobile layouts for all updated buttons.

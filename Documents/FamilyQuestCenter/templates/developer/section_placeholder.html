@@ -1,0 +1,14 @@
+{# Family Quest Center template: templates/developer/section_placeholder.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+{% set page_action_url=url_for('developer.dashboard') %}
+{% set page_action_text='← Owner Dashboard' %}
+{% include "components/page_header.html" %}
+<section class="admin-section owner-placeholder">
+  <div class="owner-placeholder-icon" aria-hidden="true">🧭</div>
+  <h2>{{ title }} foundation is ready</h2>
+  <p>{{ subtitle }}</p>
+  <p class="muted-copy">Full tools will be completed during the {{ next_phase }}. This page is included now so the Application Owner navigation remains stable throughout Phase 2.</p>
+</section>
+{% endblock %}

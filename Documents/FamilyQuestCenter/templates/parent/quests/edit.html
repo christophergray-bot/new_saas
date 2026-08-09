@@ -1,0 +1,134 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/quests/edit.html
+  Purpose: Renders the edit user interface for Family Quest Center.
+  Maintenance: Keep template variables aligned with the route that renders this file.
+  Documentation updated: 2026-07-31
+#}
+{% extends "base.html" %}
+
+{% block title %}
+Edit Quest | Family Quest Center
+{% endblock %}
+
+{% block content %}
+
+{% set page_eyebrow = "Quest Library" %}
+{% set page_icon = "✏️" %}
+{% set page_title = "Edit Quest" %}
+{% set page_description = "Update this reusable family quest." %}
+{% set page_action_url = url_for('quests.library') %}
+{% set page_action_text = "Back to Quest Library" %}
+
+{% include "partials/page_header.html" %}
+
+<section class="dashboard-panel">
+
+    <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-group">
+            <label for="title">Quest Name</label>
+
+            <input
+                id="title"
+                type="text"
+                name="title"
+                value="{{ chore.title }}"
+                required
+             maxlength="120">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+             maxlength="2000">{{ chore.description or "" }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="difficulty">Difficulty</label>
+
+            <select id="difficulty" name="difficulty">
+
+                {% for number in range(1, 6) %}
+                    <option
+                        value="{{ number }}"
+                        {% if number == chore.difficulty %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ number }}
+                    </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="stars">Star Reward</label>
+
+            <input
+                id="stars"
+                type="number"
+                name="stars"
+                min="0"
+                value="{{ chore.stars }}"
+                required
+            >
+        </div>
+
+        <div class="form-group checkbox-group">
+            <label>
+                <input
+                    type="checkbox"
+                    name="approval_required"
+                    {% if chore.approval_required %}
+                        checked
+                    {% endif %}
+                >
+
+                Parent approval required
+            </label>
+        </div>
+
+        <div class="form-actions">
+
+            <button class="button button-primary" type="submit">
+                Save Changes
+            </button>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for('quests.library') }}"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+{% if chore.active %}
+<section class="section-block">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Quest Status</p>
+            <h2>Archive Quest</h2>
+        </div>
+    </div>
+    <p>Archiving this Quest removes it from active assignment lists while preserving completed history.</p>
+    <form method="post" action="{{ url_for('quests.toggle', chore_id=chore.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="button button-danger" type="submit" onclick="return confirm('Archive this Quest? Existing assignment history will be preserved.');">📦 Archive Quest</button>
+    </form>
+</section>
+{% endif %}
+
+{% endblock %}

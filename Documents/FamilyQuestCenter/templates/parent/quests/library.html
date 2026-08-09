@@ -1,0 +1,127 @@
+{#
+  Family Quest Center Developer Notes
+  File: templates/parent/quests/library.html
+  Purpose: Renders the Quest Library and per-Quest assignment management.
+  Maintenance: Each Quest card owns its collapsible child assignment list.
+  Documentation updated: 2026-08-02
+#}
+{% extends "base.html" %}
+
+{% block title %}Quest Library | Family Quest Center{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="page-header-content">
+        <p class="eyebrow">Quest Master Tools</p>
+        <h1>Quest Library</h1>
+        <p class="page-description">Create and manage reusable quests for your adventurers.</p>
+    </div>
+    <div class="page-header-actions">
+        <a class="button button-primary" href="{{ url_for('quests.new') }}">+ New Quest</a>
+    </div>
+</section>
+
+<section class="dashboard-panel filter-panel">
+    <form class="filter-bar" method="get">
+        <input type="search" name="q" value="{{ search_query }}" placeholder="Search quests" aria-label="Search quests">
+        <select name="difficulty" aria-label="Difficulty">
+            <option value="all">All difficulties</option>
+            {% for level in range(1,6) %}
+            <option value="{{ level }}" {% if selected_difficulty == level|string %}selected{% endif %}>Difficulty {{ level }}</option>
+            {% endfor %}
+        </select>
+        <button class="button button-primary" type="submit">Filter</button>
+        <a class="button button-secondary" href="{{ url_for('quests.library') }}">Clear</a>
+    </form>
+</section>
+
+<section class="library-results-section">
+{% if chores %}
+    <div class="schedule-list library-card-list">
+    {% for chore in chores %}
+        <article class="schedule-card library-item-card quest-library-card {% if not chore.active %}inactive-card{% endif %}">
+            <div class="schedule-card-main">
+                <div class="schedule-icon">📚</div>
+                <div class="schedule-card-content">
+                    <div class="schedule-heading-row">
+                        <h2>{{ chore.title }}</h2>
+                        {% if pack_sources.get(chore.id) %}<span class="pack-source-badge">{{ pack_sources[chore.id].icon }} {{ pack_sources[chore.id].name }}</span>{% endif %}
+                        <span class="status-badge {{ 'active' if chore.active else 'inactive' }}">{{ 'Active' if chore.active else 'Archived' }}</span>
+                    </div>
+                    <p class="schedule-description{% if not chore.description %} muted-text{% endif %}">{{ chore.description or 'No description provided.' }}</p>
+                    <div class="schedule-details">
+                        <span><strong>Difficulty:</strong> {{ "⭐" * chore.difficulty }}</span>
+                        <span><strong>Reward:</strong> {{ chore.stars }} stars</span>
+                        <span><strong>Approval:</strong> {{ 'Parent required' if chore.approval_required else 'Automatic' }}</span>
+                    </div>
+
+                    {% set assigned = assignment_summaries.get(chore.id, []) %}
+                    <section class="assignment-accordion" aria-label="Current assignments for {{ chore.title }}">
+                        <div class="assignment-accordion-heading">
+                            <strong>Currently Assigned</strong>
+                            <span class="assignment-count">{{ assigned|length }} child{{ '' if assigned|length == 1 else 'ren' }}</span>
+                        </div>
+                        {% if assigned %}
+                        <div class="assignment-child-list">
+                            {% for assignment in assigned %}
+                            {% set schedule_label = 'Daily' if assignment.schedule_type == 'daily' else 'Weekly' if assignment.schedule_type == 'weekly' else 'Monthly' if assignment.schedule_type == 'monthly' else 'Custom' %}
+                            <details class="assignment-child-panel">
+                                <summary>
+                                    <span class="assignment-child-summary-main"><span class="assignment-chevron" aria-hidden="true"></span><span class="assignment-avatar" aria-hidden="true">👤</span><strong>{{ assignment.child_name }}</strong></span>
+                                    <span class="assignment-status {{ 'paused' if assignment.assignment_status == 'paused' else 'active' }}">{{ 'Paused' if assignment.assignment_status == 'paused' else 'Active' }}</span>
+                                </summary>
+                                <div class="assignment-child-body">
+                                    <div class="assignment-child-details">
+                                        <span><strong>Schedule</strong>{{ schedule_label }}</span>
+                                        <span><strong>Status</strong>{{ 'Paused' if assignment.assignment_status == 'paused' else 'Active' }}</span>
+                                    </div>
+                                    <div class="assignment-child-actions">
+                                        <a class="button button-small button-secondary" href="{{ url_for('missions.edit_schedule', schedule_id=assignment.schedule_id) }}">✏ Edit</a>
+                                        <form method="post" action="{{ url_for('missions.toggle_schedule', schedule_id=assignment.schedule_id) }}">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="return_to" value="quest_library">
+                                            <button class="button button-small button-secondary" type="submit">{{ '▶ Resume' if assignment.assignment_status == 'paused' else '⏸ Pause' }}</button>
+                                        </form>
+                                        <form method="post" action="{{ url_for('missions.unassign', schedule_id=assignment.schedule_id) }}" onsubmit="return confirm('Unassign this Quest from {{ assignment.child_name }}? Future Missions will stop and completed history will be preserved.');">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="return_to" value="quest_library">
+                                            <button class="button button-small button-danger" type="submit">Unassign</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </details>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="assignment-summary-empty">Not currently assigned</p>
+                        {% endif %}
+                    </section>
+
+                    <div class="schedule-actions library-card-actions" aria-label="Actions for {{ chore.title }}">
+                        {% if chore.active %}
+                        <a class="button button-secondary" href="{{ url_for('quests.edit', chore_id=chore.id) }}">✏ Edit</a>
+                        <a class="button button-primary" href="{{ url_for('missions.add_schedule', chore_id=chore.id, return_to='quest_library') }}">📅 Assign</a>
+                        {% else %}
+                        <form method="post" action="{{ url_for('quests.toggle', chore_id=chore.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="button button-secondary" type="submit">↩ Restore</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">🗺️</div>
+        <h2>No active quests</h2>
+        <p>Create a reusable quest or restore one from the Archive Center.</p>
+        <a class="primary-button" href="{{ url_for('quests.new') }}">Create First Quest</a>
+    </div>
+{% endif %}
+</section>
+
+<p><a href="{{ url_for('parent.dashboard') }}">← Return to Parent Dashboard</a></p>
+{% endblock %}

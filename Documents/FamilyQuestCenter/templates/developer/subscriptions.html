@@ -1,0 +1,134 @@
+{# Family Quest Center template: templates/developer/subscriptions.html. Reviewed for v1.7.0-rc1. #}
+{% extends "base.html" %}
+{% block title %}Subscription Management{% endblock %}
+{% block content %}
+{% set page_action_url=url_for('developer.dashboard') %}
+{% set page_action_text='← Owner Dashboard' %}
+{% include "components/page_header.html" %}
+
+<section class="owner-overview-grid">
+  {% for label,value in metrics.items() %}
+  <article class="stat-card"><span>{{ label }}</span><strong>{{ value }}</strong></article>
+  {% endfor %}
+</section>
+
+<section class="admin-section">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">BILLING OPERATIONS</span>
+      <h2>Subscription Management</h2>
+      <p>Monitor family billing status, renewals, cancellations, and accounts requiring attention.</p>
+    </div>
+    <a class="button button-secondary" href="{{ url_for('developer.settings', section='subscription') }}">Subscription Settings</a>
+  </div>
+
+  <div class="owner-support-grid">
+    <article class="admin-tool-card">
+      <h3>Payments Mode</h3>
+      <p><strong>{{ payments_mode|replace('_',' ')|title }}</strong></p>
+      <small>Runtime billing configuration</small>
+    </article>
+    <article class="admin-tool-card">
+      <h3>Stripe Configuration</h3>
+      <p><strong>{{ 'Configured' if stripe_configured else 'Not Configured' }}</strong></p>
+      <small>Secret key and price ID status</small>
+    </article>
+  </div>
+</section>
+
+<section class="admin-section">
+  <form class="owner-family-filters" method="get">
+    <label>Search
+      <input type="search" name="q" value="{{ search }}" placeholder="Family, email, customer, or subscription ID">
+    </label>
+    <label>Status
+      <select name="status">
+        {% for value,label in [
+          ('all','All'),
+          ('active','Active'),
+          ('trialing','Trialing'),
+          ('past_due','Past Due'),
+          ('unpaid','Unpaid'),
+          ('incomplete','Incomplete'),
+          ('canceled','Canceled'),
+          ('none','No Subscription')
+        ] %}
+        <option value="{{ value }}" {% if selected_status==value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Sort
+      <select name="sort">
+        {% for value,label in [
+          ('attention','Needs Attention'),
+          ('newest','Recently Updated'),
+          ('family','Family Name'),
+          ('status','Status')
+        ] %}
+        <option value="{{ value }}" {% if selected_sort==value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button class="button button-primary" type="submit">Apply</button>
+  </form>
+</section>
+
+<section class="admin-section">
+  <div class="section-heading">
+    <div><span class="eyebrow">FAMILY BILLING</span><h2>Subscriptions</h2></div>
+    <strong>{{ subscriptions|length }} found</strong>
+  </div>
+
+  {% if subscriptions %}
+  <div class="owner-family-table-wrap">
+    <table class="owner-family-table">
+      <thead>
+        <tr>
+          <th>Family</th>
+          <th>Status</th>
+          <th>Billing Email</th>
+          <th>Current Period End</th>
+          <th>Cancellation</th>
+          <th>Grace Period</th>
+          <th>Last Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in subscriptions %}
+        <tr>
+          <td>
+            <strong>{{ item.family_name }}</strong>
+            <small>{{ item.family_status|title }}</small>
+          </td>
+          <td>
+            <span class="status-pill status-{{ item.subscription_status }}">
+              {{ item.subscription_status|replace('_',' ')|title }}
+            </span>
+          </td>
+          <td>{{ item.customer_email or '—' }}</td>
+          <td>{{ item.current_period_end or '—' }}</td>
+          <td>
+            {% if item.cancel_at_period_end %}
+              Scheduled{% if item.cancel_at %}: {{ item.cancel_at }}{% endif %}
+            {% elif item.subscription_status == 'canceled' %}
+              Canceled
+            {% else %}
+              —
+            {% endif %}
+          </td>
+          <td>{{ item.grace_until or '—' }}</td>
+          <td>{{ item.subscription_updated_at or item.subscription_created_at or '—' }}</td>
+          <td>
+            <a class="button button-secondary" href="{{ url_for('developer.family_detail', family_id=item.family_id) }}">Manage Family</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>No subscriptions match the selected filters.</p>
+  {% endif %}
+</section>
+{% endblock %}
